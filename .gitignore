@@ -1,5 +1,6 @@
 # Ignore webassets cache
 .webassets-cache
-app/static/public/
+app/static/css
+app/static/js
 
 # Ignore dev database
