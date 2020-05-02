@@ -3,7 +3,7 @@
 ;; Filename: README.md
 ;; Author: Louise <louise>
 ;; Created: Sat May  2 01:12:36 2020 (+0200)
-;; Last-Updated: Sat May  2 01:16:57 2020 (+0200)
+;; Last-Updated: Sat May  2 06:05:28 2020 (+0200)
 ;;           By: Louise <louise>
  -->
 # Editoggia
@@ -23,11 +23,12 @@ pipenv install
 
 ## Usage
 
-You can run the development server by setting the `FLASK_APP` environment variable
-and running `flask run`
+You can run the development server by setting the `FLASK_APP` and `FLASK_DEBUG`
+environment variables and running `flask run`.
 
 ```bash
 export FLASK_APP=editoggia
+export FLASK_DEBUG=True
 flask run
 ```
 
