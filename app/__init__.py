@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sun May  3 04:49:25 2020 (+0200)
+# Last-Updated: Sun May  3 05:11:57 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Flask, render_template
@@ -27,7 +27,7 @@ def create_app(config_name):
 
     register_extensions(app)
     register_blueprints(app)
-
+    
     return app
 
 def register_extensions(app):

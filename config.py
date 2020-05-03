@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Sat May  2 06:17:23 2020 (+0200)
+# Last-Updated: Sun May  3 06:21:01 2020 (+0200)
 #           By: Louise <louise>
 # 
 import os
@@ -17,9 +17,6 @@ class Config:
     # SQLAlchemy config
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    # LIBSASS Config
-    LIBSASS_STYLE = "compressed"
-    
     @staticmethod
     def init_app(app):
         pass
@@ -28,6 +25,9 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'database.sqlite')
+
+    # Assets config
+    ASSETS_DEBUG = True
 
 class TestingConfig(Config):
     TESTING = True

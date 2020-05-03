@@ -4,3 +4,6 @@
 [submodule "app/static/bulma"]
 	path = app/static/bulma
 	url = https://github.com/jgthms/bulma
+[submodule "app/static/scss/bulma"]
+	path = app/static/scss/bulma
+	url = https://github.com/jgthms/bulma
