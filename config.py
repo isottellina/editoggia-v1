@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Sun May  3 06:21:01 2020 (+0200)
+# Last-Updated: Mon May  4 01:35:13 2020 (+0200)
 #           By: Louise <louise>
 # 
 import os
@@ -17,6 +17,10 @@ class Config:
     # SQLAlchemy config
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # i18n and l10n options
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
+    
     @staticmethod
     def init_app(app):
         pass
@@ -24,7 +28,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'database.sqlite')
+        'sqlite:///' + os.path.join(basedir, 'db.sqlite')
 
     # Assets config
     ASSETS_DEBUG = True
