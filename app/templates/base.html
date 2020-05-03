@@ -13,7 +13,10 @@
   </head>
   <body>
     {% include '_navbar.html' %}
-
+    {% block content %}
+    
+    {% endblock %}
+    {% include '_footer.html' %}
     {% assets 'js_all' %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets %}
