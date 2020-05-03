@@ -3,14 +3,14 @@
 // Filename: _variables.scss
 // Author: Louise <louise>
 // Created: Sat May  2 05:31:08 2020 (+0200)
-// Last-Updated: Sun May  3 06:19:26 2020 (+0200)
+// Last-Updated: Sun May  3 06:38:27 2020 (+0200)
 //           By: Louise <louise>
 // 
 
 // Define typography
 $family-sans-serif: 'Poppins', serif;
 $family-serif: 'EB Garamond', serif;
-$family-brand: 'Playfair Display', serif;
+$family-navbar: 'Playfair Display', serif;
 
 $family-primary: $family-serif;
 $family-secondary: $family-sans-serif;
@@ -25,3 +25,6 @@ $palette3: #7b98a9;
 $palette4: #5e738b;
 $palette5: #464e74;
 
+$primary: $palette2;
+$secondary: $palette1;
+$dark: $palette5;

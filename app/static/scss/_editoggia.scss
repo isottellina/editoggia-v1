@@ -3,7 +3,17 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Sun May  3 05:54:01 2020 (+0200)
+// Last-Updated: Sun May  3 06:43:12 2020 (+0200)
 //           By: Louise <louise>
 // 
-$test: 'test';
+.navbar {
+    font-family: $family-navbar;
+
+    .navbar-brand {
+	font-weight: 800;
+
+	img {
+	    padding-right: 0.4em;
+	}
+    }
+}
