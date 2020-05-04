@@ -3,13 +3,10 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May  4 01:57:29 2020 (+0200)
+# Last-Updated: Mon May  4 03:21:39 2020 (+0200)
 #           By: Louise <louise>
 # 
-from flask_security import UserMixin, RoleMixin
-from sqlalchemy import create_engine
-from sqlalchemy.orm import relationship, backref
-
+from flask_login import UserMixin
 
 from app.extensions import db
 
@@ -19,7 +16,7 @@ class RolesUsers(db.Model):
     user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'))
     role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
 
-class Role(db.Model, RoleMixin):
+class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
@@ -32,12 +29,15 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True)
     username = db.Column(db.String(255))
     password = db.Column(db.String(255))
+    
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
     current_login_ip = db.Column(db.String(100))
     login_count = db.Column(db.Integer)
+    
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime())
-    roles = relationship('Role', secondary='roles_users',
-                         backref=backref('users', lazy='dynamic'))
+    
+    roles = db.relationship('Role', secondary='roles_users',
+                            backref=db.backref('users', lazy='dynamic'))
