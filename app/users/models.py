@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May  4 03:21:39 2020 (+0200)
+# Last-Updated: Mon May  4 03:30:24 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_login import UserMixin
@@ -20,6 +20,18 @@ class Role(db.Model):
     __tablename__ = 'role'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+class PermissionsRoles(db.Model):
+    __tablename__ = 'permissions_roles'
+    id = db.Column(db.Integer(), primary_key=True)
+    role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+    perm_id = db.Column('perm_id', db.Integer(), db.ForeignKey('permission.id'))
+
+class Permission(db.Model):
+    __tablename__ = 'permission'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), unique=True)
     description = db.Column(db.String(255))
 
 class User(db.Model, UserMixin):
