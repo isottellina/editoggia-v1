@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Mon May  4 01:37:12 2020 (+0200)
+# Last-Updated: Mon May  4 01:49:54 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Flask, render_template
@@ -15,6 +15,7 @@ from app.extensions import db, migrate, babel
 
 # Import blueprints
 from app.home import home
+from app.users import users
 
 def create_app(config_name="default"):
     """
@@ -44,3 +45,4 @@ def register_blueprints(app):
     Register all blueprints.
     """
     app.register_blueprint(home)
+    app.register_blueprint(users)
