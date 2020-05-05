@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Mon May  4 03:19:37 2020 (+0200)
+# Last-Updated: Tue May  5 02:36:00 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Flask, render_template
@@ -11,10 +11,11 @@ from config import config
 
 # Import extensions
 from app.assets import assets
-from app.extensions import db, migrate, babel, admin, login_manager
+from app.extensions import db, migrate, babel, admin, lm
 
 # Import blueprints
 from app.home import home
+from app.auth import auth
 from app.users import users
 
 def create_app(config_name="default"):
@@ -40,11 +41,12 @@ def register_extensions(app):
     migrate.init_app(app, db)
     babel.init_app(app)
     admin.init_app(app)
-    login_manager.init_app(app)
+    lm.init_app(app)
 
 def register_blueprints(app):
     """
     Register all blueprints.
     """
     app.register_blueprint(home)
+    app.register_blueprint(auth)
     app.register_blueprint(users)

@@ -3,7 +3,7 @@
 # Filename: extensions.py
 # Author: Louise <louise>
 # Created: Sat May  2 06:11:47 2020 (+0200)
-# Last-Updated: Mon May  4 03:19:20 2020 (+0200)
+# Last-Updated: Tue May  5 02:34:17 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -20,4 +20,4 @@ db = SQLAlchemy()
 migrate = Migrate()
 babel = Babel()
 admin = Admin()
-login_manager = LoginManager()
+lm = LoginManager()
