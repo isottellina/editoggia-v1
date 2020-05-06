@@ -3,17 +3,19 @@
 // Filename: _variables.scss
 // Author: Louise <louise>
 // Created: Sat May  2 05:31:08 2020 (+0200)
-// Last-Updated: Mon May  4 01:25:52 2020 (+0200)
+// Last-Updated: Thu May  7 01:16:18 2020 (+0200)
 //           By: Louise <louise>
 // 
 
 // Define typography
-$family-sans-serif: 'Poppins', serif;
-$family-serif: 'EB Garamond', serif;
-$family-navbar: 'Playfair Display', serif;
+$font-family-sans-serif: 'Poppins', serif;
+$font-family-serif: 'EB Garamond', serif;
+$font-family-navbar: 'Playfair Display', serif;
 
-$family-primary: $family-serif;
-$family-secondary: $family-sans-serif;
+$family-primary: $font-family-serif;
+$family-secondary: $font-family-sans-serif;
+
+$font-family-base: $font-family-serif;
 
 // Define colors
 $palette1: #b4e7dc;
@@ -21,6 +23,23 @@ $palette2: #9accd6;
 $palette3: #7b98a9;
 $palette4: #5e738b;
 $palette5: #464e74;
+
+$theme-colors: (
+    "primary": $palette2,
+    "secondary": $palette1,
+    "success": #28a745,
+    "info": #17a2b8,
+    "warning": #ffc107,
+    "danger": #dc3545,
+    "light": #f8f9fa,
+    "dark": $palette5,
+    
+    "palette1": $palette1,
+    "palette2": $palette2,
+    "palette3": $palette3,
+    "palette4": $palette4,
+    "palette5": $palette5,
+);
 
 $primary: $palette2;
 $secondary: $palette1;

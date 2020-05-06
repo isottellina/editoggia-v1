@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Tue May  5 22:13:14 2020 (+0200)
+# Last-Updated: Thu May  7 00:36:15 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import Form
@@ -25,6 +25,9 @@ class UserForm(Form):
         Form.__init__(self, *args, **kwargs)
 
 class SignupUserForm(UserForm):
+    name = TextField(
+        gettext('Display name'), validators=[Length(min=2, max=128)]
+    )
     password = PasswordField(
         gettext('Password'),
         validators=[

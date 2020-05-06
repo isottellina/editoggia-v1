@@ -3,17 +3,30 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Sun May  3 06:43:12 2020 (+0200)
+// Last-Updated: Thu May  7 01:34:51 2020 (+0200)
 //           By: Louise <louise>
 // 
 .navbar {
-    font-family: $family-navbar;
+    font-family: $font-family-navbar;
 
     .navbar-brand {
 	font-weight: 800;
 
 	img {
+	    height: 1.8rem;
 	    padding-right: 0.4em;
 	}
+    }
+}
+
+body {
+    min-height: 100vh;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    main {
+	flex-grow: 1;
     }
 }

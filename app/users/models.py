@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Wed May  6 16:11:45 2020 (+0200)
+# Last-Updated: Thu May  7 00:36:08 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_login import UserMixin
@@ -43,7 +43,7 @@ class User(db.Model, UserMixin):
 
     # Basic info
     email = db.Column(db.String(50), unique=True, nullable=False)
-    username = db.Column(db.String(128), nullable=False)
+    username = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
     # More info

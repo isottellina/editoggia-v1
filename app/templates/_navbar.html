@@ -1,33 +1,26 @@
-<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
+<nav class="navbar navbar-dark navbar-expand-lg bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">
       <img src="{{ url_for('static', filename='img/raindrop.png') }}"/>
       Editoggia
     </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-hidden" aria-controls="navbar-hidden" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-
-  <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
-      
-    </div>
-
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          <a href="{{ url_for('auth.signup') }}" class="button is-primary">
-            <strong>S'inscrire</strong>
+    <div class="collapse navbar-collapse" id="navbar-hidden">
+      <ul class="navbar-nav ml-auto">
+	<li class="nav-item px-1">
+          <a href="{{ url_for('auth.signup') }}" class="btn btn-primary">
+	    <strong>{{ _("Sign up") }}</strong>
           </a>
-          <a class="button is-light">
-            Se connecter
+	</li>
+	<li class="nav-item px-1">
+          <a class="btn btn-light">
+	    {{ _("Log in") }}
           </a>
-        </div>
-      </div>
+	</li>
+      </ul>
     </div>
   </div>
 </nav>
