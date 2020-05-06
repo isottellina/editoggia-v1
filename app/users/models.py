@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May  4 03:42:59 2020 (+0200)
+# Last-Updated: Wed May  6 16:11:45 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_login import UserMixin
@@ -40,11 +40,17 @@ class Permission(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    
-    email = db.Column(db.String(255), unique=True, nullable=False)
-    username = db.Column(db.String(255), nullable=False)
+
+    # Basic info
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    username = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(255), nullable=False)
+
+    # More info
+    name = db.Column(db.String(128))
+    bio = db.Column(db.Text)
     
+    # Tracking info
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))

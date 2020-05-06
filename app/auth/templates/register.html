@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ _("Sign up") }} {% endblock title %}
+
+{% block content %}
+<section class="section has-text-centered">
+  <h1 class="title"> {{ _("Sign up") }} </h1>
+  {{ form.username(class_='is_input') }}
+</section>
+{% endblock %}
