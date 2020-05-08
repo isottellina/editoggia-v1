@@ -1,0 +1,130 @@
+# French translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-05-09 01:17+0200\n"
+"PO-Revision-Date: 2020-05-04 01:07+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+
+#: app/auth/views.py:36
+msgid "Signed-up user {username}."
+msgstr "L'utilisateur {username} s'est inscrit."
+
+#: app/auth/templates/register.html:3 app/auth/templates/register.html:10
+#: app/templates/_navbar.html:15
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#: app/auth/templates/register.html:15 app/users/forms.py:18
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: app/auth/templates/register.html:19 app/users/forms.py:50
+msgid "Display name"
+msgstr "Nom d'affichage"
+
+#: app/auth/templates/register.html:21
+msgid "If you don't use a display name, your username shall be used."
+msgstr ""
+"Si aucun nom d'affichage n'est donné, le nom d'utilisateur sera utilisé à"
+" sa place."
+
+#: app/auth/templates/register.html:26 app/users/forms.py:31
+msgid "Email"
+msgstr "Email"
+
+#: app/auth/templates/register.html:28
+msgid "Your email address will never be shared to other parties."
+msgstr "Votre adresse email ne sera jamais partagée à des tiers."
+
+#: app/auth/templates/register.html:33 app/users/forms.py:58
+msgid "Password"
+msgstr "Mot de passe"
+
+#: app/auth/templates/register.html:37
+msgid "Confirm password"
+msgstr "Confirmer le mot de passe"
+
+#: app/auth/templates/register.html:43
+msgid "Submit"
+msgstr "Valider"
+
+#: app/home/templates/index.html:8
+msgid "new-articles"
+msgstr "Nouveaux articles"
+
+#: app/home/templates/index.html:14
+msgid "new-stories"
+msgstr "Nouvelles histoires"
+
+#: app/templates/_footer.html:2
+msgid "Editoggia by Isottellina."
+msgstr "Editoggia par Isottellina"
+
+#: app/templates/_navbar.html:20
+msgid "Log in"
+msgstr "Se connecter"
+
+#: app/users/forms.py:20
+msgid "Username must be filled."
+msgstr "Le nom d'utilisateur doit être rempli"
+
+#: app/users/forms.py:25
+msgid "Username must be between 2 and 50 characters."
+msgstr "Le nom d'utilisateur doit faire entre 2 et 50 caractères."
+
+#: app/users/forms.py:33
+msgid "Email must be valid."
+msgstr "L'adresse e-mail doit être valide."
+
+#: app/users/forms.py:36
+msgid "Email must be filled."
+msgstr "L'adresse e-mail doit être remplie."
+
+#: app/users/forms.py:40
+msgid "Email must be less than 128 characters."
+msgstr "L'adresse e-mail doit faire moins de 128 caractères."
+
+#: app/users/forms.py:53
+msgid "Display name must be less than 128 characters."
+msgstr "Le nom d'affichage doit faire moins de 128 caractères."
+
+#: app/users/forms.py:61
+msgid "Password must be filled."
+msgstr "Le mot de passe doit être rempli."
+
+#: app/users/forms.py:65
+msgid "Passwords must match."
+msgstr "Les deux mots de passe sont différents."
+
+#: app/users/forms.py:70
+msgid "Password must be between 6 and 50 characters."
+msgstr "Le mot de passe doit être entre 6 et 50 caractères."
+
+#: app/users/forms.py:75
+msgid "Confirm Password"
+msgstr "Confirmer le mot de passe"
+
+#: app/users/forms.py:77
+msgid "Password must be confirmed."
+msgstr "Le mot de passe doit être confirmé."
+
+#: app/users/forms.py:93
+msgid "Username already registered."
+msgstr "Ce nom d'utilisateur est déjà enregistré."
+
+#: app/users/forms.py:98
+msgid "Email already registered."
+msgstr "Adresse email déjà enregistrée"

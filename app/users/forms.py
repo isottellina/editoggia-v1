@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Sat May  9 00:24:35 2020 (+0200)
+# Last-Updated: Sat May  9 01:17:47 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -50,7 +50,7 @@ class SignupUserForm(UserForm):
         gettext('Display name'), validators=[
             Length(
                 max=128,
-                message=gettext('Display name must be between 2 and 128 characters.')
+                message=gettext('Display name must be less than 128 characters.')
             )
         ]
     )
