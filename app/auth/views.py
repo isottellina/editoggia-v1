@@ -3,14 +3,16 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Tue May  5 22:16:23 2020 (+0200)
+# Last-Updated: Sat May  9 00:34:43 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import flash, render_template
+from flask import flash, render_template, request, redirect, url_for
+from flask_babel import gettext
 
 from app.auth import auth
 from app.extensions import lm
 
+from app.users.models import User
 from app.users.forms import SignupUserForm
 
 @lm.user_loader
@@ -37,6 +39,9 @@ def signup():
             ),
             'success'
         )
-        return redirect(url_for('index'))
-    
+        return redirect(url_for('home.index'))
+    elif form.is_submitted():
+        for errors in form.errors:
+            for error in getattr(form, errors).errors:
+                flash(error, 'warning')
     return render_template('register.html', form=form)

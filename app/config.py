@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Mon May  4 01:38:43 2020 (+0200)
+# Last-Updated: Sat May  9 00:45:20 2020 (+0200)
 #           By: Louise <louise>
 # 
 import os
@@ -28,15 +28,16 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
+        'sqlite:///' + os.path.join(basedir, '../db.sqlite3')
 
     # Assets config
     ASSETS_DEBUG = True
 
 class TestingConfig(Config):
     TESTING = True
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite://'
+        'sqlite:///:memory:'
 
 config = {
     'development': DevelopmentConfig,

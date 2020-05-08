@@ -3,66 +3,99 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Thu May  7 00:36:15 2020 (+0200)
+# Last-Updated: Sat May  9 00:24:35 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import TextField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from app.users.models import User
 
-class UserForm(Form):
-    username = TextField(
-        gettext('Username'), validators=[DataRequired(), Length(min=2, max=50)]
+class UserForm(FlaskForm):
+    username = StringField(
+        gettext('Username'), validators=[
+            DataRequired(
+                message=gettext('Username must be filled.')
+            ),
+            Length(
+                min=2,
+                max=50,
+                message=gettext('Username must be between 2 and 50 characters.'
+                )
+            )
+        ]
     )
-    email = TextField(
-        gettext('Email'), validators=[Email(), DataRequired(), Length(max=128)]
+    email = StringField(
+        gettext('Email'), validators=[
+            Email(
+                message=gettext('Email must be valid.')
+            ),
+            DataRequired(
+                message=gettext('Email must be filled.')
+            ),
+            Length(
+                max=128,
+                message=gettext('Email must be less than 128 characters.')
+            )
+        ]
     )
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        FlaskForm.__init__(self, *args, **kwargs)
 
 class SignupUserForm(UserForm):
-    name = TextField(
-        gettext('Display name'), validators=[Length(min=2, max=128)]
+    name = StringField(
+        gettext('Display name'), validators=[
+            Length(
+                max=128,
+                message=gettext('Display name must be between 2 and 128 characters.')
+            )
+        ]
     )
     password = PasswordField(
         gettext('Password'),
         validators=[
-            DataRequired(),
+            DataRequired(
+                message=gettext('Password must be filled.')
+            ),
             EqualTo(
                 'confirm',
-                message=gettext('Passwords must match')
+                message=gettext('Passwords must match.')
             ),
-            Length(min=6, max=50)
+            Length(
+                min=6,
+                max=50,
+                message=gettext('Password must be between 6 and 50 characters.')
+            )
         ]
     )
     confirm = PasswordField(
-        gettext('Confirm Password'), validators=[DataRequired()]
-    )
-    accept_tos = BooleanField(
-        gettext('I accept the TOS'), validators=[DataRequired()]
+        gettext('Confirm Password'), validators=[
+            DataRequired(
+                message=gettext('Password must be confirmed.')
+            )
+        ]
     )
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        FlaskForm.__init__(self, *args, **kwargs)
         self.user = None
 
     def validate(self):
-        rv = Form.validate(self)
+        rv = FlaskForm.validate(self)
         if not rv:
             return False
 
         user = User.query.filter_by(username=self.username.data).first()
         if user:
-            self.username.errors.append(gettext('Username already registered'))
+            self.username.errors.append(gettext('Username already registered.'))
             return False
 
         user = User.query.filter_by(email=self.email.data).first()
         if user:
-            self.email.errors.append(gettext('Email already registered'))
+            self.email.errors.append(gettext('Email already registered.'))
             return False
 
         self.user = user
