@@ -4,19 +4,19 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "~=1.1.2"
-flask-sqlalchemy = "~=2.4.1"
-flask-migrate = "~=2.5.3"
-flask-admin = "~=1.5.6"
-flask-assets = "~=2.0"
-flask-babel = "~=1.0.0"
-flask-login = "~=0.5.0"
-libsass = "~=0.20.0"
-wtforms = "~=2.3.1"
-email-validator = "~=1.1.0"
-editoggia = {editable = true,path = "."}
+flask = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-admin = "*"
+flask-assets = "*"
+flask-babel = "*"
+flask-login = "*"
+libsass = "*"
+wtforms = "*"
+email-validator = "*"
 flask-bcrypt = "*"
+editoggia = {editable = true,path = "."}
 
 [dev-packages]
-pytest = "~=5.4.1"
+pytest = "*"
 faker = "*"
