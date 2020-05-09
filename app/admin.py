@@ -3,7 +3,7 @@
 # Filename: admin.py
 # Author: Louise <louise>
 # Created: Sat May  9 19:25:47 2020 (+0200)
-# Last-Updated: Sat May  9 19:30:33 2020 (+0200)
+# Last-Updated: Sat May  9 19:32:38 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -18,8 +18,12 @@ admin = Admin(
     template_mode='bootstrap3'
 )
 
-# A helper class to assess if a user can access the admin view
 class EditoggiaModelView(ModelView):
+    """
+    Helper class for ModelViews in the admin interface. The main
+    goal of this class is to only allow logged-in users who have
+    the permission to access it.
+    """
     def is_accessible(self):
         """
         TODO: Return a real value here, admins should be able to
