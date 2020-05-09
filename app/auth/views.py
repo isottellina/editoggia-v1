@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Sat May  9 00:34:43 2020 (+0200)
+# Last-Updated: Sat May  9 16:22:53 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
@@ -44,4 +44,4 @@ def signup():
         for errors in form.errors:
             for error in getattr(form, errors).errors:
                 flash(error, 'warning')
-    return render_template('register.html', form=form)
+    return render_template('register.j2', form=form)

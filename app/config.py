@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Sat May  9 00:45:20 2020 (+0200)
+# Last-Updated: Sat May  9 16:18:32 2020 (+0200)
 #           By: Louise <louise>
 # 
 import os
@@ -18,7 +18,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # i18n and l10n options
-    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_LOCALE = "fr"
     BABEL_DEFAULT_TIMEZONE = "UTC"
     
     @staticmethod
