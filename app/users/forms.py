@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Sat May  9 20:20:46 2020 (+0200)
+# Last-Updated: Sat May  9 23:29:41 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -100,4 +100,3 @@ class SignupUserForm(UserForm):
 
         self.user = user
         return True
-

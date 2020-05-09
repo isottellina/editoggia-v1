@@ -3,10 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Sat May  9 19:57:19 2020 (+0200)
+# Last-Updated: Sat May  9 23:35:17 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
+from flask_login import login_user, login_required, logout_user
 from flask_babel import gettext
 
 from app.auth import auth
@@ -14,6 +15,8 @@ from app.extensions import lm
 
 from app.users.models import User
 from app.users.forms import SignupUserForm
+
+from app.auth.forms import LoginForm
 
 @lm.user_loader
 def load_user(id):
@@ -45,3 +48,23 @@ def signup():
             for error in getattr(form, errors).errors:
                 flash(error, 'warning')
     return render_template('register.j2', form=form)
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        login_user(form.user)
+        flash(
+            gettext(
+                'You were logged in as {username}'.format(
+                    username=form.user.username
+                ),
+            ),
+            'success'
+        )
+        return redirect(request.args.get('next') or url_for('home.index'))
+    elif form.is_submitted():
+        for errors in form.errors:
+            for error in getattr(form, errors).errors:
+                flash(error, 'warning')
+    return render_template('login.j2', form=form)

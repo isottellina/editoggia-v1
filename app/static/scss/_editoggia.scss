@@ -3,7 +3,7 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Sat May  9 21:55:13 2020 (+0200)
+// Last-Updated: Sat May  9 22:52:44 2020 (+0200)
 //           By: Louise <louise>
 //
 .navbar {
@@ -20,8 +20,6 @@
 
     .navbar-nav {
 	.nav-item {
-	    height: 100%;
-	    
 	    a {	
 		color: map-get($theme-colors, light);
 		text-decoration: none;
