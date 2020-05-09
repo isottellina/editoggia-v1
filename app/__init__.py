@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sat May  9 00:24:06 2020 (+0200)
+# Last-Updated: Sat May  9 19:26:59 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Flask, render_template
@@ -13,8 +13,9 @@ from .config import config
 from app.commands import create_db, drop_db, recreate_db
 
 # Import extensions
+from app.admin import admin
 from app.assets import assets
-from app.extensions import babel, admin, lm
+from app.extensions import babel, lm
 from app.database import db, migrate
 
 # Import blueprints

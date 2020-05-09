@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Sat May  9 19:19:05 2020 (+0200)
+# Last-Updated: Sat May  9 19:23:20 2020 (+0200)
 #           By: Louise <louise>
 # 
 import os
@@ -20,6 +20,9 @@ class Config:
     # i18n and l10n options
     BABEL_DEFAULT_LOCALE = "fr"
     BABEL_DEFAULT_TIMEZONE = "UTC"
+
+    # Flask admin
+    FLASK_ADMIN_SWATCH = "journal"
     
     @staticmethod
     def init_app(app):
