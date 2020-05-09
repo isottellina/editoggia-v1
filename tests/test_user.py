@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Sat May  9 20:09:31 2020 (+0200)
+# Last-Updated: Sat May  9 20:18:10 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -156,4 +156,41 @@ class TestUser(unittest.TestCase):
         # Check the user does not exist in the database
         assert not db.session.query(
             User.query.filter(User.username == username).exists()
+        ).scalar()
+
+    def test_username_already_registered(self):
+        """
+        Tests that the app refuses to register another user
+        with the same username.
+        """
+        username = fake.user_name()
+        email = fake.email()
+        email2 = fake.email()
+        password = fake.password()
+
+        rv = self.register(username, email, password)
+        rv = self.register(username, email2, password)
+        
+        assert rv._status_code == 200
+        assert b"Username already registered." in rv.data
+
+    def test_email_already_registered(self):
+        """
+        Tests that the app refuses to register another user
+        with the same email
+        """
+        username = fake.user_name()
+        username2 = fake.user_name()
+        email = fake.email()
+        password = fake.password()
+
+        rv = self.register(username, email, password)
+        rv = self.register(username2, email, password)
+        
+        assert rv._status_code == 200
+        assert b"Email already registered." in rv.data
+
+        # Check the second user does not exist in the database
+        assert not db.session.query(
+            User.query.filter(User.username == username2).exists()
         ).scalar()
