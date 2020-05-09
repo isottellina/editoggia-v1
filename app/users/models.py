@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sat May  9 00:33:09 2020 (+0200)
+# Last-Updated: Sat May  9 23:59:26 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_login import UserMixin
@@ -68,6 +68,9 @@ class User(CRUDMixin, UserMixin, db.Model):
         super(User, self).__init__(**kwargs)
         self.set_password(password)
 
+    def __str__(self):
+        return self.name if self.name else self.username
+        
     def __repr__(self):
         return '<User #%s:%r>' % (self.id, self.username)
 
