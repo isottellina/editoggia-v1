@@ -13,7 +13,7 @@
   {% endassets %}
   </head>
   <body>
-    {% include '_navbar.html' %}
+    {% include '_navbar.j2' %}
     <main>
       {# Flash messages from the view #}
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -30,7 +30,7 @@
 	
       {% endblock %}
     </main>
-    {% include '_footer.html' %}
+    {% include '_footer.j2' %}
     {% assets 'js_all' %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
