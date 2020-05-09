@@ -3,9 +3,9 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Thu May  7 01:34:51 2020 (+0200)
+// Last-Updated: Sat May  9 21:55:13 2020 (+0200)
 //           By: Louise <louise>
-// 
+//
 .navbar {
     font-family: $font-family-navbar;
 
@@ -15,6 +15,17 @@
 	img {
 	    height: 1.8rem;
 	    padding-right: 0.4em;
+	}
+    }
+
+    .navbar-nav {
+	.nav-item {
+	    height: 100%;
+	    
+	    a {	
+		color: map-get($theme-colors, light);
+		text-decoration: none;
+	    }
 	}
     }
 }
