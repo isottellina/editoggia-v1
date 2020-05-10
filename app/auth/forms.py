@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:08:39 2020 (+0200)
-# Last-Updated: Sun May 10 20:26:55 2020 (+0200)
+# Last-Updated: Sun May 10 20:38:49 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
@@ -14,8 +14,16 @@ from wtforms.validators import DataRequired
 from app.users.models import User
 
 class LoginForm(FlaskForm):
-    username = StringField(gettext('Username'), validators=[DataRequired()])
-    password = PasswordField(gettext('Password'), validators=[DataRequired()])
+    username = StringField(gettext('Username'), validators=[
+        DataRequired(
+            message=gettext('Username must be filled.')
+        )
+    ])
+    password = PasswordField(gettext('Password'), validators=[
+        DataRequired(
+            message=gettext('Password must be filled.')
+        )
+    ])
 
     def __init__(self, *args, **kwargs):
         FlaskForm.__init__(self, *args, **kwargs)
@@ -29,11 +37,11 @@ class LoginForm(FlaskForm):
         self.user = User.query.filter_by(username=self.username.data).first()
 
         if not self.user:
-            self.username.errors.append(gettext('Unknown username'))
+            self.username.errors.append(gettext('Unknown username.'))
             return False
 
         if not self.user.check_password(self.password.data):
-            self.password.errors.append(gettext('Invalid password'))
+            self.password.errors.append(gettext('Invalid password.'))
             return False
 
         return True

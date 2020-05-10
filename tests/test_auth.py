@@ -3,11 +3,11 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Sun May 10 20:26:37 2020 (+0200)
+# Last-Updated: Sun May 10 20:42:44 2020 (+0200)
 #           By: Louise <louise>
 #
 """
-These tests test both the user blueprint and the auth blueprint.
+These tests test the auth blueprint.
 """
 from app import create_app
 from app.database import db
@@ -244,3 +244,47 @@ class TestUser(unittest.TestCase):
         assert rv._status_code == 200
         assert b"You were logged in as" in rv.data
         assert self.user.name.encode('utf8') in rv.data
+
+    def test_login_missing_data(self):
+        """
+        Tests that we cannot login without supplying all data.
+        """
+        rv = self.login(self.user.username, "")
+
+        assert rv._status_code == 200
+        assert b"You were logged in as" not in rv.data
+        assert b"Password must be filled." in rv.data
+
+    def test_login_username_must_exist(self):
+        """
+        Tests that we cannot log in as an user that doesn't exist.
+        """
+        rv = self.login(self.user.username + "2", self.password)
+
+        assert rv._status_code == 200
+        assert b"You were logged in as" not in rv.data
+        assert b"Unknown username." in rv.data
+
+    def test_login_password_must_be_correct(self):
+        """
+        Tests that we cannot log in with a bad password
+        """
+        rv = self.login(self.user.username,
+                        self.password[:len(self.password) // 2])
+
+        assert rv._status_code == 200
+        assert b"You were logged in as" not in rv.data
+        assert b"Invalid password." in rv.data
+
+    #
+    # Log out tests
+    #
+    def test_logout_normal(self):
+        """
+        Tests that we can log out
+        """
+        self.login(self.user.username, self.password)
+        rv = self.app.get('/logout', follow_redirects=True)
+
+        assert rv._status_code == 200
+        assert b"You were logged out" in rv.data
