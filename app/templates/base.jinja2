@@ -12,7 +12,7 @@
   {% endassets %}
   </head>
   <body>
-    {% include '_navbar.j2' %}
+    {% include '_navbar.jinja2' %}
     <main>
       {# Flash messages from the view #}
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -29,7 +29,7 @@
 	
       {% endblock %}
     </main>
-    {% include '_footer.j2' %}
+    {% include '_footer.jinja2' %}
     {% assets 'js_all' %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
   {% endassets %}
