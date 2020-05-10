@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:08:39 2020 (+0200)
-# Last-Updated: Sun May 10 20:38:49 2020 (+0200)
+# Last-Updated: Mon May 11 00:05:33 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
@@ -11,7 +11,7 @@ from flask_babel import gettext
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 
-from app.users.models import User
+from app.user.models import User
 
 class LoginForm(FlaskForm):
     username = StringField(gettext('Username'), validators=[

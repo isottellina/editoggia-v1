@@ -1,0 +1,9 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}
+  {% if user.name %}
+    {{ user.name }} (@{{ user.username }})
+  {% else %}
+    @{{ user.username }}
+  {% endif %}
+{% endblock %}

@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Sun May 10 22:57:27 2020 (+0200)
+# Last-Updated: Mon May 11 00:04:48 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
@@ -13,8 +13,8 @@ from flask_babel import gettext
 from app.auth import auth
 from app.extensions import lm
 
-from app.users.models import User
-from app.users.forms import SignupUserForm
+from app.user.models import User
+from app.user.forms import SignupUserForm
 
 from app.auth.forms import LoginForm
 

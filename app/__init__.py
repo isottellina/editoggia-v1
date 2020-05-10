@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sat May  9 19:26:59 2020 (+0200)
+# Last-Updated: Mon May 11 00:08:18 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Flask, render_template
@@ -21,7 +21,7 @@ from app.database import db, migrate
 # Import blueprints
 from app.home import home
 from app.auth import auth
-from app.users import users
+from app.user import user
 
 def create_app(config_name="default"):
     """
@@ -62,4 +62,4 @@ def register_blueprints(app):
     """
     app.register_blueprint(home)
     app.register_blueprint(auth)
-    app.register_blueprint(users)
+    app.register_blueprint(user)
