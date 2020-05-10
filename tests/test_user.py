@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Sun May 10 19:58:58 2020 (+0200)
+# Last-Updated: Sun May 10 20:26:37 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -25,9 +25,23 @@ class TestUser(unittest.TestCase):
         db.create_all()
         self.app = app.test_client()
 
+        # Register a user to test
+        self.password = fake.password()
+        
+        self.user = User.create(
+            username=fake.user_name(),
+            name=fake.name(),
+            email=fake.email(),
+            password=self.password
+        )
+
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    #
+    # Register tests
+    #
         
     def register(self, username, email, password):
         """
@@ -38,6 +52,15 @@ class TestUser(unittest.TestCase):
             "email": email,
             "password": password,
             "confirm": password
+        }, follow_redirects=True)
+
+    def login(self, username, password):
+        """
+        Helper function to login as an user.
+        """
+        return self.app.post('/login', data={
+            "username": username,
+            "password": password
         }, follow_redirects=True)
 
     def test_signup_normal(self):
@@ -182,13 +205,10 @@ class TestUser(unittest.TestCase):
         Tests that the app refuses to register another user
         with the same username.
         """
-        username = fake.user_name()
         email = fake.email()
-        email2 = fake.email()
         password = fake.password()
 
-        rv = self.register(username, email, password)
-        rv = self.register(username, email2, password)
+        rv = self.register(self.user.username, email, password)
         
         assert rv._status_code == 200
         assert b"Username already registered." in rv.data
@@ -199,17 +219,28 @@ class TestUser(unittest.TestCase):
         with the same email
         """
         username = fake.user_name()
-        username2 = fake.user_name()
-        email = fake.email()
         password = fake.password()
 
-        rv = self.register(username, email, password)
-        rv = self.register(username2, email, password)
+        rv = self.register(username, self.user.email, password)
         
         assert rv._status_code == 200
         assert b"Email already registered." in rv.data
 
         # Check the second user does not exist in the database
         assert not db.session.query(
-            User.query.filter(User.username == username2).exists()
+            User.query.filter(User.username == username).exists()
         ).scalar()
+
+    #
+    # Login tests
+    #
+    
+    def test_login_normal(self):
+        """
+        Tests that we can log in with the user.
+        """
+        rv = self.login(self.user.username, self.password)
+
+        assert rv._status_code == 200
+        assert b"You were logged in as" in rv.data
+        assert self.user.name.encode('utf8') in rv.data

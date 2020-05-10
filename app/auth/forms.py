@@ -3,18 +3,18 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:08:39 2020 (+0200)
-# Last-Updated: Sat May  9 23:43:39 2020 (+0200)
+# Last-Updated: Sun May 10 20:26:55 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import TextField, PasswordField
+from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 
 from app.users.models import User
 
 class LoginForm(FlaskForm):
-    username = TextField(gettext('Username'), validators=[DataRequired()])
+    username = StringField(gettext('Username'), validators=[DataRequired()])
     password = PasswordField(gettext('Password'), validators=[DataRequired()])
 
     def __init__(self, *args, **kwargs):
