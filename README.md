@@ -3,7 +3,7 @@
 ;; Filename: README.md
 ;; Author: Louise <louise>
 ;; Created: Sat May  2 01:12:36 2020 (+0200)
-;; Last-Updated: Sat May  2 06:05:28 2020 (+0200)
+;; Last-Updated: Sun May 10 21:29:35 2020 (+0200)
 ;;           By: Louise <louise>
  -->
 # Editoggia
@@ -15,10 +15,11 @@ very early stages.
 ## Installation
 
 Use the tool pipenv to create a virtual environment with all required dependencies,
-automatically.
+automatically. You also have to use yarn to get all front-end dependencies.
 
 ```bash
 pipenv install
+yarn install --modules-folder app/static/node_modules
 ```
 
 ## Usage
