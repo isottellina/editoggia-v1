@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Sat May  9 23:29:41 2020 (+0200)
+# Last-Updated: Sun May 10 19:59:25 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -88,6 +88,11 @@ class SignupUserForm(UserForm):
         if not rv:
             return False
 
+        if not self.username.data.isalnum():
+            self.username.errors.append(gettext('Username can only contain '
+                                                'alphanumerical characters.'))
+            return False
+        
         user = User.query.filter_by(username=self.username.data).first()
         if user:
             self.username.errors.append(gettext('Username already registered.'))

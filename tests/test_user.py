@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Sat May  9 20:18:10 2020 (+0200)
+# Last-Updated: Sun May 10 19:58:58 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -70,6 +70,25 @@ class TestUser(unittest.TestCase):
 
         assert rv._status_code == 200
         assert b"Username must be between 2 and 50 characters." in rv.data
+
+        # Check the user does not exist in the database
+        assert not db.session.query(
+            User.query.filter(User.username == username).exists()
+        ).scalar()
+
+    def test_signup_short_username(self):
+        """
+        Tests that an username containing non-alphanumerical
+        characters is refused.
+        """
+        username = 'user/mountain'
+        email = fake.email()
+        password = fake.password()
+
+        rv = self.register(username, email, password)
+
+        assert rv._status_code == 200
+        assert b"Username can only contain alphanumerical characters." in rv.data
 
         # Check the user does not exist in the database
         assert not db.session.query(
