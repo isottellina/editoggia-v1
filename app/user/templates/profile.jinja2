@@ -7,3 +7,26 @@
     @{{ user.username }}
   {% endif %}
 {% endblock %}
+
+{% block content %}
+  <section id="main_profile">
+    <div class="container col-lg-8">
+      <div class="row col-lg-12 align-items-center">
+	{% if user.name %}
+	  <h2 class="pr-2">{{ user.name }}</h2> <span class="text-muted">@{{ user.username }}</span>
+	{% else %}
+	  <h2>@{{ user.username }}</h2>
+	{% endif %}
+      </div>
+      <hr class="mt-0"/>
+      <div class="row">
+	<div class="col-lg-4">
+	  <h3 class="border-bottom">Info</h3>
+	</div>
+	<div class="col-lg-8">
+	  <h3 class="border-bottom">Bio</h3>
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
