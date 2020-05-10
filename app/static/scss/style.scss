@@ -3,10 +3,10 @@
 // Filename: style.scss
 // Author: Louise <louise>
 // Created: Sat May  2 05:30:02 2020 (+0200)
-// Last-Updated: Thu May  7 00:38:43 2020 (+0200)
+// Last-Updated: Sun May 10 17:35:14 2020 (+0200)
 //           By: Louise <louise>
 // 
 @import "variables";
-@import "bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap/scss/bootstrap";
 @import "overrides";
 @import "editoggia";

@@ -1,0 +1,14 @@
+{
+    "name": "editoggia",
+    "version": "0.0.1",
+    "description": "A platform to share stories and other writings.",
+    "main": "index.js",
+    "repository": "https://github.com/isottellina/editoggia.git",
+    "author": "Isottelina",
+    "license": "MPL-2.0",
+    "dependencies": {
+        "bootstrap": "4.4.1",
+        "@fortawesome/fontawesome-free": "5.13.0",
+        "jquery": "3.5.1"
+    }
+}
