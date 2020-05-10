@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Mon May 11 00:04:48 2020 (+0200)
+# Last-Updated: Mon May 11 00:57:25 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
@@ -28,6 +28,7 @@ def signup():
     if form.validate_on_submit():
         user = User.create(
             username=form.data['username'],
+            name=form.data['name'],
             email=form.data['email'],
             password=form.data['password'],
             last_login_ip=request.remote_addr,

@@ -3,10 +3,11 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sat May  9 23:59:26 2020 (+0200)
+# Last-Updated: Mon May 11 01:31:24 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_login import UserMixin
+from flask_babel import gettext
 
 from app.database import db, CRUDMixin
 from app.extensions import bcrypt
@@ -49,7 +50,18 @@ class User(CRUDMixin, UserMixin, db.Model):
 
     # More info
     name = db.Column(db.String(128))
+    location = db.Column(db.String(128))
+    birthdate = db.Column(db.Date())
+    gender = db.Column(db.Enum(
+        gettext("Woman"),
+        gettext("Man"),
+        gettext("Other"),
+        gettext("Doesn't want to say")
+    ))
     bio = db.Column(db.Text)
+
+    # More profile info
+    profile_last_updated = db.Column(db.DateTime())
     
     # Tracking info
     last_login_at = db.Column(db.DateTime())
