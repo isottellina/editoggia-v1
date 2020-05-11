@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Mon May 11 00:05:24 2020 (+0200)
+# Last-Updated: Mon May 11 17:24:09 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -41,11 +41,7 @@ class UserForm(FlaskForm):
             )
         ]
     )
-
-    def __init__(self, *args, **kwargs):
-        FlaskForm.__init__(self, *args, **kwargs)
-
-class SignupUserForm(UserForm):
+    
     name = StringField(
         gettext('Display name'), validators=[
             Length(
@@ -54,6 +50,11 @@ class SignupUserForm(UserForm):
             )
         ]
     )
+
+    def __init__(self, *args, **kwargs):
+        FlaskForm.__init__(self, *args, **kwargs)
+
+class SignupUserForm(UserForm):
     password = PasswordField(
         gettext('Password'),
         validators=[
@@ -85,12 +86,14 @@ class SignupUserForm(UserForm):
 
     def validate(self):
         rv = FlaskForm.validate(self)
-        if not rv:
-            return False
 
         if not self.username.data.isalnum():
             self.username.errors.append(gettext('Username can only contain '
                                                 'alphanumerical characters.'))
+            return False
+
+        # return this after because we might have to add the aforementioned error
+        if not rv:
             return False
         
         user = User.query.filter_by(username=self.username.data).first()
@@ -105,3 +108,6 @@ class SignupUserForm(UserForm):
 
         self.user = user
         return True
+
+class EditUserForm(UserForm):
+    pass

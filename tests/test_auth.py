@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Sun May 10 20:42:44 2020 (+0200)
+# Last-Updated: Mon May 11 17:15:33 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -11,7 +11,7 @@ These tests test the auth blueprint.
 """
 from app import create_app
 from app.database import db
-from app.users.models import User
+from app.user.models import User
 
 from faker import Faker
 import unittest

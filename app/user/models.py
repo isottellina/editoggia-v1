@@ -3,9 +3,11 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May 11 01:31:24 2020 (+0200)
+# Last-Updated: Mon May 11 16:49:57 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
+from datetime import datetime
+
 from flask_login import UserMixin
 from flask_babel import gettext
 
@@ -55,13 +57,14 @@ class User(CRUDMixin, UserMixin, db.Model):
     gender = db.Column(db.Enum(
         gettext("Woman"),
         gettext("Man"),
-        gettext("Other"),
-        gettext("Doesn't want to say")
+        gettext("Other")
     ))
     bio = db.Column(db.Text)
 
     # More profile info
-    profile_last_updated = db.Column(db.DateTime())
+    profile_last_updated = db.Column(db.DateTime(),
+                                     nullable=False,
+                                     default=datetime.utcnow())
     
     # Tracking info
     last_login_at = db.Column(db.DateTime())
@@ -71,7 +74,8 @@ class User(CRUDMixin, UserMixin, db.Model):
     login_count = db.Column(db.Integer, default=0)
     
     active = db.Column(db.Boolean())
-    confirmed_at = db.Column(db.DateTime())
+    confirmed_at = db.Column(db.DateTime(),
+                             default=datetime.utcnow())
     
     roles = db.relationship('Role', secondary='roles_users',
                             backref=db.backref('users', lazy='dynamic'))

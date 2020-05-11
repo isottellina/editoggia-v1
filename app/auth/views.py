@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Mon May 11 00:57:25 2020 (+0200)
+# Last-Updated: Mon May 11 17:16:17 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
@@ -44,10 +44,6 @@ def signup():
             'success'
         )
         return redirect(url_for('home.index'))
-    elif form.is_submitted():
-        for errors in form.errors:
-            for error in getattr(form, errors).errors:
-                flash(error, 'warning')
     return render_template('register.jinja2', form=form)
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -64,10 +60,6 @@ def login():
             'success'
         )
         return redirect(url_for('home.index'))
-    elif form.is_submitted():
-        for errors in form.errors:
-            for error in getattr(form, errors).errors:
-                flash(error, 'warning')
     return render_template('login.jinja2', form=form)
 
 @auth.route('/logout')

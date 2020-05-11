@@ -20,9 +20,28 @@
 	    <h2 class="border-bottom">@{{ user.username }}</h2>
 	  {% endif %}
 	</div>
-	Info here
+	{% if user.location %}
+	  <div>
+	    <i class="fas fa-fw fa-compass"></i>
+	    {{ user.location }}
+	  </div>
+	{% endif %}
+	
+	{# Gender #}
+	{% if user.gender == "Woman" %}
+	  <i class="fas fa-fw fa-venus"></i>
+	  {{ _("Woman") }}
+	{% elif user.gender == "Man" %}
+	  <i class="fas fa-fw fa-mars"></i>
+	  {{ _("Man") }}
+	{% elif user.gender == "Other" %}
+	  <i class="fas fa-fw fa-genderless"></i>
+	  {{ _("Other") }}
+	{% endif %}
+	
 	{% if editable %}
-	  <a class="btn btn-primary btn-block" href="#">
+	  <a class="btn btn-primary btn-block" href="{{ url_for('user.edit_profile') }}">
+	    <i class="fas fa-fw fa-edit"></i>
 	    {{ _("Edit profile") }}
 	  </a>
 	{% endif %}
@@ -30,8 +49,8 @@
       <hr class="mt-0"/>
       <div class="col-lg-9">
 	<nav class="nav profile-nav">
-	  <a class="nav-link text-dark active" href="#">Bio</a>
-	  <a class="nav-link text-dark" href="#">Stories</a>
+	  <a class="nav-link active" href="#">{{ _("Bio") }}</a>
+	  <a class="nav-link" href="#">{{ _("Stories") }}</a>
 	</nav>
 	{# TODO: Bio #}
 	Bio here

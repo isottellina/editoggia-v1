@@ -3,7 +3,7 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Mon May 11 02:59:53 2020 (+0200)
+// Last-Updated: Mon May 11 03:15:21 2020 (+0200)
 //           By: Louise <louise>
 //
 .navbar {
@@ -30,10 +30,14 @@
 
 .profile-nav {
     margin-bottom: 1em;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid map-get($theme-colors, palette3);
+
+    a {
+	color: map-get($theme-colors, palette4);
+    }
     
     a.active {
-	border-bottom: 3px solid #dee2e6;
+	border-bottom: 3px solid map-get($theme-colors, palette3);
     }
 }
 

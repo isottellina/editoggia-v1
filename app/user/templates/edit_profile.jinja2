@@ -1,19 +1,18 @@
 {% from 'components/field.jinja2' import render_field %}
 {% extends 'base.jinja2' %}
 
-{% block title %} {{ _("Log in") }} {% endblock %}
+{% block title %} {{ _("Edit profile") }} {% endblock %}
 
 {% block content %}
   <section class="section">
     <div class="container">
       <div class="row justify-content-center">
 	<div class="col-lg-8 text-justified">
-	  <h2 class="title text-center"> {{ _("Log in") }} </h2>
-	  <form action="{{ url_for('auth.login') }}" method="POST">
+	  <h2 class="title text-center"> {{ _("Edit profile") }} </h2>
+	  <form action="{{ url_for('user.edit_profile') }}" method="POST">
 	    {{ form.csrf_token }}
 	    <div class="row">
-	      {{ render_field(form.username, col="col-lg-6") }}
-	      {{ render_field(form.password, col="col-lg-6") }}
+	      {{ render_field(form.email) }}
 	    </div>
 	    <div class="row pt-2">
 	      <div class="form-group col-lg-12">
