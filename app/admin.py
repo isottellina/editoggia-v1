@@ -3,13 +3,14 @@
 # Filename: admin.py
 # Author: Louise <louise>
 # Created: Sat May  9 19:25:47 2020 (+0200)
-# Last-Updated: Sat May  9 19:32:38 2020 (+0200)
+# Last-Updated: Mon May 11 20:49:04 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
 Creates the Admin blueprint, and helpers for
 views within the Admin interface.
 """
+from flask_login import current_user
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin
 
@@ -29,4 +30,4 @@ class EditoggiaModelView(ModelView):
         TODO: Return a real value here, admins should be able to
         access these views.
         """
-        return False
+        return current_user.has_permission("admin.ACCESS_ADMIN_INTERFACE")

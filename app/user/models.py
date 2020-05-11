@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May 11 20:16:08 2020 (+0200)
+# Last-Updated: Mon May 11 21:09:17 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -75,7 +75,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     confirmed_at = db.Column(db.DateTime(),
                              default=datetime.utcnow())
     
-    roles = db.relationship('Role', secondary='roles_users',
+    roles = db.relationship('Role', secondary='roles_users', lazy='dynamic',
                             backref=db.backref('users', lazy='dynamic'))
     
     def __init__(self, password, **kwargs):
@@ -94,3 +94,13 @@ class User(CRUDMixin, UserMixin, db.Model):
 
     def check_password(self, password):
         return bcrypt.check_password_hash(self.pw_hash, password)
+
+    def has_permission(self, permission):
+        """
+        Check if user has given permission.
+        """
+        result = self.roles.filter(
+            Role.permissions.any(Permission.name == permission)
+        ).first()
+        
+        return result is not None
