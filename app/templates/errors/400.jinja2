@@ -1,0 +1,7 @@
+{% extends 'base.jinja2' %}
+
+{% block title %} {{ _('Bad request') }} {% endblock %}
+
+{% block content %}
+  {% trans %}The server cannot process this request due to an error of the client{% endtrans %}
+{% endblock %}

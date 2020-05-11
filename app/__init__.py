@@ -3,9 +3,11 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Mon May 11 00:08:18 2020 (+0200)
+# Last-Updated: Mon May 11 18:09:12 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
+import requests
+
 from flask import Flask, render_template
 from .config import config
 
@@ -33,6 +35,7 @@ def create_app(config_name="default"):
     config[config_name].init_app(app)
 
     register_commands(app)
+    register_errorhandlers(app)
     register_extensions(app)
     register_blueprints(app)
     
@@ -45,6 +48,20 @@ def register_commands(app):
     for command in [create_db, drop_db, recreate_db]:
         app.cli.command()(command)
 
+def register_errorhandlers(app):
+    """
+    Register error handlers page.
+    """
+    def render_error(e):
+        return render_template('errors/%s.jinja2' % e.code), e.code
+    
+    for e in [
+            requests.codes.INTERNAL_SERVER_ERROR,
+            requests.codes.NOT_FOUND,
+            requests.codes.UNAUTHORIZED,
+    ]:
+        app.errorhandler(e)(render_error)
+        
 def register_extensions(app):
     """
     Register all extensions.

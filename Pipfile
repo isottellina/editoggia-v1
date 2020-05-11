@@ -16,6 +16,7 @@ wtforms = "*"
 email-validator = "*"
 flask-bcrypt = "*"
 editoggia = {editable = true,path = "."}
+requests = "*"
 
 [dev-packages]
 pytest = "*"

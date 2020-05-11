@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-05-11 17:40+0200\n"
+"POT-Creation-Date: 2020-05-11 18:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,7 +59,7 @@ msgid "Log in"
 msgstr ""
 
 #: auth/templates/login.jinja2:20 auth/templates/register.jinja2:27
-#: user/templates/edit_profile.jinja2:22
+#: user/templates/edit_profile.jinja2:25
 msgid "Submit"
 msgstr ""
 
@@ -82,6 +82,22 @@ msgstr ""
 
 #: templates/_navbar.jinja2:38
 msgid "Log out"
+msgstr ""
+
+#: templates/errors/400.jinja2:3
+msgid "Bad request"
+msgstr ""
+
+#: templates/errors/401.jinja2:3
+msgid "Unauthorized"
+msgstr ""
+
+#: templates/errors/404.jinja2:3
+msgid "Page not found"
+msgstr ""
+
+#: templates/errors/404.jinja2:6
+msgid "The page or the resource you requested doesn't exist."
 msgstr ""
 
 #: user/forms.py:25
@@ -140,19 +156,27 @@ msgstr ""
 msgid "Email already registered."
 msgstr ""
 
-#: user/models.py:58 user/templates/profile.jinja2:33
+#: user/forms.py:114
+msgid "Gender"
+msgstr ""
+
+#: user/forms.py:116 user/models.py:58 user/templates/profile.jinja2:33
 msgid "Woman"
 msgstr ""
 
-#: user/models.py:59 user/templates/profile.jinja2:36
+#: user/forms.py:117 user/models.py:59 user/templates/profile.jinja2:36
 msgid "Man"
 msgstr ""
 
-#: user/models.py:60 user/templates/profile.jinja2:39
+#: user/forms.py:118 user/models.py:60 user/templates/profile.jinja2:39
 msgid "Other"
 msgstr ""
 
-#: user/views.py:48
+#: user/forms.py:119
+msgid "Doesn't want to say"
+msgstr ""
+
+#: user/views.py:49
 msgid "Profile edited with success"
 msgstr ""
 

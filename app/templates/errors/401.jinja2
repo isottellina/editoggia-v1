@@ -1,0 +1,7 @@
+{% extends 'errors/base.jinja2' %}
+
+{% block title %} {{ _('Unauthorized') }} {% endblock %}
+
+{% block description %}
+  {% trans %}You have to be logged in to access this page or resource.{% endtrans %}
+{% endblock %}

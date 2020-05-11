@@ -3,10 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Mon May 11 17:37:01 2020 (+0200)
+# Last-Updated: Mon May 11 17:59:59 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import abort, render_template, flash
+from flask import redirect, url_for
 from flask_login import current_user, login_required
 from flask_babel import gettext
 
@@ -15,12 +16,12 @@ from app.user import user
 from app.user.models import User
 from app.user.forms import EditUserForm
 
-@user.route('/<user_name>')
-def profile(user_name):
+@user.route('/<username>')
+def profile(username):
     """
     Prints the profile of someone.
     """
-    user = db.session.query(User).filter(User.username == user_name) \
+    user = db.session.query(User).filter(User.username == username) \
                                  .first()
 
     # If user doesn't exist, 404 error.
@@ -48,5 +49,7 @@ def edit_profile():
             gettext("Profile edited with success"),
             "success"
         )
+        return redirect(url_for('user.profile',
+                                username=current_user.username))
     return render_template('edit_profile.jinja2',
                            form=form)
