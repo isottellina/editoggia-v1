@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-05-09 16:17+0200\n"
+"POT-Creation-Date: 2020-05-11 17:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,4 +16,156 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
+
+#: auth/forms.py:17 user/forms.py:18
+msgid "Username"
+msgstr ""
+
+#: auth/forms.py:19 user/forms.py:20
+msgid "Username must be filled."
+msgstr ""
+
+#: auth/forms.py:22 user/forms.py:59
+msgid "Password"
+msgstr ""
+
+#: auth/forms.py:24 user/forms.py:62
+msgid "Password must be filled."
+msgstr ""
+
+#: auth/forms.py:40
+msgid "Unknown username."
+msgstr ""
+
+#: auth/forms.py:44
+msgid "Invalid password."
+msgstr ""
+
+#: auth/views.py:40
+msgid "Signed-up user {username}."
+msgstr ""
+
+#: auth/views.py:56
+msgid "You were logged in as {username}"
+msgstr ""
+
+#: auth/views.py:69
+msgid "You were logged out"
+msgstr ""
+
+#: auth/templates/login.jinja2:4 auth/templates/login.jinja2:11
+#: templates/_navbar.jinja2:23
+msgid "Log in"
+msgstr ""
+
+#: auth/templates/login.jinja2:20 auth/templates/register.jinja2:27
+#: user/templates/edit_profile.jinja2:22
+msgid "Submit"
+msgstr ""
+
+#: auth/templates/register.jinja2:4 auth/templates/register.jinja2:11
+#: templates/_navbar.jinja2:17
+msgid "Sign up"
+msgstr ""
+
+#: home/templates/index.jinja2:8
+msgid "new-articles"
+msgstr ""
+
+#: home/templates/index.jinja2:14
+msgid "new-stories"
+msgstr ""
+
+#: templates/_footer.jinja2:2
+msgid "Editoggia by Isottellina."
+msgstr ""
+
+#: templates/_navbar.jinja2:38
+msgid "Log out"
+msgstr ""
+
+#: user/forms.py:25
+msgid "Username must be between 2 and 50 characters."
+msgstr ""
+
+#: user/forms.py:31
+msgid "Email"
+msgstr ""
+
+#: user/forms.py:33
+msgid "Email must be valid."
+msgstr ""
+
+#: user/forms.py:36
+msgid "Email must be filled."
+msgstr ""
+
+#: user/forms.py:40
+msgid "Email must be less than 128 characters."
+msgstr ""
+
+#: user/forms.py:46
+msgid "Display name"
+msgstr ""
+
+#: user/forms.py:49
+msgid "Display name must be less than 128 characters."
+msgstr ""
+
+#: user/forms.py:66
+msgid "Passwords must match."
+msgstr ""
+
+#: user/forms.py:71
+msgid "Password must be between 6 and 50 characters."
+msgstr ""
+
+#: user/forms.py:76
+msgid "Confirm Password"
+msgstr ""
+
+#: user/forms.py:78
+msgid "Password must be confirmed."
+msgstr ""
+
+#: user/forms.py:91
+msgid "Username can only contain alphanumerical characters."
+msgstr ""
+
+#: user/forms.py:101
+msgid "Username already registered."
+msgstr ""
+
+#: user/forms.py:106
+msgid "Email already registered."
+msgstr ""
+
+#: user/models.py:58 user/templates/profile.jinja2:33
+msgid "Woman"
+msgstr ""
+
+#: user/models.py:59 user/templates/profile.jinja2:36
+msgid "Man"
+msgstr ""
+
+#: user/models.py:60 user/templates/profile.jinja2:39
+msgid "Other"
+msgstr ""
+
+#: user/views.py:48
+msgid "Profile edited with success"
+msgstr ""
+
+#: user/templates/edit_profile.jinja2:4 user/templates/edit_profile.jinja2:11
+#: user/templates/profile.jinja2:45
+msgid "Edit profile"
+msgstr ""
+
+#: user/templates/profile.jinja2:52
+msgid "Bio"
+msgstr ""
+
+#: user/templates/profile.jinja2:53
+msgid "Stories"
+msgstr ""
 

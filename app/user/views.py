@@ -3,10 +3,10 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Mon May 11 17:09:57 2020 (+0200)
+# Last-Updated: Mon May 11 17:37:01 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import abort, render_template
+from flask import abort, render_template, flash
 from flask_login import current_user, login_required
 from flask_babel import gettext
 
@@ -33,20 +33,20 @@ def profile(user_name):
                            user=user,
                            editable=editable)
 
-@user.route('/edit')
+@user.route('/edit', methods=["GET", "POST"])
 @login_required
 def edit_profile():
     """
     Edit a user profile.
     """
-    form = EditUserForm()
+    form = EditUserForm(obj=current_user)
     if form.validate_on_submit():
         form.populate_obj(current_user)
         current_user.update()
         
         flash(
-            gettext("Profile edited with success",
-                    "success")
+            gettext("Profile edited with success"),
+            "success"
         )
     return render_template('edit_profile.jinja2',
                            form=form)
