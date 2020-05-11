@@ -9,29 +9,32 @@
 {% endblock %}
 
 {% block content %}
-  <section class="mt-1" id="main_profile">
-    <div class="container col-lg-8">
-      <div class="row px-3 align-items-center">
-	{% if user.name %}
-	  <h2 class="pr-2">{{ user.name }}</h2> <span class="text-muted">@{{ user.username }}</span>
-	{% else %}
-	  <h2>@{{ user.username }}</h2>
-	{% endif %}
+  <section class="container mt-1" id="main_profile">
+    <div class="row">
+      <div class="col-lg-3">
+	<div class="d-flex align-items-baseline">
+	  {% if user.name %}
+	    <h2 class="border-bottom">{{ user.name }}</h2>
+	    <div class="ml-auto text-muted">@{{ user.username }}</div>
+	  {% else %}
+	    <h2 class="border-bottom">@{{ user.username }}</h2>
+	  {% endif %}
+	</div>
+	Info here
 	{% if editable %}
-	  <a class="btn btn-primary ml-auto">
+	  <a class="btn btn-primary btn-block" href="#">
 	    {{ _("Edit profile") }}
 	  </a>
 	{% endif %}
       </div>
       <hr class="mt-0"/>
-      <div class="row">
-	<div class="col-lg-4">
-	  <h3 class="border-bottom">Info</h3>
-	</div>
-	<div class="col-lg-8">
-	  <h3 class="border-bottom">Bio</h3>
-	</div>
+      <div class="col-lg-9">
+	<nav class="nav profile-nav">
+	  <a class="nav-link text-dark active" href="#">Bio</a>
+	  <a class="nav-link text-dark" href="#">Stories</a>
+	</nav>
+	{# TODO: Bio #}
+	Bio here
       </div>
-    </div>
   </section>
 {% endblock %}

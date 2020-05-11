@@ -3,7 +3,7 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Sat May  9 22:52:44 2020 (+0200)
+// Last-Updated: Mon May 11 02:59:53 2020 (+0200)
 //           By: Louise <louise>
 //
 .navbar {
@@ -25,6 +25,15 @@
 		text-decoration: none;
 	    }
 	}
+    }
+}
+
+.profile-nav {
+    margin-bottom: 1em;
+    border-bottom: 1px solid #dee2e6;
+    
+    a.active {
+	border-bottom: 3px solid #dee2e6;
     }
 }
 
