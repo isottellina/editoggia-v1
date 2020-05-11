@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Mon May 11 18:09:12 2020 (+0200)
+# Last-Updated: Mon May 11 20:29:51 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -12,7 +12,7 @@ from flask import Flask, render_template
 from .config import config
 
 # Import commands
-from app.commands import create_db, drop_db, recreate_db
+from app.commands import register_commands
 
 # Import extensions
 from app.admin import admin
@@ -40,13 +40,6 @@ def create_app(config_name="default"):
     register_blueprints(app)
     
     return app
-
-def register_commands(app):
-    """
-    Register all custom commands for the Flask CLI.
-    """
-    for command in [create_db, drop_db, recreate_db]:
-        app.cli.command()(command)
 
 def register_errorhandlers(app):
     """

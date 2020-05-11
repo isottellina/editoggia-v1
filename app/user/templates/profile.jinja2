@@ -20,6 +20,13 @@
 	    <h2 class="border-bottom">@{{ user.username }}</h2>
 	  {% endif %}
 	</div>
+
+	{# Bio #}
+	<p>
+	  {{ user.bio }}
+	</p>
+	
+	{# Location #}
 	{% if user.location %}
 	  <div>
 	    <i class="fas fa-fw fa-compass"></i>

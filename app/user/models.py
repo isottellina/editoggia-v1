@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May 11 16:49:57 2020 (+0200)
+# Last-Updated: Mon May 11 20:16:08 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -68,9 +68,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     
     # Tracking info
     last_login_at = db.Column(db.DateTime())
-    current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
-    current_login_ip = db.Column(db.String(100))
     login_count = db.Column(db.Integer, default=0)
     
     active = db.Column(db.Boolean())
