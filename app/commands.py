@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Mon May 11 20:44:37 2020 (+0200)
+# Last-Updated: Mon May 11 21:30:53 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -23,7 +23,7 @@ def populate_db(num_users):
     users = []
     for _ in range(num_users):
         profile = fake.profile([
-            "username", "name", "sex", "mail", "birthdate", "address"
+            "username", "name", "sex", "mail", "birthdate"
         ])
         sex = "Woman" if profile["sex"] == "F" else "Man"
         created = fake.date_this_year()
@@ -35,7 +35,7 @@ def populate_db(num_users):
                 email=profile['mail'],
                 password=fake.password(),
                 birthdate=profile['birthdate'],
-                location=profile['address'],
+                location=fake.city(),
                 bio=fake.text(),
                 gender=sex,
 

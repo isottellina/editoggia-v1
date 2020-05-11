@@ -3,16 +3,16 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May 11 21:09:17 2020 (+0200)
+# Last-Updated: Mon May 11 22:14:07 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
 
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from flask_babel import gettext
 
 from app.database import db, CRUDMixin
-from app.extensions import bcrypt
+from app.extensions import bcrypt, lm
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
@@ -59,7 +59,7 @@ class User(CRUDMixin, UserMixin, db.Model):
         gettext("Man"),
         gettext("Other")
     ))
-    bio = db.Column(db.Text)
+    bio = db.Column(db.Text, nullable=False, default="")
 
     # More profile info
     profile_last_updated = db.Column(db.DateTime(),
@@ -104,3 +104,15 @@ class User(CRUDMixin, UserMixin, db.Model):
         ).first()
         
         return result is not None
+
+class AnonymousUser(AnonymousUserMixin):
+    """
+    This defines the anonymous user.
+    We define this so we can use the same
+    functions everywhere for the permission
+    system.
+    """
+    def has_permission(self, permission):
+        return False
+
+lm.anonymous_user = AnonymousUser
