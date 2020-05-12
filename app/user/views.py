@@ -3,10 +3,10 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Tue May 12 23:10:36 2020 (+0200)
+# Last-Updated: Tue May 12 23:22:13 2020 (+0200)
 #           By: Louise <louise>
 #
-import datetime
+from datetime import date, datetime, timedelta, timezone
 
 from flask import abort, render_template, flash
 from flask import redirect, url_for
@@ -36,8 +36,7 @@ def profile(username):
     # to do it in the template.
     age = None
     if user.birthdate:
-        age = (datetime.date.today() - user.birthdate) // \
-            datetime.timedelta(days=365.2425)
+        age = (date.today() - user.birthdate) // timedelta(days=365.2425)
     
     return render_template('profile.jinja2',
                            user=user,
@@ -53,6 +52,7 @@ def edit_profile():
     form = EditUserForm(obj=current_user)
     if form.validate_on_submit():
         form.populate_obj(current_user)
+        current_user.profile_last_updated = datetime.now(timezone.utc)
         current_user.update()
         
         flash(
