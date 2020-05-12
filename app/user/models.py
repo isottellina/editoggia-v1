@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue May 12 21:15:58 2020 (+0200)
+# Last-Updated: Wed May 13 00:32:43 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -13,7 +13,6 @@ from flask_babel import gettext
 
 from app.database import db, CRUDMixin
 from app.extensions import bcrypt, lm
-from app.models import Language
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
@@ -42,14 +41,6 @@ class Permission(db.Model):
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
 
-class UserLanguages(db.Model):
-    __tablename__ = 'user_languages'
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column('user_id', db.Integer(),
-                        db.ForeignKey('user.id'), nullable=False)
-    lang_id = db.Column('language_id', db.Integer(),
-                        db.ForeignKey('language.id'), nullable=False)
-
 class User(CRUDMixin, UserMixin, db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
@@ -74,8 +65,6 @@ class User(CRUDMixin, UserMixin, db.Model):
     profile_last_updated = db.Column(db.DateTime(),
                                      nullable=False,
                                      default=datetime.utcnow())
-    languages = db.relationship('Language', secondary='user_languages',
-                                  backref=db.backref('users', lazy='select'))
     
     # Tracking info
     last_login_at = db.Column(db.DateTime())
