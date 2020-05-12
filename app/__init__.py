@@ -3,10 +3,11 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Tue May 12 21:20:05 2020 (+0200)
+# Last-Updated: Tue May 12 22:49:36 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
+import arrow
 
 from flask import Flask, render_template
 from .config import config
@@ -38,6 +39,7 @@ def create_app(config_name="default"):
     register_errorhandlers(app)
     register_extensions(app)
     register_blueprints(app)
+    register_jinja_env(app)
     
     return app
 
@@ -73,3 +75,11 @@ def register_blueprints(app):
     app.register_blueprint(home)
     app.register_blueprint(auth)
     app.register_blueprint(user)
+
+def register_jinja_env(app):
+    """
+    Register functions and modules in Jinja env.
+    """
+    app.jinja_env.globals.update({
+        'arrow': arrow
+    })

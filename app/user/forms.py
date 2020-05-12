@@ -3,12 +3,12 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Mon May 11 17:55:51 2020 (+0200)
+# Last-Updated: Tue May 12 22:39:24 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import StringField, PasswordField, SelectField
+from wtforms import StringField, PasswordField, SelectField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from app.user.models import User
@@ -121,3 +121,5 @@ class EditUserForm(UserForm):
         # We have to coerce the value to get the None value right
         coerce=lambda x: None if x=="None" else x
     )
+
+    birthdate = DateField(render_kw={'type': 'date'})

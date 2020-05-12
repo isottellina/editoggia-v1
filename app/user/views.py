@@ -3,9 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Mon May 11 17:59:59 2020 (+0200)
+# Last-Updated: Tue May 12 23:10:36 2020 (+0200)
 #           By: Louise <louise>
 #
+import datetime
+
 from flask import abort, render_template, flash
 from flask import redirect, url_for
 from flask_login import current_user, login_required
@@ -29,9 +31,17 @@ def profile(username):
         abort(404)
     # If user is the logged-in one, profile is editable
     editable = user == current_user
+
+    # We have to calculate the age here since it's kinda bothersome
+    # to do it in the template.
+    age = None
+    if user.birthdate:
+        age = (datetime.date.today() - user.birthdate) // \
+            datetime.timedelta(days=365.2425)
     
     return render_template('profile.jinja2',
                            user=user,
+                           age=age,
                            editable=editable)
 
 @user.route('/edit', methods=["GET", "POST"])

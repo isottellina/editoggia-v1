@@ -33,6 +33,14 @@
 	    {{ user.location }}
 	  </div>
 	{% endif %}
+
+	{# Age #}
+	{% if age %}
+	  <div>
+	    <i class="fas fa-fw fa-birthday-cake"></i>
+	    {{ age }} {{ _("years old") }}
+	  </div>
+	{% endif %}
 	
 	{# Gender #}
 	{% if user.gender == "Woman" %}
