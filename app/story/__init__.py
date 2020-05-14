@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:24:27 2020 (+0200)
-# Last-Updated: Thu May 14 19:12:40 2020 (+0200)
+# Last-Updated: Thu May 14 20:05:49 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -17,4 +17,4 @@ story = Blueprint('story',
                   template_folder='templates',
                   static_folder='static')
 
-from . import views, models
+from . import views, models, admin

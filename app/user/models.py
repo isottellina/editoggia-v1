@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Thu May 14 19:21:06 2020 (+0200)
+# Last-Updated: Thu May 14 20:10:42 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -13,8 +13,6 @@ from flask_babel import gettext
 
 from app.database import db, CRUDMixin
 from app.extensions import bcrypt, lm
-
-from app.story.models import Fiction
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
@@ -130,3 +128,5 @@ class AnonymousUser(AnonymousUserMixin):
         return False
 
 lm.anonymous_user = AnonymousUser
+
+from app.story.models import Fiction
