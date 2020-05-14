@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Thu May 14 15:42:35 2020 (+0200)
+# Last-Updated: Thu May 14 19:20:25 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -25,6 +25,7 @@ from app.database import db, migrate
 from app.home import home
 from app.auth import auth
 from app.user import user
+from app.story import story
 
 def create_app(config_name="default"):
     """
@@ -75,6 +76,7 @@ def register_blueprints(app):
     app.register_blueprint(home, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(user, url_prefix='/user')
+    app.register_blueprint(story, url_prefix='/story')
 
 def register_jinja_env(app):
     """

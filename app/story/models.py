@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Thu May 14 19:12:58 2020 (+0200)
+# Last-Updated: Thu May 14 19:21:23 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -64,4 +64,27 @@ class Fiction(db.Model):
     
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     author = db.relationship('User', back_populates='fictions')
+
+    tags = db.relationship('Tag', secondary='fictions_tags',
+                           back_populates='fictions')
     
+class FictionsTags(db.Model):
+    """
+    Association table between Fiction and Tags.
+    """
+    __tablename__ = "fictions_tags"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
+    tag_id = db.Column(db.Integer(), db.ForeignKey('tag.id'))
+
+class Tag(db.Model):
+    """
+    A tag. I really don't know how else to describe it.
+    """
+    __tablename__ = "tag"
+
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(255), unique=True, nullable=False)
+    fictions = db.relationship('Fiction', secondary='fictions_tags',
+                               back_populates='tags')
