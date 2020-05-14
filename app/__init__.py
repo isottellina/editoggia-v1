@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Tue May 12 22:49:36 2020 (+0200)
+# Last-Updated: Thu May 14 15:42:35 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -72,9 +72,9 @@ def register_blueprints(app):
     """
     Register all blueprints.
     """
-    app.register_blueprint(home)
-    app.register_blueprint(auth)
-    app.register_blueprint(user)
+    app.register_blueprint(home, url_prefix='/')
+    app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(user, url_prefix='/user')
 
 def register_jinja_env(app):
     """
