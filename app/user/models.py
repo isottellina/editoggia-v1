@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Wed May 13 00:32:43 2020 (+0200)
+# Last-Updated: Thu May 14 19:13:33 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -13,6 +13,8 @@ from flask_babel import gettext
 
 from app.database import db, CRUDMixin
 from app.extensions import bcrypt, lm
+
+from app.story.models import Fiction
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
@@ -25,9 +27,11 @@ class Role(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
-    
+
+    users = db.relationship('User', secondary='roles_users', lazy='dynamic',
+                            back_populates='roles')
     permissions = db.relationship('Permission', secondary='permissions_roles',
-                                  backref=db.backref('roles', lazy='dynamic'))
+                                  back_populates='roles')
 
 class PermissionsRoles(db.Model):
     __tablename__ = 'permissions_roles'
@@ -40,6 +44,9 @@ class Permission(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
+
+    roles = db.relationship('Role', secondary='permissions_roles',
+                            back_populates='permissions')
 
 class User(CRUDMixin, UserMixin, db.Model):
     __tablename__ = 'user'
@@ -65,6 +72,9 @@ class User(CRUDMixin, UserMixin, db.Model):
     profile_last_updated = db.Column(db.DateTime(),
                                      nullable=False,
                                      default=datetime.utcnow())
+
+    # Fictions and such
+    fictions = db.relationship('Fiction', back_populates='author')
     
     # Tracking info
     last_login_at = db.Column(db.DateTime())
@@ -75,8 +85,12 @@ class User(CRUDMixin, UserMixin, db.Model):
     confirmed_at = db.Column(db.DateTime(),
                              default=datetime.utcnow())
     
-    roles = db.relationship('Role', secondary='roles_users', lazy='dynamic',
-                            backref=db.backref('users', lazy='dynamic'))
+    roles = db.relationship(
+        'Role',
+        secondary='roles_users', lazy='dynamic',
+        back_populates='users'
+    )
+                            
     
     def __init__(self, password, **kwargs):
         super(User, self).__init__(**kwargs)
