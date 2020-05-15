@@ -3,5 +3,17 @@
 {% block title %} {{ _("Fiction list") }} {% endblock %}
 
 {% block content %}
-  {{ fictions }}
+  <section class="container mt-1" id="main_profile">
+    <div class="row">
+      <div class="col-lg-3">
+	{# Maybe search here later #}
+      </div>
+      <div class="col-lg-9">
+	{% for fiction in fictions %}
+	  <div>
+	    {{ fiction.name }}, by <a href="{{ url_for('user.profile', username=fiction.author.username) }}">{{ fiction.author }}</a>
+	  </div>
+	{% endfor %}
+      </div>
+  </section>
 {% endblock %}
