@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Fri May 15 15:00:42 2020 (+0200)
+# Last-Updated: Fri May 15 21:28:56 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, datetime, timedelta, timezone
@@ -38,7 +38,7 @@ def profile(username):
     if user.birthdate:
         age = (date.today() - user.birthdate) // timedelta(days=365.2425)
     
-    return render_template('profile.jinja2',
+    return render_template('user/profile.jinja2',
                            user=user,
                            age=age,
                            editable=editable)
@@ -60,5 +60,5 @@ def edit_profile():
         )
         return redirect(url_for('user.profile',
                                 username=current_user.username))
-    return render_template('edit_profile.jinja2',
+    return render_template('user/edit_profile.jinja2',
                            form=form)
