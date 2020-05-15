@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Thu May 14 20:13:56 2020 (+0200)
+# Last-Updated: Fri May 15 14:59:23 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -68,7 +68,8 @@ class Fiction(db.Model):
     created_on = db.Column(db.DateTime(), nullable=False,
                            default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow)
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
     
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'),
                           nullable=False)
@@ -94,7 +95,8 @@ class Chapter(db.Model):
     created_on = db.Column(db.DateTime(), nullable=False,
                            default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow)
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
 
     fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
     fiction = db.relationship('Fiction', back_populates='chapters')

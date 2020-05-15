@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Thu May 14 20:10:42 2020 (+0200)
+# Last-Updated: Fri May 15 15:00:23 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -67,9 +67,10 @@ class User(CRUDMixin, UserMixin, db.Model):
     bio = db.Column(db.String(500), nullable=False, default="")
 
     # More profile info
-    profile_last_updated = db.Column(db.DateTime(),
-                                     nullable=False,
-                                     default=datetime.utcnow())
+    updated_on = db.Column(db.DateTime(),
+                           nullable=False,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
 
     # Fictions and such
     fictions = db.relationship('Fiction', back_populates='author')
