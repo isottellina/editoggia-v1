@@ -3,46 +3,21 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Mon May 11 17:15:33 2020 (+0200)
+# Last-Updated: Fri May 15 21:47:20 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 These tests test the auth blueprint.
 """
-from app import create_app
 from app.database import db
 from app.user.models import User
 
-from faker import Faker
-import unittest
+from helpers import EditoggiaTestCase
 
-fake = Faker()
-
-class TestUser(unittest.TestCase):
-    def setUp(self):
-        app = create_app("testing")
-        db.app = app
-        db.create_all()
-        self.app = app.test_client()
-
-        # Register a user to test
-        self.password = fake.password()
-        
-        self.user = User.create(
-            username=fake.user_name(),
-            name=fake.name(),
-            email=fake.email(),
-            password=self.password
-        )
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-
+class TestAuth(EditoggiaTestCase):
     #
     # Register tests
     #
-        
     def register(self, username, email, password):
         """
         Helper function to register an user.
@@ -67,9 +42,9 @@ class TestUser(unittest.TestCase):
         """
         Tests that the user can sign up.
         """
-        username = fake.user_name()
-        email = fake.email()
-        password = fake.password()
+        username = self.faker.user_name()
+        email = self.faker.email()
+        password = self.faker.password()
         
         rv = self.register(username, email, password)
 
@@ -86,8 +61,8 @@ class TestUser(unittest.TestCase):
         Tests that a 1-character username is refused.
         """
         username = 'a'
-        email = fake.email()
-        password = fake.password()
+        email = self.faker.email()
+        password = self.faker.password()
 
         rv = self.register(username, email, password)
 
@@ -105,8 +80,8 @@ class TestUser(unittest.TestCase):
         characters is refused.
         """
         username = 'user/mountain'
-        email = fake.email()
-        password = fake.password()
+        email = self.faker.email()
+        password = self.faker.password()
 
         rv = self.register(username, email, password)
 
@@ -122,9 +97,9 @@ class TestUser(unittest.TestCase):
         """
         Tests that a bad email is refused.
         """
-        username = fake.user_name()
+        username = self.faker.user_name()
         email = "badmail"
-        password = fake.password()
+        password = self.faker.password()
 
         rv = self.register(username, email, password)
 
@@ -140,9 +115,9 @@ class TestUser(unittest.TestCase):
         """
         Tests that an empty email is refused.
         """
-        username = fake.user_name()
+        username = self.faker.user_name()
         email = ""
-        password = fake.password()
+        password = self.faker.password()
 
         rv = self.register(username, email, password)
 
@@ -158,9 +133,9 @@ class TestUser(unittest.TestCase):
         """
         Tests that an email longer than 128 is refused.
         """
-        username = fake.user_name()
+        username = self.faker.user_name()
         email = "{}@gmail.com".format('a' * 128)
-        password = fake.password()
+        password = self.faker.password()
 
         rv = self.register(username, email, password)
 
@@ -178,9 +153,9 @@ class TestUser(unittest.TestCase):
         test, we normally have tested all the validators used, and
         thus, should be good to go.
         """
-        username = fake.user_name()
-        email = fake.email()
-        password = fake.password()
+        username = self.faker.user_name()
+        email = self.faker.email()
+        password = self.faker.password()
 
         # We have to do this request ourselves since
         # the helper functions abstracts the confirm
@@ -205,8 +180,8 @@ class TestUser(unittest.TestCase):
         Tests that the app refuses to register another user
         with the same username.
         """
-        email = fake.email()
-        password = fake.password()
+        email = self.faker.email()
+        password = self.faker.password()
 
         rv = self.register(self.user.username, email, password)
         
@@ -218,8 +193,8 @@ class TestUser(unittest.TestCase):
         Tests that the app refuses to register another user
         with the same email
         """
-        username = fake.user_name()
-        password = fake.password()
+        username = self.faker.user_name()
+        password = self.faker.password()
 
         rv = self.register(username, self.user.email, password)
         
