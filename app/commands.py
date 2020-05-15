@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Mon May 11 21:30:53 2020 (+0200)
+# Last-Updated: Fri May 15 15:05:29 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -40,7 +40,7 @@ def populate_db(num_users):
                 gender=sex,
 
                 confirmed_at=created,
-                profile_last_updated=fake.date_between(start_date=created),
+                updated_on=fake.date_between(start_date=created),
                 last_login_at=fake.date_between(start_date=created),
                 last_login_ip=fake.ipv4(),
             )
