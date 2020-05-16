@@ -10,13 +10,13 @@ from flask import flash, render_template, request, redirect, url_for
 from flask_login import login_user, login_required, logout_user
 from flask_babel import gettext
 
-from app.auth import auth
-from app.extensions import lm
+from editoggia.auth import auth
+from editoggia.extensions import lm
 
-from app.user.models import User
-from app.user.forms import SignupUserForm
+from editoggia.user.models import User
+from editoggia.user.forms import SignupUserForm
 
-from app.auth.forms import LoginForm
+from editoggia.auth.forms import LoginForm
 
 @lm.user_loader
 def load_user(id):

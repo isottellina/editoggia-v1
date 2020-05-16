@@ -12,4 +12,4 @@ auth = Blueprint('auth',
                  __name__,
                  template_folder='templates')
 
-import app.auth.views
+import editoggia.auth.views

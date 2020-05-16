@@ -17,6 +17,6 @@ story = Blueprint('story',
                   template_folder='templates',
                   static_folder='static')
 
-import app.story.views
-import app.story.models
-import app.story.admin
+import editoggia.story.views
+import editoggia.story.models
+import editoggia.story.admin

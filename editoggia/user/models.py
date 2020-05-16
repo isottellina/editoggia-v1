@@ -11,8 +11,8 @@ from datetime import datetime
 from flask_login import UserMixin, AnonymousUserMixin
 from flask_babel import gettext
 
-from app.database import db, CRUDMixin
-from app.extensions import bcrypt, lm
+from editoggia.database import db, CRUDMixin
+from editoggia.extensions import bcrypt, lm
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
@@ -130,4 +130,4 @@ class AnonymousUser(AnonymousUserMixin):
 
 lm.anonymous_user = AnonymousUser
 
-from app.story.models import Fiction
+from editoggia.story.models import Fiction

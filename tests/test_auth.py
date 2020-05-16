@@ -9,8 +9,8 @@
 """
 These tests test the auth blueprint.
 """
-from app.database import db
-from app.user.models import User
+from editoggia.database import db
+from editoggia.user.models import User
 
 from helpers import EditoggiaTestCase
 

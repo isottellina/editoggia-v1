@@ -2,15 +2,17 @@
 # 
 # Filename: __init__.py
 # Author: Louise <louise>
-# Created: Sun May  3 04:36:07 2020 (+0200)
-# Last-Updated: Sat May 16 17:38:34 2020 (+0200)
+# Created: Mon May  4 01:42:51 2020 (+0200)
+# Last-Updated: Sat May 16 17:38:49 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Blueprint
 
-home = Blueprint('home',
+user = Blueprint('user',
                  __name__,
                  template_folder='templates',
                  static_folder='static')
 
-import app.home.views
+import editoggia.user.views
+import editoggia.user.models
+import editoggia.user.admin

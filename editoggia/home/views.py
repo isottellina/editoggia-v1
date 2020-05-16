@@ -8,7 +8,7 @@
 #
 from flask import render_template
 
-from app.home import home
+from editoggia.home import home
 
 @home.route('/')
 def index():

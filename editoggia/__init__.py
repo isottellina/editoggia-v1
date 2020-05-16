@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Thu May 14 19:20:25 2020 (+0200)
+# Last-Updated: Sat May 16 21:39:41 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -13,19 +13,19 @@ from flask import Flask, render_template
 from .config import config
 
 # Import commands
-from app.commands import register_commands
+from editoggia.commands import register_commands
 
 # Import extensions
-from app.admin import admin
-from app.assets import assets
-from app.extensions import babel, lm
-from app.database import db, migrate
+from editoggia.admin import admin
+from editoggia.assets import assets
+from editoggia.extensions import babel, lm
+from editoggia.database import db, migrate
 
 # Import blueprints
-from app.home import home
-from app.auth import auth
-from app.user import user
-from app.story import story
+from editoggia.home import home
+from editoggia.auth import auth
+from editoggia.user import user
+from editoggia.story import story
 
 def create_app(config_name="default"):
     """

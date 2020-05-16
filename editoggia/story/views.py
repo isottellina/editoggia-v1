@@ -8,9 +8,9 @@
 #
 from flask import render_template, redirect, url_for
 
-from app.database import db
-from app.story import story
-from app.story.models import Fiction, Chapter
+from editoggia.database import db
+from editoggia.story import story
+from editoggia.story.models import Fiction, Chapter
 
 @story.route('/')
 def index():

@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='editoggia',
-    packages=['app'],
+    packages=['editoggia'],
     include_package_data=True,
     install_requires=[
         'flask',

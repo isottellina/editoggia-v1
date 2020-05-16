@@ -13,10 +13,10 @@ from flask import redirect, url_for
 from flask_login import current_user, login_required
 from flask_babel import gettext
 
-from app.database import db
-from app.user import user
-from app.user.models import User
-from app.user.forms import EditUserForm
+from editoggia.database import db
+from editoggia.user import user
+from editoggia.user.models import User
+from editoggia.user.forms import EditUserForm
 
 @user.route('/<username>')
 def profile(username):

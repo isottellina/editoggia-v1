@@ -12,7 +12,7 @@ from wtforms import StringField, TextAreaField, PasswordField
 from wtforms import SelectField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-from app.user.models import User
+from editoggia.user.models import User
 
 class UserForm(FlaskForm):
     username = StringField(

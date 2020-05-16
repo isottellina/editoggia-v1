@@ -11,7 +11,7 @@ from flask_babel import gettext
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 
-from app.user.models import User
+from editoggia.user.models import User
 
 class LoginForm(FlaskForm):
     username = StringField(gettext('Username'), validators=[

@@ -12,7 +12,7 @@ The models for the story blueprint.
 from datetime import datetime
 
 from flask_babel import gettext
-from app.database import db
+from editoggia.database import db
 
 class FandomCategory(db.Model):
     """
@@ -124,4 +124,4 @@ class Tag(db.Model):
     fictions = db.relationship('Fiction', secondary='fictions_tags',
                                back_populates='tags')
 
-from app.user.models import User
+from editoggia.user.models import User

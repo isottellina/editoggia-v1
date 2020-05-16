@@ -6,9 +6,9 @@
 # Last-Updated: Mon May 11 21:11:47 2020 (+0200)
 #           By: Louise <louise>
 # 
-from app.admin import EditoggiaModelView, admin
-from app.database import db
-from app.user.models import User, Role, Permission
+from editoggia.admin import EditoggiaModelView, admin
+from editoggia.database import db
+from editoggia.user.models import User, Role, Permission
 
 admin.add_view(EditoggiaModelView(User,
                                   db.session,

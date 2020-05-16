@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Sat May 16 17:41:18 2020 (+0200)
+# Last-Updated: Sat May 16 21:39:51 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -12,9 +12,9 @@ from sqlalchemy.sql.expression import func
 from flask_babel import gettext
 from faker import Faker
 
-from app.database import db
-from app.user.models import User, Role, Permission
-from app.story.models import FandomCategory, Fandom, Fiction, Chapter
+from editoggia.database import db
+from editoggia.user.models import User, Role, Permission
+from editoggia.story.models import FandomCategory, Fandom, Fiction, Chapter
 
 @click.option('--num_users', default=5, help='Number of users.')
 def populate_db_users(num_users):

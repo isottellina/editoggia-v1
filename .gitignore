@@ -1,8 +1,8 @@
 # Ignore webassets cache
 .sass-cache
 .webassets-cache
-app/static/css
-app/static/js
+editoggia/static/css
+editoggia/static/js
 
 # Ignore dev database
 db.sqlite3

@@ -6,9 +6,9 @@
 # Last-Updated: Thu May 14 20:06:07 2020 (+0200)
 #           By: Louise <louise>
 # 
-from app.admin import EditoggiaModelView, admin
-from app.database import db
-from app.story.models import Fandom, Fiction, Chapter, Tag
+from editoggia.admin import EditoggiaModelView, admin
+from editoggia.database import db
+from editoggia.story.models import Fandom, Fiction, Chapter, Tag
 
 admin.add_view(EditoggiaModelView(Fandom,
                                   db.session,
