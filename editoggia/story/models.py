@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat May 16 17:44:49 2020 (+0200)
+# Last-Updated: Sat May 16 23:19:26 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -12,7 +12,7 @@ The models for the story blueprint.
 from datetime import datetime
 
 from flask_babel import gettext
-from editoggia.database import db
+from editoggia.database import db, CRUDMixin
 
 class FandomCategory(db.Model):
     """
@@ -51,7 +51,7 @@ class FictionFandoms(db.Model):
     fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
     
     
-class Fiction(db.Model):
+class Fiction(CRUDMixin, db.Model):
     """
     A fiction, written on the site.
     """
@@ -80,7 +80,7 @@ class Fiction(db.Model):
     tags = db.relationship('Tag', secondary='fictions_tags',
                            back_populates='fictions')
 
-class Chapter(db.Model):
+class Chapter(CRUDMixin, db.Model):
     """
     A chapter. Simple as that.
     """

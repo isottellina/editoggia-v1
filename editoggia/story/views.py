@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sat May 16 17:45:18 2020 (+0200)
+# Last-Updated: Sat May 16 23:20:07 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -40,7 +40,9 @@ def show_chapter(fiction_id, chapter_id):
     """
     Show a chapter.
     """
-    chapter = db.session.query(Chapter).filter(Chapter.id == chapter_id) \
-                                       .first()
+    fiction = Fiction.get_by_id(fiction_id)
+    chapter = Chapter.get_by_id(chapter_id)
 
-    return render_template('story/show_chapter.jinja2', chapter=chapter)
+    return render_template('story/show_chapter.jinja2',
+                           fiction=fiction,
+                           chapter=chapter)
