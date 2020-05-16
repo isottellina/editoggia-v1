@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Fri May 15 14:59:23 2020 (+0200)
+# Last-Updated: Sat May 16 17:41:58 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -88,7 +88,8 @@ class Chapter(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     nb = db.Column(db.Integer(), nullable=False, index=True)
-    
+
+    name = db.Column(db.String(255), nullable=False, default="")
     summary = db.Column(db.Text())
     content = db.Column(db.Text(), nullable=False)
 

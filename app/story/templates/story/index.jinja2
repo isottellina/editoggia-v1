@@ -11,7 +11,8 @@
       <div class="col-lg-9">
 	{% for fiction in fictions %}
 	  <div>
-	    {{ fiction.name }}, by <a href="{{ url_for('user.profile', username=fiction.author.username) }}">{{ fiction.author }}</a>
+	    <a href="{{ url_for('story.show_fiction', fiction_id=fiction.id) }}">{{ fiction.name }}</a>,
+	    by <a href="{{ url_for('user.profile', username=fiction.author.username) }}">{{ fiction.author }}</a>
 	  </div>
 	{% endfor %}
       </div>

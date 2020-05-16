@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sun May  3 04:36:07 2020 (+0200)
-# Last-Updated: Mon May  4 00:23:38 2020 (+0200)
+# Last-Updated: Sat May 16 17:38:34 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import Blueprint
@@ -13,4 +13,4 @@ home = Blueprint('home',
                  template_folder='templates',
                  static_folder='static')
 
-from . import views
+import app.home.views

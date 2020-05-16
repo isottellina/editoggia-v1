@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Fri May 15 22:23:07 2020 (+0200)
+# Last-Updated: Sat May 16 17:41:18 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -76,6 +76,7 @@ def populate_db_fictions(num_fictions):
 
         only_chapter = Chapter(
             nb=0,
+            name=fake.sentence(),
             summary=" ".join(fake.sentences(nb=5)),
             content=fake.text(max_nb_chars=3000),
             fiction=fiction

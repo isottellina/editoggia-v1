@@ -1,0 +1,7 @@
+{% extends 'base.jinja2' %}
+
+{% block title %} {{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.name }}{% endblock %}
+
+{% block content %}
+  {{ chapter.content }}
+{% endblock %}
