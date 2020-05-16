@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Sun May 17 00:49:35 2020 (+0200)
+# Last-Updated: Sun May 17 00:57:46 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -53,7 +53,8 @@ def populate_db_users(num_users):
     db.session.commit()
 
 @click.option('--num_fictions', default=10, help='Number of fictions')
-def populate_db_fictions(num_fictions):
+@click.option('--num_chapters', default=1, help='Number of chapters per fictions')
+def populate_db_fictions(num_fictions, num_chapters):
     """
     Populate the database with an appropriate number of fictions, written by
     random users. It associates every fiction with the Original work fandom.
@@ -74,21 +75,23 @@ def populate_db_fictions(num_fictions):
         )
         db.session.add(fiction)
 
-        only_chapter = Chapter(
-            name=fake.sentence(),
-            summary=" ".join(fake.sentences(nb=5)),
-            content=fake.text(max_nb_chars=3000),
-            fiction=fiction
-        )
-        db.session.add(only_chapter)
+        for _ in range(num_chapters):
+            chapter = Chapter(
+                name=fake.sentence(),
+                summary=" ".join(fake.sentences(nb=5)),
+                content=fake.text(max_nb_chars=3000),
+                fiction=fiction
+            )
+            db.session.add(chapter)
 
     db.session.commit()
         
 @click.option('--num_users', default=5, help='Number of users')
 @click.option('--num_fictions', default=10, help='Number of fictions')
-def populate_db(num_users, num_fictions):
+@click.option('--num_chapters', default=1, help='Number of chapters per fictions')
+def populate_db(num_users, num_fictions, num_chapters):
     populate_db_users(num_users)
-    populate_db_fictions(num_fictions)
+    populate_db_fictions(num_fictions, num_chapters)
     
 def create_db():
     """
