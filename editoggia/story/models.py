@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat May 16 23:19:26 2020 (+0200)
+# Last-Updated: Sun May 17 00:54:42 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -80,6 +80,19 @@ class Fiction(CRUDMixin, db.Model):
     tags = db.relationship('Tag', secondary='fictions_tags',
                            back_populates='fictions')
 
+    
+def chapter_get_new_nb(context):
+    """
+    Returns the new number for a chapter for a given fiction.
+    """
+    fiction_id = context.get_current_parameters()['fiction_id']
+    fiction = Fiction.get_by_id(fiction_id)
+
+    if len(fiction.chapters) == 0:
+        return 1
+    else:
+        return fiction.chapters[-1].nb + 1
+    
 class Chapter(CRUDMixin, db.Model):
     """
     A chapter. Simple as that.
@@ -88,7 +101,9 @@ class Chapter(CRUDMixin, db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     # TODO: Auto-incrementing field
-    nb = db.Column(db.Integer(), nullable=False, index=True)
+    nb = db.Column(db.Integer(),
+                   default=chapter_get_new_nb,
+                   nullable=False, index=True)
 
     name = db.Column(db.String(255), nullable=False, default="")
     summary = db.Column(db.Text())
@@ -102,6 +117,7 @@ class Chapter(CRUDMixin, db.Model):
 
     fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
     fiction = db.relationship('Fiction', back_populates='chapters')
+
 
 class FictionsTags(db.Model):
     """
