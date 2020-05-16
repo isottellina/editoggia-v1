@@ -1,0 +1,20 @@
+{% extends 'base.jinja2' %}
+
+{% block title %} {{ fiction.name }} {% endblock %}
+
+{% block content %}
+  <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+	<h2 class="mx-5 text-center"> {{ fiction.name }}</h2>
+	<a href="{{ url_for('user.profile', username=fiction.author.username) }}">
+	  <h4 class="text-center"> {{ fiction.author }} </h4>
+	</a>
+	<hr />
+	<div class="text-justify">
+	  {{ chapter.content }}
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

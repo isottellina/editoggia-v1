@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sun May 17 00:19:56 2020 (+0200)
+# Last-Updated: Sun May 17 00:25:07 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -24,16 +24,20 @@ def index():
 @story.route('/<int:fiction_id>')
 def show_fiction(fiction_id):
     """
-    Show a fiction. In practice, redirect to the first chapter.
+    Show a fiction. In practice, redirect to the first chapter if there
+    is multiple, and else render the only chapter.
     """
-    chapter = db.session.query(Chapter).filter(Chapter.fiction_id == fiction_id) \
-                                       .filter(Chapter.nb == 1) \
-                                       .first()
+    fiction = Fiction.get_by_id(fiction_id)
     
-    return redirect(url_for('story.show_chapter',
-                            fiction_id=fiction_id,
-                            chapter_id=chapter.id)
-    )
+    if len(fiction.chapters) > 1:
+        return redirect(url_for('story.show_chapter',
+                                fiction_id=fiction_id,
+                                chapter_id=fiction.chapters[0].id)
+        )
+    else:
+        return render_template('story/show_fiction.jinja2',
+                               fiction=fiction,
+                               chapter=fiction.chapters[0])
 
 @story.route('/<int:fiction_id>/chapter/<chapter_id>')
 def show_chapter(fiction_id, chapter_id):
