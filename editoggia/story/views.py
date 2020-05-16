@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sat May 16 23:20:07 2020 (+0200)
+# Last-Updated: Sun May 17 00:19:56 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -27,7 +27,7 @@ def show_fiction(fiction_id):
     Show a fiction. In practice, redirect to the first chapter.
     """
     chapter = db.session.query(Chapter).filter(Chapter.fiction_id == fiction_id) \
-                                       .filter(Chapter.nb == 0) \
+                                       .filter(Chapter.nb == 1) \
                                        .first()
     
     return redirect(url_for('story.show_chapter',
