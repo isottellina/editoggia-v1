@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat May 16 17:41:58 2020 (+0200)
+# Last-Updated: Sat May 16 17:44:49 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -87,6 +87,7 @@ class Chapter(db.Model):
     __tablename__ = "chapter"
 
     id = db.Column(db.Integer(), primary_key=True)
+    # TODO: Auto-incrementing field
     nb = db.Column(db.Integer(), nullable=False, index=True)
 
     name = db.Column(db.String(255), nullable=False, default="")

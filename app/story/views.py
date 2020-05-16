@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sat May 16 17:40:07 2020 (+0200)
+# Last-Updated: Sat May 16 17:45:18 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -14,12 +14,18 @@ from app.story.models import Fiction, Chapter
 
 @story.route('/')
 def index():
+    """
+    Show the index of all fictions
+    """
     fictions = db.session.query(Fiction).order_by(Fiction.updated_on).all()
     
     return render_template("story/index.jinja2", fictions=fictions)
 
 @story.route('/<int:fiction_id>')
 def show_fiction(fiction_id):
+    """
+    Show a fiction. In practice, redirect to the first chapter.
+    """
     chapter = db.session.query(Chapter).filter(Chapter.fiction_id == fiction_id) \
                                        .filter(Chapter.nb == 0) \
                                        .first()
@@ -31,6 +37,9 @@ def show_fiction(fiction_id):
 
 @story.route('/<int:fiction_id>/chapter/<chapter_id>')
 def show_chapter(fiction_id, chapter_id):
+    """
+    Show a chapter.
+    """
     chapter = db.session.query(Chapter).filter(Chapter.id == chapter_id) \
                                        .first()
 

@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Fri May 15 21:47:20 2020 (+0200)
+# Last-Updated: Sat May 16 18:07:52 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -22,7 +22,7 @@ class TestAuth(EditoggiaTestCase):
         """
         Helper function to register an user.
         """
-        return self.app.post('/signup', data={
+        return self.client.post('/signup', data={
             "username": username,
             "email": email,
             "password": password,
@@ -33,10 +33,18 @@ class TestAuth(EditoggiaTestCase):
         """
         Helper function to login as an user.
         """
-        return self.app.post('/login', data={
+        return self.client.post('/login', data={
             "username": username,
             "password": password
         }, follow_redirects=True)
+
+    def user_exists(self, username):
+        """
+        Returns true if a given user exists in the database.
+        """
+        return db.session.query(
+            User.query.filter(User.username == username).exists()
+        ).scalar()
 
     def test_signup_normal(self):
         """
@@ -48,13 +56,11 @@ class TestAuth(EditoggiaTestCase):
         
         rv = self.register(username, email, password)
 
-        assert rv._status_code == 200
-        assert b"Signed-up user" in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Signed-up user", rv.data)
 
         # Check the user exists in the database
-        assert db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertTrue(self.user_exists(username))
 
     def test_signup_short_username(self):
         """
@@ -66,13 +72,11 @@ class TestAuth(EditoggiaTestCase):
 
         rv = self.register(username, email, password)
 
-        assert rv._status_code == 200
-        assert b"Username must be between 2 and 50 characters." in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Username must be between 2 and 50 characters.", rv.data)
 
         # Check the user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
 
     def test_signup_short_username(self):
         """
@@ -85,13 +89,11 @@ class TestAuth(EditoggiaTestCase):
 
         rv = self.register(username, email, password)
 
-        assert rv._status_code == 200
-        assert b"Username can only contain alphanumerical characters." in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Username can only contain alphanumerical characters.", rv.data)
 
         # Check the user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
         
     def test_signup_bad_email(self):
         """
@@ -103,13 +105,11 @@ class TestAuth(EditoggiaTestCase):
 
         rv = self.register(username, email, password)
 
-        assert rv._status_code == 200
-        assert b"Email must be valid." in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Email must be valid.", rv.data)
 
         # Check the user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
 
     def test_signup_empty_email(self):
         """
@@ -125,9 +125,7 @@ class TestAuth(EditoggiaTestCase):
         assert b"Email must be filled." in rv.data
 
         # Check the user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
 
     def test_signup_empty_email(self):
         """
@@ -143,9 +141,7 @@ class TestAuth(EditoggiaTestCase):
         assert b"Email must be less than 128 characters." in rv.data
 
         # Check the user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
 
     def test_signup_bad_confirm_password(self):
         """
@@ -160,20 +156,18 @@ class TestAuth(EditoggiaTestCase):
         # We have to do this request ourselves since
         # the helper functions abstracts the confirm
         # password field for us.
-        rv = self.app.post('/signup', data={
+        rv = self.client.post('/signup', data={
             "username": username,
             "email": email,
             "password": password,
             "confirm": password[:len(password) // 2]
         }, follow_redirects=True)
 
-        assert rv._status_code == 200
-        assert b"Passwords must match." in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Passwords must match.", rv.data)
 
         # Check the user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
 
     def test_username_already_registered(self):
         """
@@ -185,8 +179,8 @@ class TestAuth(EditoggiaTestCase):
 
         rv = self.register(self.user.username, email, password)
         
-        assert rv._status_code == 200
-        assert b"Username already registered." in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Username already registered.", rv.data)
 
     def test_email_already_registered(self):
         """
@@ -198,13 +192,11 @@ class TestAuth(EditoggiaTestCase):
 
         rv = self.register(username, self.user.email, password)
         
-        assert rv._status_code == 200
-        assert b"Email already registered." in rv.data
+        self.assert200(rv)
+        self.assertIn(b"Email already registered.", rv.data)
 
         # Check the second user does not exist in the database
-        assert not db.session.query(
-            User.query.filter(User.username == username).exists()
-        ).scalar()
+        self.assertFalse(self.user_exists(username))
 
     #
     # Login tests
@@ -216,9 +208,9 @@ class TestAuth(EditoggiaTestCase):
         """
         rv = self.login(self.user.username, self.password)
 
-        assert rv._status_code == 200
-        assert b"You were logged in as" in rv.data
-        assert self.user.name.encode('utf8') in rv.data
+        self.assert200(rv)
+        self.assertIn(b"You were logged in as", rv.data)
+        self.assertIn(self.user.name.encode('utf8'), rv.data)
 
     def test_login_missing_data(self):
         """
@@ -226,9 +218,9 @@ class TestAuth(EditoggiaTestCase):
         """
         rv = self.login(self.user.username, "")
 
-        assert rv._status_code == 200
-        assert b"You were logged in as" not in rv.data
-        assert b"Password must be filled." in rv.data
+        self.assert200(rv)
+        self.assertNotIn(b"You were logged in as", rv.data)
+        self.assertIn(b"Password must be filled.", rv.data)
 
     def test_login_username_must_exist(self):
         """
@@ -236,9 +228,9 @@ class TestAuth(EditoggiaTestCase):
         """
         rv = self.login(self.user.username + "2", self.password)
 
-        assert rv._status_code == 200
-        assert b"You were logged in as" not in rv.data
-        assert b"Unknown username." in rv.data
+        self.assert200(rv)
+        self.assertNotIn(b"You were logged in as", rv.data)
+        self.assertIn(b"Unknown username.", rv.data)
 
     def test_login_password_must_be_correct(self):
         """
@@ -247,9 +239,9 @@ class TestAuth(EditoggiaTestCase):
         rv = self.login(self.user.username,
                         self.password[:len(self.password) // 2])
 
-        assert rv._status_code == 200
-        assert b"You were logged in as" not in rv.data
-        assert b"Invalid password." in rv.data
+        self.assert200(rv)
+        self.assertNotIn(b"You were logged in as", rv.data)
+        self.assertIn(b"Invalid password.", rv.data)
 
     #
     # Log out tests
@@ -259,7 +251,7 @@ class TestAuth(EditoggiaTestCase):
         Tests that we can log out
         """
         self.login(self.user.username, self.password)
-        rv = self.app.get('/logout', follow_redirects=True)
+        rv = self.client.get('/logout', follow_redirects=True)
 
-        assert rv._status_code == 200
-        assert b"You were logged out" in rv.data
+        self.assert200(rv)
+        self.assertIn(b"You were logged out", rv.data)
