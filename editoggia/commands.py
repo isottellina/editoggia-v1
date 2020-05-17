@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Sun May 17 00:57:46 2020 (+0200)
+# Last-Updated: Sun May 17 22:40:15 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -14,7 +14,7 @@ from faker import Faker
 
 from editoggia.database import db
 from editoggia.user.models import User, Role, Permission
-from editoggia.story.models import FandomCategory, Fandom, Fiction, Chapter
+from editoggia.story.models import FandomCategory, Fandom, Story, Chapter
 
 @click.option('--num_users', default=5, help='Number of users.')
 def populate_db_users(num_users):
@@ -52,12 +52,12 @@ def populate_db_users(num_users):
         db.session.add(user)
     db.session.commit()
 
-@click.option('--num_fictions', default=10, help='Number of fictions')
-@click.option('--num_chapters', default=1, help='Number of chapters per fictions')
-def populate_db_fictions(num_fictions, num_chapters):
+@click.option('--num_stories', default=10, help='Number of stories')
+@click.option('--num_chapters', default=1, help='Number of chapters per stories')
+def populate_db_stories(num_stories, num_chapters):
     """
-    Populate the database with an appropriate number of fictions, written by
-    random users. It associates every fiction with the Original work fandom.
+    Populate the database with an appropriate number of stories, written by
+    random users. It associates every story with the Original work fandom.
     """
     fake = Faker()
 
@@ -65,33 +65,33 @@ def populate_db_fictions(num_fictions, num_chapters):
                                      .first()
     assert fandom
     
-    for _ in range(num_fictions):
+    for _ in range(num_stories):
         author = db.session.query(User).order_by(func.random()).first()
 
-        fiction = Fiction(
+        story = Story(
             name=fake.sentence(),
             author=author,
             fandom=[fandom]
         )
-        db.session.add(fiction)
+        db.session.add(story)
 
         for _ in range(num_chapters):
             chapter = Chapter(
                 name=fake.sentence(),
                 summary=" ".join(fake.sentences(nb=5)),
                 content=fake.text(max_nb_chars=3000),
-                fiction=fiction
+                story=story
             )
             db.session.add(chapter)
 
     db.session.commit()
         
 @click.option('--num_users', default=5, help='Number of users')
-@click.option('--num_fictions', default=10, help='Number of fictions')
-@click.option('--num_chapters', default=1, help='Number of chapters per fictions')
-def populate_db(num_users, num_fictions, num_chapters):
+@click.option('--num_stories', default=10, help='Number of stories')
+@click.option('--num_chapters', default=1, help='Number of chapters per stories')
+def populate_db(num_users, num_stories, num_chapters):
     populate_db_users(num_users)
-    populate_db_fictions(num_fictions, num_chapters)
+    populate_db_stories(num_stories, num_chapters)
     
 def create_db():
     """
@@ -155,7 +155,7 @@ def register_commands(app):
     Register all custom commands for the Flask CLI.
     """
     app.cli.command()(populate_db_users)
-    app.cli.command()(populate_db_fictions)
+    app.cli.command()(populate_db_stories)
     app.cli.command()(populate_db)
     app.cli.command()(create_db)
     app.cli.command()(set_admin)

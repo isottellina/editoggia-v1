@@ -6,9 +6,9 @@
   <section class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-	<h2 class="mx-5 text-center"> {{ fiction.name }}</h2>
-	<a href="{{ url_for('user.profile', username=fiction.author.username) }}">
-	  <h4 class="text-center"> {{ fiction.author }} </h4>
+	<h2 class="mx-5 text-center"> {{ story.name }}</h2>
+	<a href="{{ url_for('user.profile', username=story.author.username) }}">
+	  <h4 class="text-center"> {{ story.author }} </h4>
 	</a>
 	<hr />
 	<h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.name }}</h4>

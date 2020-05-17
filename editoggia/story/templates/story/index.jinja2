@@ -1,6 +1,6 @@
 {% extends 'base.jinja2' %}
 
-{% block title %} {{ _("Fiction list") }} {% endblock %}
+{% block title %} {{ _("Story list") }} {% endblock %}
 
 {% block content %}
   <section class="container mt-1" id="main_profile">
@@ -9,10 +9,10 @@
 	{# Maybe search here later #}
       </div>
       <div class="col-lg-9">
-	{% for fiction in fictions %}
+	{% for story in stories %}
 	  <div>
-	    <a href="{{ url_for('story.show_fiction', fiction_id=fiction.id) }}">{{ fiction.name }}</a>,
-	    by <a href="{{ url_for('user.profile', username=fiction.author.username) }}">{{ fiction.author }}</a>
+	    <a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.name }}</a>,
+	    by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a>
 	  </div>
 	{% endfor %}
       </div>

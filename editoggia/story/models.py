@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun May 17 00:54:42 2020 (+0200)
+# Last-Updated: Sun May 17 22:37:08 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -36,34 +36,34 @@ class Fandom(db.Model):
     category = db.relationship('FandomCategory', back_populates='fandoms')
     
     name = db.Column(db.String(255), index=True, unique=True, nullable=False)
-    fictions = db.relationship('Fiction',
-                               secondary='fiction_fandoms',
+    stories = db.relationship('Story',
+                               secondary='story_fandoms',
                                back_populates='fandom')
 
-class FictionFandoms(db.Model):
+class StoryFandoms(db.Model):
     """
-    An association table, allowing each fiction to have several fandoms.
+    An association table, allowing each story to have several fandoms.
     """
-    __tablename__ = "fiction_fandoms"
+    __tablename__ = "story_fandoms"
 
     id = db.Column(db.Integer(), primary_key=True)
     fandom_id = db.Column(db.Integer(), db.ForeignKey('fandom.id'))
-    fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
+    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
     
     
-class Fiction(CRUDMixin, db.Model):
+class Story(CRUDMixin, db.Model):
     """
-    A fiction, written on the site.
+    A story, written on the site.
     """
-    __tablename__ = "fiction"
+    __tablename__ = "story"
 
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), nullable=False, index=True)
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
 
     fandom = db.relationship('Fandom',
-                             secondary='fiction_fandoms',
-                             back_populates='fictions')
+                             secondary='story_fandoms',
+                             back_populates='stories')
 
     created_on = db.Column(db.DateTime(), nullable=False,
                            default=datetime.utcnow)
@@ -73,25 +73,25 @@ class Fiction(CRUDMixin, db.Model):
     
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'),
                           nullable=False)
-    author = db.relationship('User', back_populates='fictions')
+    author = db.relationship('User', back_populates='stories')
 
-    chapters = db.relationship('Chapter', back_populates='fiction',
+    chapters = db.relationship('Chapter', back_populates='story',
                                order_by='Chapter.nb')
-    tags = db.relationship('Tag', secondary='fictions_tags',
-                           back_populates='fictions')
+    tags = db.relationship('Tag', secondary='stories_tags',
+                           back_populates='stories')
 
     
 def chapter_get_new_nb(context):
     """
-    Returns the new number for a chapter for a given fiction.
+    Returns the new number for a chapter for a given story.
     """
-    fiction_id = context.get_current_parameters()['fiction_id']
-    fiction = Fiction.get_by_id(fiction_id)
+    story_id = context.get_current_parameters()['story_id']
+    story = Story.get_by_id(story_id)
 
-    if len(fiction.chapters) == 0:
+    if len(story.chapters) == 0:
         return 1
     else:
-        return fiction.chapters[-1].nb + 1
+        return story.chapters[-1].nb + 1
     
 class Chapter(CRUDMixin, db.Model):
     """
@@ -115,18 +115,18 @@ class Chapter(CRUDMixin, db.Model):
                            default=datetime.utcnow,
                            onupdate=datetime.utcnow)
 
-    fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
-    fiction = db.relationship('Fiction', back_populates='chapters')
+    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
+    story = db.relationship('Story', back_populates='chapters')
 
 
-class FictionsTags(db.Model):
+class StoriesTags(db.Model):
     """
-    Association table between Fiction and Tags.
+    Association table between Story and Tags.
     """
-    __tablename__ = "fictions_tags"
+    __tablename__ = "stories_tags"
 
     id = db.Column(db.Integer(), primary_key=True)
-    fiction_id = db.Column(db.Integer(), db.ForeignKey('fiction.id'))
+    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
     tag_id = db.Column(db.Integer(), db.ForeignKey('tag.id'))
 
 class Tag(db.Model):
@@ -137,7 +137,7 @@ class Tag(db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
-    fictions = db.relationship('Fiction', secondary='fictions_tags',
+    stories = db.relationship('Story', secondary='stories_tags',
                                back_populates='tags')
 
 from editoggia.user.models import User

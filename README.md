@@ -3,7 +3,7 @@
 ;; Filename: README.md
 ;; Author: Louise <louise>
 ;; Created: Sat May  2 01:12:36 2020 (+0200)
-;; Last-Updated: Sun May 10 21:29:35 2020 (+0200)
+;; Last-Updated: Sun May 17 22:43:09 2020 (+0200)
 ;;           By: Louise <louise>
  -->
 # Editoggia
@@ -19,7 +19,7 @@ automatically. You also have to use yarn to get all front-end dependencies.
 
 ```bash
 pipenv install
-yarn install --modules-folder app/static/node_modules
+yarn install --modules-folder editoggia/static/node_modules
 ```
 
 ## Usage

@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Fri May 15 15:00:23 2020 (+0200)
+# Last-Updated: Sun May 17 22:40:33 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -72,8 +72,8 @@ class User(CRUDMixin, UserMixin, db.Model):
                            default=datetime.utcnow,
                            onupdate=datetime.utcnow)
 
-    # Fictions and such
-    fictions = db.relationship('Fiction', back_populates='author')
+    # Stories and such
+    stories = db.relationship('Story', back_populates='author')
     
     # Tracking info
     last_login_at = db.Column(db.DateTime())
@@ -130,4 +130,4 @@ class AnonymousUser(AnonymousUserMixin):
 
 lm.anonymous_user = AnonymousUser
 
-from editoggia.story.models import Fiction
+from editoggia.story.models import Story
