@@ -1,3 +1,4 @@
+{% from 'components/story_card.jinja2' import render_story_card %}
 {% extends 'base.jinja2' %}
 
 {% block title %} {{ _("Story list") }} {% endblock %}
@@ -5,15 +6,12 @@
 {% block content %}
   <section class="container mt-1" id="main_profile">
     <div class="row">
-      <div class="col-lg-3">
+      <div class="col-lg-2">
 	{# Maybe search here later #}
       </div>
-      <div class="col-lg-9">
+      <div class="col-lg-10">
 	{% for story in stories %}
-	  <div>
-	    <a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.name }}</a>,
-	    by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a>
-	  </div>
+	  {{ render_story_card(story) }} 
 	{% endfor %}
       </div>
   </section>

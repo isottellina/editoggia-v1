@@ -1,3 +1,18 @@
 {% macro render_story_card(story) %}
-
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">
+	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.name }}</a>
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+	<a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a>
+      </h6>
+      <p class="card-text mb-2">
+	{{ story.summary }}
+      </p>
+      <div class="text-right">
+	{{ _("Hits:") }} {{ story.hits }} {{ _("Updated on:") }} {{ arrow.get(story.updated_on).humanize() }}
+      </div>
+    </div>
+  </div>
 {% endmacro %}

@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun May 17 22:37:08 2020 (+0200)
+# Last-Updated: Sun May 17 22:58:43 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -59,6 +59,7 @@ class Story(CRUDMixin, db.Model):
 
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), nullable=False, index=True)
+    summary = db.Column(db.String(1000), nullable=False, default="")
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
 
     fandom = db.relationship('Fandom',
