@@ -33,20 +33,25 @@
 	  </li>
 	</ul>
       {% else %}
-	<ul class="navbar-nav ml-auto">
-	  <li class="nav-item px-1">
-            <a class="nav-link" href="{{ url_for('user.profile', username=current_user.username) }}">
+	<div class="navbar-nav ml-auto">
+	  <div class="nav-link dropdown">
+	    <a type="button" id="dropdownToggler" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	      <i class="fas fa-fw fa-at"></i>
 	      {{ current_user }}
-            </a>
-	  </li>
-	  <li class="nav-item px-1">
-	    <a class="nav-link" href="{{ url_for('auth.logout') }}">
-	      <i class="fas fa-fw fa-sign-out-alt"></i>
-	      {{ _("Log out") }}
+	      <i class="fas fa-fw fa-caret-down"></i>
 	    </a>
-	  </li>
-	</ul>
+	    <div class="dropdown-menu" aria-labelledby="dropdownToggler">
+	      <a class="dropdown-item" href="{{ url_for('user.profile', username=current_user.username) }}">
+		<i class="fas fa-fw fa-user-alt"></i>
+		{{ _("Profile") }}
+	      </a>
+	      <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+		<i class="fas fa-fw fa-sign-out-alt"></i>
+		{{ _("Log out") }}
+	      </a>
+	    </div>
+	  </div>
+	</div>
       {% endif %}
     </div>
   </div>
