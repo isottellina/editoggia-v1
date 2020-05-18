@@ -1,3 +1,4 @@
+{% from 'components/story_card.jinja2' import render_story_card %}
 {% extends 'base.jinja2' %}
 
 {% block title %}
@@ -66,8 +67,11 @@
 	<nav class="nav profile-nav">
 	  <a class="nav-link active" href="#">{{ _("Stories") }}</a>
 	</nav>
-	{# TODO: Stories #}
-	Stories here
+	<div>
+	  {% for story in user.stories %}
+	    {{ render_story_card(story) }}
+	  {% endfor %}
+	</div>
       </div>
   </section>
 {% endblock %}

@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sun May 17 22:40:33 2020 (+0200)
+# Last-Updated: Mon May 18 12:27:20 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -71,6 +71,9 @@ class User(CRUDMixin, UserMixin, db.Model):
                            nullable=False,
                            default=datetime.utcnow,
                            onupdate=datetime.utcnow)
+
+    # Settings
+    language = db.Column(db.String(10), nullable=False, default="")
 
     # Stories and such
     stories = db.relationship('Story', back_populates='author')

@@ -1,6 +1,6 @@
 {% extends 'base.jinja2' %}
 
-{% block title %} {{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.name }}{% endblock %}
+{% block title %} {{ story.name }} — {{ _("Chapter") }} {{ chapter.nb }}{% endblock %}
 
 {% block content %}
   <section class="container">
@@ -26,8 +26,8 @@
 	{{ _("Chapter index") }}
       </div>
       <div class="col-2 text-right">
-	<i class="fas fa-arrow-right"></i>
 	{{ _("Next chapter") }}
+	<i class="fas fa-arrow-right"></i>
       </div>
     </div>
   </section>
