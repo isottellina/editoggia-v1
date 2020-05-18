@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sun May 17 22:38:38 2020 (+0200)
+# Last-Updated: Mon May 18 10:54:39 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -17,7 +17,7 @@ def index():
     """
     Show the index of all stories
     """
-    stories = db.session.query(Story).order_by(Story.updated_on).all()
+    stories = db.session.query(Story).order_by(Story.updated_on.desc()).all()
     
     return render_template("story/index.jinja2", stories=stories)
 
