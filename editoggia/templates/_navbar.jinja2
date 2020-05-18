@@ -40,7 +40,7 @@
 	      {{ current_user }}
 	      <i class="fas fa-fw fa-caret-down"></i>
 	    </a>
-	    <div class="dropdown-menu" aria-labelledby="dropdownToggler">
+	    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownToggler">
 	      <a class="dropdown-item" href="{{ url_for('user.profile', username=current_user.username) }}">
 		<i class="fas fa-fw fa-user-alt"></i>
 		{{ _("Profile") }}

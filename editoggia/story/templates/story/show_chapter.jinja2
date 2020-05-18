@@ -4,38 +4,42 @@
 
 {% block content %}
   <section class="container">
-    <div class="row justify-content-center mb-3">
-      <div class="col-lg-8">
-	<h2 class="mx-5 text-center"> {{ story.name }}</h2>
-	<a href="{{ url_for('user.profile', username=story.author.username) }}">
-	  <h4 class="text-center"> {{ story.author }} </h4>
-	</a>
-	<hr />
-	<h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.name }}</h4>
-	<div class="text-justify">
-	  {{ chapter.content }}
-	</div>
-      </div>
-    </div>
     <div class="row justify-content-center">
-      <div class="col-2">
-	{% if chapter.nb != 1 %}
-	  <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb - 2].id) }}">
-	    <i class="fas fa-arrow-left"></i>
-	    {{ _("Previous chapter") }}
-	  </a>
-	{% endif %}
-      </div>
-      <div class="col-4 text-center">
-	{{ _("Chapter index") }}
-      </div>
-      <div class="col-2 text-right">
-	{% if chapter.nb != story.chapters|length %}
-	  <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb].id) }}">
-	    {{ _("Next chapter") }}
-	    <i class="fas fa-arrow-right"></i>
-	  </a>
-	{% endif %}
+      <div class="col-lg-8">
+	<div class="row mb-3">
+	  <div class="col">
+	    <h2 class="mx-5 text-center"> {{ story.name }}</h2>
+	    <a href="{{ url_for('user.profile', username=story.author.username) }}">
+	      <h4 class="text-center"> {{ story.author }} </h4>
+	    </a>
+	    <hr />
+	    <h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.name }}</h4>
+	    <div class="text-justify">
+	      {{ chapter.content }}
+	    </div>
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col text-center">
+	    {% if chapter.nb != 1 %}
+	      <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb - 2].id) }}">
+		<i class="fas fa-arrow-left"></i>
+		{{ _("Previous chapter") }}
+	      </a>
+	    {% endif %}
+	  </div>
+	  <div class="col text-center">
+	    {{ _("Chapter index") }}
+	  </div>
+	  <div class="col text-center">
+	    {% if chapter.nb != story.chapters|length %}
+	      <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb].id) }}">
+		{{ _("Next chapter") }}
+		<i class="fas fa-arrow-right"></i>
+	      </a>
+	    {% endif %}
+	  </div>
+	</div>
       </div>
     </div>
   </section>
