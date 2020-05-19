@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Mon May 18 12:27:20 2020 (+0200)
+# Last-Updated: Tue May 19 15:42:11 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -133,4 +133,4 @@ class AnonymousUser(AnonymousUserMixin):
 
 lm.anonymous_user = AnonymousUser
 
-from editoggia.story.models import Story
+from editoggia.models.story import Story

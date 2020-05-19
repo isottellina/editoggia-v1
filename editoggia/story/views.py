@@ -3,14 +3,14 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Mon May 18 10:54:39 2020 (+0200)
+# Last-Updated: Tue May 19 15:40:07 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
 
 from editoggia.database import db
 from editoggia.story import story
-from editoggia.story.models import Story, Chapter
+from editoggia.models.story import Story, Chapter
 
 @story.route('/')
 def index():

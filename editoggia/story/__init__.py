@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:24:27 2020 (+0200)
-# Last-Updated: Sat May 16 17:38:18 2020 (+0200)
+# Last-Updated: Tue May 19 15:42:27 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -18,5 +18,4 @@ story = Blueprint('story',
                   static_folder='static')
 
 import editoggia.story.views
-import editoggia.story.models
 import editoggia.story.admin

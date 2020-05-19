@@ -3,12 +3,12 @@
 # Filename: admin.py
 # Author: Louise <louise>
 # Created: Thu May 14 20:03:35 2020 (+0200)
-# Last-Updated: Sun May 17 22:42:38 2020 (+0200)
+# Last-Updated: Tue May 19 15:42:34 2020 (+0200)
 #           By: Louise <louise>
 # 
 from editoggia.admin import EditoggiaModelView, admin
 from editoggia.database import db
-from editoggia.story.models import Fandom, Story, Chapter, Tag
+from editoggia.models.story import Fandom, Story, Chapter, Tag
 
 admin.add_view(EditoggiaModelView(Fandom,
                                   db.session,

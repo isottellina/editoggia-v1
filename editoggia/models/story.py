@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun May 17 22:58:43 2020 (+0200)
+# Last-Updated: Tue May 19 15:42:06 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -141,4 +141,4 @@ class Tag(db.Model):
     stories = db.relationship('Story', secondary='stories_tags',
                                back_populates='tags')
 
-from editoggia.user.models import User
+from editoggia.models.user import User

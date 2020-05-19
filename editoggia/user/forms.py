@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Tue May 12 23:16:02 2020 (+0200)
+# Last-Updated: Tue May 19 15:39:38 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -12,7 +12,7 @@ from wtforms import StringField, TextAreaField, PasswordField
 from wtforms import SelectField, DateField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-from editoggia.user.models import User
+from editoggia.models.user import User
 
 class UserForm(FlaskForm):
     username = StringField(
