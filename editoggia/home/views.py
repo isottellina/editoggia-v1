@@ -3,13 +3,21 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 00:22:56 2020 (+0200)
-# Last-Updated: Fri May 15 21:29:09 2020 (+0200)
+# Last-Updated: Tue May 19 11:38:42 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template
 
 from editoggia.home import home
+from editoggia.database import db
+from editoggia.story.models import FandomCategory, Story
 
 @home.route('/')
 def index():
-    return render_template('home/index.jinja2')
+    categories = db.session.query(FandomCategory).all()
+    stories = db.session.query(Story) \
+                        .order_by(Story.updated_on.desc())[:3]
+    
+    return render_template('home/index.jinja2',
+                           categories=categories,
+                           stories=stories)

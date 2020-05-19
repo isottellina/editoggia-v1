@@ -1,16 +1,27 @@
+{% from 'components/story_card.jinja2' import render_story_card %}
 {% extends 'base.jinja2' %}
 
 {% block content %}
 <section class="section">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-4 text-justified">
-	<h2 class="title">{{ _("new-articles") }}</h2>
-	{{ lipsum(n=2) }}
+      <div class="col-lg-3 text-justified">
+	<h2 class="title">{{ _("Browse") }}</h2>
+	{% for two_categories in categories|slice(2) %}
+	  <div class="row">
+	    {% for category in two_categories %}
+	      <div class="col-6">
+		{{ category.name }}
+	      </div>
+	    {% endfor %}
+	  </div>
+	{% endfor %}
       </div>
-      <div class="col-lg-8 text-justified">
-	<h2 class="title">{{ _("new-stories") }}</h2>
-	{{ lipsum(n=2) }}
+      <div class="col-lg-9 text-justified">
+	<h2 class="title">{{ _("New stories") }}</h2>
+	{% for story in stories %}
+	  {{ render_story_card(story) }}
+	{% endfor %}
       </div>
     </div>
   </div>
