@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Tue May 19 15:42:06 2020 (+0200)
+# Last-Updated: Tue May 19 18:33:44 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -12,25 +12,24 @@ The models for the story blueprint.
 from datetime import datetime
 
 from flask_babel import gettext
-from editoggia.database import db, CRUDMixin
+from editoggia.database import db
+from editoggia.models.mixins import CRUDMixin
 
-class FandomCategory(db.Model):
+class FandomCategory(db.Model, CRUDMixin):
     """
     Represent a category of fandom, like “Books” and such.
     """
     __tablename__ = "fandomcategory"
     
-    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     fandoms = db.relationship('Fandom', back_populates='category')
 
-class Fandom(db.Model):
+class Fandom(db.Model, CRUDMixin):
     """
     Represent a fandom. 
     """
     __tablename__ = "fandom"
     
-    id = db.Column(db.Integer(), primary_key=True)
     category_id = db.Column(db.Integer(), db.ForeignKey('fandomcategory.id'),
                             nullable=False)
     category = db.relationship('FandomCategory', back_populates='fandoms')
@@ -51,13 +50,12 @@ class StoryFandoms(db.Model):
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
     
     
-class Story(CRUDMixin, db.Model):
+class Story(db.Model, CRUDMixin):
     """
     A story, written on the site.
     """
     __tablename__ = "story"
 
-    id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), nullable=False, index=True)
     summary = db.Column(db.String(1000), nullable=False, default="")
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
@@ -94,14 +92,12 @@ def chapter_get_new_nb(context):
     else:
         return story.chapters[-1].nb + 1
     
-class Chapter(CRUDMixin, db.Model):
+class Chapter(db.Model, CRUDMixin):
     """
     A chapter. Simple as that.
     """
     __tablename__ = "chapter"
 
-    id = db.Column(db.Integer(), primary_key=True)
-    # TODO: Auto-incrementing field
     nb = db.Column(db.Integer(),
                    default=chapter_get_new_nb,
                    nullable=False, index=True)
@@ -130,7 +126,7 @@ class StoriesTags(db.Model):
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
     tag_id = db.Column(db.Integer(), db.ForeignKey('tag.id'))
 
-class Tag(db.Model):
+class Tag(db.Model, CRUDMixin):
     """
     A tag. I really don't know how else to describe it.
     """

@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue May 19 15:42:11 2020 (+0200)
+# Last-Updated: Tue May 19 18:34:57 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -11,18 +11,20 @@ from datetime import datetime
 from flask_login import UserMixin, AnonymousUserMixin
 from flask_babel import gettext
 
-from editoggia.database import db, CRUDMixin
+from editoggia.database import db
 from editoggia.extensions import bcrypt, lm
+from editoggia.models.mixins import CRUDMixin
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
+    
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
     role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
 
-class Role(db.Model):
+class Role(db.Model, CRUDMixin):
     __tablename__ = 'role'
-    id = db.Column(db.Integer(), primary_key=True)
+    
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
 
@@ -33,13 +35,14 @@ class Role(db.Model):
 
 class PermissionsRoles(db.Model):
     __tablename__ = 'permissions_roles'
+    
     id = db.Column(db.Integer(), primary_key=True)
     role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
     perm_id = db.Column('perm_id', db.Integer(), db.ForeignKey('permission.id'), nullable=False)
 
-class Permission(db.Model):
+class Permission(db.Model, CRUDMixin):
     __tablename__ = 'permission'
-    id = db.Column(db.Integer, primary_key=True)
+    
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
 
@@ -48,7 +51,6 @@ class Permission(db.Model):
 
 class User(CRUDMixin, UserMixin, db.Model):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
 
     # Basic info
     email = db.Column(db.String(50), unique=True, nullable=False)
