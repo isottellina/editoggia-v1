@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Tue May 19 18:32:24 2020 (+0200)
+# Last-Updated: Thu May 21 20:23:09 2020 (+0200)
 #           By: Louise <louise>
 #
 from editoggia.database import db

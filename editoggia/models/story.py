@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Tue May 19 18:33:44 2020 (+0200)
+# Last-Updated: Thu May 21 20:33:30 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -84,13 +84,22 @@ def chapter_get_new_nb(context):
     """
     Returns the new number for a chapter for a given story.
     """
+    def is_persistent(obj):
+        """
+        Returns if an object is persistent, so we can
+        filter out transient or pending objects.
+        """
+        return db.inspect(obj).persistent
+    
     story_id = context.get_current_parameters()['story_id']
     story = Story.get_by_id(story_id)
 
-    if len(story.chapters) == 0:
+    persistent_chapters = list(filter(is_persistent, story.chapters))
+    
+    if len(persistent_chapters) == 0:
         return 1
     else:
-        return story.chapters[-1].nb + 1
+        return persistent_chapters[-1].nb + 1
     
 class Chapter(db.Model, CRUDMixin):
     """
