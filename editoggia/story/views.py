@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Tue May 19 15:40:07 2020 (+0200)
+# Last-Updated: Thu May 21 22:03:38 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -50,3 +50,12 @@ def show_chapter(story_id, chapter_id):
     return render_template('story/show_chapter.jinja2',
                            story=story,
                            chapter=chapter)
+
+@story.route('/<int:story_id>/index')
+def story_index(story_id):
+    """
+    Show the index of a particular story.
+    """
+    story = Story.get_by_id(story_id)
+
+    return render_template('story/story_index.jinja2', story=story)

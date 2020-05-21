@@ -29,7 +29,9 @@
 	    {% endif %}
 	  </div>
 	  <div class="col text-center">
-	    {{ _("Chapter index") }}
+	    <a href="{{ url_for('story.story_index', story_id=story.id) }}">
+	      {{ _("Chapter index") }}
+	    </a>
 	  </div>
 	  <div class="col text-center">
 	    {% if chapter.nb != story.chapters|length %}

@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Thu May 21 20:23:26 2020 (+0200)
+# Last-Updated: Thu May 21 21:59:29 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -22,7 +22,7 @@ def populate_db_users(num_users):
     Populates the database with fake data from faker
     """
     fake = Faker()
-    users = []
+
     for _ in range(num_users):
         profile = fake.profile([
             "username", "name", "sex", "mail", "birthdate"
@@ -30,27 +30,21 @@ def populate_db_users(num_users):
         sex = "Woman" if profile["sex"] == "F" else "Man"
         created = fake.date_this_year()
         
-        users.append(
-            User(
-                username=profile['username'],
-                name=profile['name'],
-                email=profile['mail'],
-                password=fake.password(),
-                birthdate=profile['birthdate'],
-                location=fake.city(),
-                bio=fake.text(),
-                gender=sex,
+        User.create(
+            username=profile['username'],
+            name=profile['name'],
+            email=profile['mail'],
+            password=fake.password(),
+            birthdate=profile['birthdate'],
+            location=fake.city(),
+            bio=fake.text(),
+            gender=sex,
 
-                confirmed_at=created,
-                updated_on=fake.date_between(start_date=created),
-                last_login_at=fake.date_between(start_date=created),
-                last_login_ip=fake.ipv4(),
-            )
+            confirmed_at=created,
+            updated_on=fake.date_between(start_date=created),
+            last_login_at=fake.date_between(start_date=created),
+            last_login_ip=fake.ipv4(),
         )
-        
-    for user in users:
-        db.session.add(user)
-    db.session.commit()
 
 @click.option('--num_stories', default=10, help='Number of stories')
 @click.option('--num_chapters', default=1, help='Number of chapters per stories')
@@ -60,7 +54,6 @@ def populate_db_stories(num_stories, num_chapters):
     random users. It associates every story with the Original work fandom.
     """
     fake = Faker()
-
     fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work") \
                                      .first()
     assert fandom
@@ -102,36 +95,24 @@ def create_db():
                                        .first()
     if not admin_role:
         # Create permissions
-        admin_perm = Permission(
+        admin_perm = Permission.create(
             name="admin.ACCESS_ADMIN_INTERFACE",
             description="Can access the admin interface."
         )
-        db.session.add(admin_perm)
         
         # Create roles
-        admin_role = Role(
+        admin_role = Role.create(
             name=gettext("Administrator"),
             description=gettext("Administrator of the website."),
             permissions=[admin_perm]
         )
-        db.session.add(admin_role)
 
     other_category = db.session.query(FandomCategory) \
                                .filter(FandomCategory.name == "Other") \
                                .first()
     if not other_category:
-        category = FandomCategory(
-            name="Other"
-        )
-        db.session.add(category)
-
-        fandom = Fandom(
-            name="Original Work",
-            category=category
-        )
-        db.session.add(fandom)
-
-    db.session.commit()
+        category = FandomCategory.create(name="Other")
+        fandom = Fandom.create(name="Original Work", category=category)
         
 # Various helpers
 @click.argument('username')

@@ -1,0 +1,30 @@
+{% extends 'base.jinja2' %}
+
+{% block title %} {{ story.name }} – {{ _("Index") }} {% endblock %}
+
+{% block content %}
+    <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+	<div class="row mb-3">
+	  <div class="col">
+	    <h2 class="mx-5 text-center"> {{ story.name }}</h2>
+	    <a href="{{ url_for('user.profile', username=story.author.username) }}">
+	      <h4 class="text-center"> {{ story.author }} </h4>
+	    </a>
+	    <hr />
+	    <ol>
+	      {% for chapter in story.chapters %}
+		<li>
+		  <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=chapter.id) }}">
+		    {{ chapter.name }}
+		  </a> ({{ story.created_on|dateformat }})
+		</li>
+	      {% endfor %}
+	    </ol>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
