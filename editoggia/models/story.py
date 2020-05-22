@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Thu May 21 20:33:30 2020 (+0200)
+# Last-Updated: Fri May 22 18:55:54 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -56,7 +56,7 @@ class Story(db.Model, CRUDMixin):
     """
     __tablename__ = "story"
 
-    name = db.Column(db.String(255), nullable=False, index=True)
+    title = db.Column(db.String(255), nullable=False, index=True)
     summary = db.Column(db.String(1000), nullable=False, default="")
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
 

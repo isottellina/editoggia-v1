@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Thu May 21 21:59:29 2020 (+0200)
+# Last-Updated: Fri May 22 18:58:54 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -30,7 +30,7 @@ def populate_db_users(num_users):
         sex = "Woman" if profile["sex"] == "F" else "Man"
         created = fake.date_this_year()
         
-        User.create(
+        User(
             username=profile['username'],
             name=profile['name'],
             email=profile['mail'],
@@ -44,7 +44,9 @@ def populate_db_users(num_users):
             updated_on=fake.date_between(start_date=created),
             last_login_at=fake.date_between(start_date=created),
             last_login_ip=fake.ipv4(),
-        )
+        ).save()
+
+    db.session.commit()
 
 @click.option('--num_stories', default=10, help='Number of stories')
 @click.option('--num_chapters', default=1, help='Number of chapters per stories')
@@ -52,6 +54,7 @@ def populate_db_stories(num_stories, num_chapters):
     """
     Populate the database with an appropriate number of stories, written by
     random users. It associates every story with the Original work fandom.
+    We don't commit every time because it's so slow.
     """
     fake = Faker()
     fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work") \
@@ -61,20 +64,22 @@ def populate_db_stories(num_stories, num_chapters):
     for _ in range(num_stories):
         author = db.session.query(User).order_by(func.random()).first()
 
-        story = Story.create(
-            name=fake.sentence(),
+        story = Story(
+            title=fake.sentence(),
             summary=" ".join(fake.sentences(nb=5)),
             author=author,
             fandom=[fandom]
-        )
+        ).save(commit=False)
 
         for _ in range(num_chapters):
-            chapter = Chapter.create(
+            chapter = Chapter(
                 name=fake.sentence(),
                 summary=" ".join(fake.sentences(nb=5)),
                 content=fake.text(max_nb_chars=3000),
                 story=story
-            )
+            ).save(commit=False)
+
+    db.session.commit()
         
 @click.option('--num_users', default=5, help='Number of users')
 @click.option('--num_stories', default=10, help='Number of stories')
