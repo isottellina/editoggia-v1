@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Fri May 22 19:21:00 2020 (+0200)
+# Last-Updated: Fri May 22 22:22:22 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for, abort
@@ -68,9 +68,7 @@ def show_story(story_id):
     Show a story. In practice, redirect to the first chapter if there
     is multiple, and else render the only chapter.
     """
-    story = Story.get_by_id(story_id)
-    if story is None:
-        abort(404)
+    story = Story.get_by_id_or_404(story_id)
     
     if len(story.chapters) > 1:
         return redirect(url_for('story.show_chapter',
@@ -87,10 +85,8 @@ def show_chapter(story_id, chapter_id):
     """
     Show a chapter.
     """
-    story = Story.get_by_id(story_id)
-    chapter = Chapter.get_by_id(chapter_id)
-    if story is None or chapter is None:
-        abort(404)
+    story = Story.get_by_id_or_404(story_id)
+    chapter = Chapter.get_by_id_or_404(chapter_id)
     
     return render_template('story/show_chapter.jinja2',
                            story=story,
@@ -101,8 +97,6 @@ def story_index(story_id):
     """
     Show the index of a particular story.
     """
-    story = Story.get_by_id(story_id)
-    if story is None:
-        abort(404)
+    story = Story.get_by_id_or_404(story_id)
 
     return render_template('story/story_index.jinja2', story=story)

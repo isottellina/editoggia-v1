@@ -3,9 +3,10 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Thu May 21 20:23:09 2020 (+0200)
+# Last-Updated: Fri May 22 22:21:54 2020 (+0200)
 #           By: Louise <louise>
 #
+from flask import abort
 from editoggia.database import db
 
 class CRUDMixin(object):
@@ -18,6 +19,13 @@ class CRUDMixin(object):
         if any((isinstance(id, str) and id.isdigit(),
                 isinstance(id, (int, float))),):
             return cls.query.get(int(id))
+        return None
+
+    @classmethod
+    def get_by_id_or_404(cls, id):
+        obj = cls.get_by_id(id)
+        if obj is None:
+            abort(404)
         return None
 
     @classmethod

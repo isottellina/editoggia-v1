@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Fri May 22 19:08:19 2020 (+0200)
+# Last-Updated: Fri May 22 19:45:50 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -116,6 +116,12 @@ def create_db():
                                .filter(FandomCategory.name == "Other") \
                                .first()
     if not other_category:
+        FandomCategory.create(name="Anime")
+        FandomCategory.create(name="Books")
+        FandomCategory.create(name="Cartoons")
+        FandomCategory.create(name="Movies")
+        FandomCategory.create(name="TV Shows")
+        FandomCategory.create(name="Video games")
         category = FandomCategory.create(name="Other")
         fandom = Fandom.create(name="Original Work", category=category)
         
