@@ -1,6 +1,6 @@
 {% extends 'base.jinja2' %}
 
-{% block title %} {{ story.name }} — {{ _("Chapter") }} {{ chapter.nb }}{% endblock %}
+{% block title %} {{ story.title }} — {{ _("Chapter") }} {{ chapter.nb }}{% endblock %}
 
 {% block content %}
   <section class="container">
@@ -8,12 +8,12 @@
       <div class="col-lg-8">
 	<div class="row mb-3">
 	  <div class="col">
-	    <h2 class="mx-5 text-center"> {{ story.name }}</h2>
+	    <h2 class="mx-5 text-center"> {{ story.title }}</h2>
 	    <a href="{{ url_for('user.profile', username=story.author.username) }}">
 	      <h4 class="text-center"> {{ story.author }} </h4>
 	    </a>
 	    <hr />
-	    <h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.name }}</h4>
+	    <h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.title }}</h4>
 	    <div class="text-justify">
 	      {{ chapter.content }}
 	    </div>

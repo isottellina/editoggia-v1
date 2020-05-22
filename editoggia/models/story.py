@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Fri May 22 18:55:54 2020 (+0200)
+# Last-Updated: Fri May 22 19:08:13 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -111,7 +111,7 @@ class Chapter(db.Model, CRUDMixin):
                    default=chapter_get_new_nb,
                    nullable=False, index=True)
 
-    name = db.Column(db.String(255), nullable=False, default="")
+    title = db.Column(db.String(255), nullable=False, default="")
     summary = db.Column(db.Text())
     content = db.Column(db.Text(), nullable=False)
 

@@ -1,0 +1,36 @@
+{% from 'components/field.jinja2' import render_field %}
+{% extends 'base.jinja2' %}
+
+{% block title %} {{ _("Post a new story") }} {% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="row justify-content-center">
+	<div class="col-lg-8 text-justified">
+	  <h2 class="title text-center"> {{ _("Post a new story") }} </h2>
+	  <form action="{{ url_for('story.post_story') }}" method="POST">
+	    {{ form.csrf_token }}
+	    <div class="row">
+	      {{ render_field(form.title) }}
+	    </div>
+	    <div class="row">
+	      {{ render_field(form.summary) }}
+	    </div>
+	    <div class="row">
+	      {{ render_field(form.fandoms) }}
+	    </div>
+	    <div class="row">
+	      {{ render_field(form.content) }}
+	    </div>
+	    <div class="row pt-2">
+	      <div class="form-group col-lg-12">
+		<button type="submit" class="btn btn-primary btn-block">{{ _("Submit") }}</button>
+	      </div>
+	    </div>
+	  </form>
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

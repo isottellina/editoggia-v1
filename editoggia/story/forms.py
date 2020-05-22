@@ -3,13 +3,13 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Fri May 22 18:55:11 2020 (+0200)
+# Last-Updated: Fri May 22 19:06:32 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
 from flask_babel import gettext
 from wtforms import StringField, TextAreaField, PasswordField
-from wtforms import SelectField, DateField
+from wtforms import SelectField, SelectMultipleField
 from wtforms.validators import DataRequired, Length
 
 class StoryForm(FlaskForm):
@@ -35,3 +35,12 @@ class StoryForm(FlaskForm):
     )
 
     fandom = SelectMultipleField(gettext("Fandoms"), validate_choice=False)
+    
+    content = TextAreaField(
+        gettext("Content", validators=[
+            Length(
+                min=20,
+                message=gettext("Content must be at least 20 characters.")
+            )
+        ])
+    )

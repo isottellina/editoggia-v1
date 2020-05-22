@@ -3,13 +3,15 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Thu May 21 22:03:38 2020 (+0200)
+# Last-Updated: Fri May 22 19:09:34 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, abort
+from flask_login import login_required
 
 from editoggia.database import db
 from editoggia.story import story
+from editoggia.story.forms import StoryForm
 from editoggia.models.story import Story, Chapter
 
 @story.route('/')
@@ -21,6 +23,19 @@ def index():
     
     return render_template("story/index.jinja2", stories=stories)
 
+@story.route('/post', methods=["GET", "POST"])
+@login_required
+def post_story():
+    """
+    Post a new story.
+    """
+    form = StoryForm()
+    if form.validate_on_submit():
+        print(form)
+        return redirect(url_for('home.index'))
+    else:
+        return render_template('story/post_story.jinja2', form=form)
+
 @story.route('/<int:story_id>')
 def show_story(story_id):
     """
@@ -28,6 +43,8 @@ def show_story(story_id):
     is multiple, and else render the only chapter.
     """
     story = Story.get_by_id(story_id)
+    if story is None:
+        abort(404)
     
     if len(story.chapters) > 1:
         return redirect(url_for('story.show_chapter',
@@ -46,7 +63,9 @@ def show_chapter(story_id, chapter_id):
     """
     story = Story.get_by_id(story_id)
     chapter = Chapter.get_by_id(chapter_id)
-
+    if story is None or chapter is None:
+        abort(404)
+    
     return render_template('story/show_chapter.jinja2',
                            story=story,
                            chapter=chapter)
@@ -57,5 +76,7 @@ def story_index(story_id):
     Show the index of a particular story.
     """
     story = Story.get_by_id(story_id)
+    if story is None:
+        abort(404)
 
     return render_template('story/story_index.jinja2', story=story)
