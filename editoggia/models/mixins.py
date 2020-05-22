@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Fri May 22 22:21:54 2020 (+0200)
+# Last-Updated: Fri May 22 22:27:05 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import abort
@@ -26,7 +26,7 @@ class CRUDMixin(object):
         obj = cls.get_by_id(id)
         if obj is None:
             abort(404)
-        return None
+        return obj
 
     @classmethod
     def create(cls, **kwargs):
