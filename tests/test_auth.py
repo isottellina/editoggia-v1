@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Tue May 19 15:43:01 2020 (+0200)
+# Last-Updated: Sat May 23 19:11:50 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -27,15 +27,6 @@ class TestAuth(EditoggiaTestCase):
             "email": email,
             "password": password,
             "confirm": password
-        }, follow_redirects=True)
-
-    def login(self, username, password):
-        """
-        Helper function to login as an user.
-        """
-        return self.client.post('/login', data={
-            "username": username,
-            "password": password
         }, follow_redirects=True)
 
     def user_exists(self, username):

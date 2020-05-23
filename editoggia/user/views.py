@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Tue May 19 15:38:34 2020 (+0200)
+# Last-Updated: Sat May 23 19:00:50 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, datetime, timedelta, timezone
@@ -24,11 +24,8 @@ def profile(username):
     Prints the profile of someone.
     """
     user = db.session.query(User).filter(User.username == username) \
-                                 .first()
+                                 .first_or_404()
 
-    # If user doesn't exist, 404 error.
-    if user is None:
-        abort(404)
     # If user is the logged-in one, profile is editable
     editable = user == current_user
 

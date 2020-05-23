@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Tue May 19 15:42:54 2020 (+0200)
+# Last-Updated: Sat May 23 19:11:53 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -37,3 +37,12 @@ class EditoggiaTestCase(TestCase):
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def login(self, username, password):
+        """
+        Helper function to login as an user.
+        """
+        return self.client.post('/login', data={
+            "username": username,
+            "password": password
+        }, follow_redirects=True)
