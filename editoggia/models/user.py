@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue May 19 18:34:57 2020 (+0200)
+# Last-Updated: Sun May 24 20:17:54 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -81,6 +81,8 @@ class User(CRUDMixin, UserMixin, db.Model):
     stories = db.relationship('Story', back_populates='author')
     
     # Tracking info
+    last_active_at = db.Column(db.DateTime())
+    last_active_ip = db.Column(db.String(100))
     last_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
     login_count = db.Column(db.Integer, default=0)
