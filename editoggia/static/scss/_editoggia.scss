@@ -3,7 +3,7 @@
 // Filename: _editoggia.scss
 // Author: Louise <louise>
 // Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Mon May 18 20:51:03 2020 (+0200)
+// Last-Updated: Sun May 24 17:33:28 2020 (+0200)
 //           By: Louise <louise>
 //
 .navbar {
@@ -36,6 +36,22 @@
     
     a.active {
 	border-bottom: 3px solid map-get($theme-colors, palette3);
+    }
+}
+
+.story-card {
+    .story-card-info {
+	text-align: right;
+
+	.story-card-single {
+	    margin-left: 1em;
+	}
+    }
+    
+    .story-card-date {
+	position: absolute;
+	top: 0.25em;
+	right: 0.5em;
     }
 }
 

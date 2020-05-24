@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Fri May 22 19:45:50 2020 (+0200)
+# Last-Updated: Sun May 24 17:34:39 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -67,6 +67,7 @@ def populate_db_stories(num_stories, num_chapters):
         story = Story(
             title=fake.sentence(),
             summary=" ".join(fake.sentences(nb=5)),
+            total_chapters=num_chapters,
             author=author,
             fandom=[fandom]
         ).save(commit=False)

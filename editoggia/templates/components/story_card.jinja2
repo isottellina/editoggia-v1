@@ -1,6 +1,6 @@
 {% macro render_story_card(story) %}
   <div class="card mb-3">
-    <div class="card-body">
+    <div class="card-body story-card">
       <h5 class="card-title">
 	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a>
       </h5>
@@ -10,8 +10,16 @@
       <p class="card-text mb-2">
 	{{ story.summary }}
       </p>
-      <div class="text-right">
-	{{ _("Hits:") }} {{ story.hits }} {{ _("Updated on:") }} {{ arrow.get(story.updated_on).humanize() }}
+      <div class="story-card-info">
+	<span class="story-card-single">
+	  {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
+	</span>
+	<span class="story-card-single">
+	  {{ _("Hits:") }} {{ story.hits }}
+	</span>
+      </div>
+      <div class="story-card-date">
+	{{ arrow.get(story.updated_on).humanize() }}
       </div>
     </div>
   </div>
