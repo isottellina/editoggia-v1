@@ -3,13 +3,25 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:01 2020 (+0200)
-# Last-Updated: Sat May 16 17:39:08 2020 (+0200)
+# Last-Updated: Sun May 24 20:23:31 2020 (+0200)
 #           By: Louise <louise>
-# 
-from flask import Blueprint
+#
+from datetime import datetime
+
+from flask import Blueprint, request
+from flask_login import current_user
+
+from editoggia.database import db
 
 auth = Blueprint('auth',
                  __name__,
                  template_folder='templates')
+
+@auth.before_app_request
+def register_user_request():
+    if not current_user.is_anonymous:
+        current_user.last_active_at = datetime.utcnow()
+        current_user.last_active_ip = request.remote_addr
+        db.session.commit()
 
 import editoggia.auth.views
