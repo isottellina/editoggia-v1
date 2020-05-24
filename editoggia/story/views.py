@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Fri May 22 22:22:22 2020 (+0200)
+# Last-Updated: Sun May 24 19:56:39 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for, abort
@@ -76,6 +76,7 @@ def show_story(story_id):
                                 chapter_id=story.chapters[0].id)
         )
     else:
+        story.hit()
         return render_template('story/show_story.jinja2',
                                story=story,
                                chapter=story.chapters[0])
@@ -87,6 +88,8 @@ def show_chapter(story_id, chapter_id):
     """
     story = Story.get_by_id_or_404(story_id)
     chapter = Chapter.get_by_id_or_404(chapter_id)
+
+    story.hit()
     
     return render_template('story/show_chapter.jinja2',
                            story=story,

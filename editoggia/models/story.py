@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun May 24 17:28:02 2020 (+0200)
+# Last-Updated: Sun May 24 19:56:48 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -79,6 +79,16 @@ class Story(db.Model, CRUDMixin):
                                order_by='Chapter.nb')
     tags = db.relationship('Tag', secondary='stories_tags',
                            back_populates='stories')
+
+    def hit(self):
+        """
+        If user is not the author, increment hit.
+        """
+        from flask_login import current_user
+        
+        if current_user != self.author:
+            self.hits += 1
+            db.session.commit()
 
     
 def chapter_get_new_nb(context):
