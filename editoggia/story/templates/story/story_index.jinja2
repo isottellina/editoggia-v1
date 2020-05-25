@@ -17,7 +17,7 @@
 	      {% for chapter in story.chapters %}
 		<li>
 		  <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=chapter.id) }}">
-		    {{ chapter.name }}
+		    {{ chapter.title }}
 		  </a> ({{ story.created_on|dateformat }})
 		</li>
 	      {% endfor %}
