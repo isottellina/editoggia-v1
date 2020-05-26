@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Tue May 26 20:33:18 2020 (+0200)
+# Last-Updated: Tue May 26 20:36:04 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, datetime, timedelta, timezone
@@ -55,6 +55,20 @@ def profile_stories(username):
                            user=user,
                            age=age,
                            mode='stories',
+                           editable=editable)
+
+@user.route('/<username>/liked')
+def profile_liked(username):
+    """
+    Prints the profile of someone, with the liked
+    stories tab opened.
+    """
+    user, editable, age = get_profile_info(username)
+    
+    return render_template('user/profile.jinja2',
+                           user=user,
+                           age=age,
+                           mode='liked',
                            editable=editable)
 
 @user.route('/edit', methods=["GET", "POST"])
