@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Sat May 23 19:00:50 2020 (+0200)
+# Last-Updated: Tue May 26 20:33:18 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, datetime, timedelta, timezone
@@ -18,11 +18,7 @@ from editoggia.user import user
 from editoggia.user.forms import EditUserForm
 from editoggia.models.user import User
 
-@user.route('/<username>')
-def profile(username):
-    """
-    Prints the profile of someone.
-    """
+def get_profile_info(username):
     user = db.session.query(User).filter(User.username == username) \
                                  .first_or_404()
 
@@ -34,10 +30,31 @@ def profile(username):
     age = None
     if user.birthdate:
         age = (date.today() - user.birthdate) // timedelta(days=365.2425)
+
+    return user, editable, age
+
+@user.route('/<username>')
+def profile(username):
+    """
+    Prints the profile of someone.
+    This returns the same thing as profile_stories,
+    but has a different URL so the default tab can
+    be changed easily.
+    """
+    return profile_stories(username)
+
+@user.route('/<username>/stories')
+def profile_stories(username):
+    """
+    Prints the profile of someone, with the stories
+    tab opened.
+    """
+    user, editable, age = get_profile_info(username)
     
     return render_template('user/profile.jinja2',
                            user=user,
                            age=age,
+                           mode='stories',
                            editable=editable)
 
 @user.route('/edit', methods=["GET", "POST"])

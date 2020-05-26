@@ -65,12 +65,15 @@
       <hr class="mt-0"/>
       <div class="col-lg-9">
 	<nav class="nav profile-nav">
-	  <a class="nav-link active" href="#">{{ _("Stories") }}</a>
+	  <a class="nav-link {% if mode == 'stories' %}active{% endif %}" href="#">{{ _("Stories") }}</a>
+	  <a class="nav-link {% if mode == 'liked' %}active{% endif %}" href="#">{{ _("Liked stories") }}</a>
 	</nav>
 	<div>
-	  {% for story in user.stories %}
-	    {{ render_story_card(story) }}
-	  {% endfor %}
+	  {% if mode == 'stories' %}
+	    {% for story in user.stories %}
+	      {{ render_story_card(story) }}
+	    {% endfor %}
+	  {% endif %}
 	</div>
       </div>
   </section>
