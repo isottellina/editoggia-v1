@@ -1,7 +1,13 @@
 {% extends 'base.jinja2' %}
 
-{% block title %} {{ story.title }} — {{ _("Chapter") }} {{ chapter.nb }}{% endblock %}
-
+{% block title %}
+  {% if story.chapters|length > 1 %}
+    {{ story.title }} — {{ _("Chapter") }} {{ chapter.nb }}
+  {% else %}
+    {{ story.title }}
+  {% endif %}
+{% endblock %}
+  
 {% block content %}
   <section class="container">
     <div class="row justify-content-center">
@@ -13,33 +19,49 @@
 	      <h4 class="text-center"> {{ story.author }} </h4>
 	    </a>
 	    <hr />
-	    <h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.title }}</h4>
+	    {% if story.chapters|length > 1 %}
+	      <h4 class="text-center">{{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.title }}</h4>
+	    {% endif %}
 	    <div class="text-justify">
 	      {{ chapter.content }}
 	    </div>
 	  </div>
 	</div>
+
+	{# Chapter navigation #}
+	{% if story.chapters|length > 1 %}
+	  <div class="row">
+	    <div class="col text-center">
+	      {% if chapter.nb != 1 %}
+		<a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb - 2].id) }}">
+		  <i class="fas fa-arrow-left"></i>
+		  {{ _("Previous chapter") }}
+		</a>
+	      {% endif %}
+	    </div>
+	    <div class="col text-center">
+	      <a href="{{ url_for('story.story_index', story_id=story.id) }}">
+		{{ _("Chapter index") }}
+	      </a>
+	    </div>
+	    <div class="col text-center">
+	      {% if chapter.nb != story.chapters|length %}
+		<a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb].id) }}">
+		  {{ _("Next chapter") }}
+		  <i class="fas fa-arrow-right"></i>
+		</a>
+	      {% endif %}
+	    </div>
+	  </div>
+	{% endif %}
+
+	{# Interaction #}
 	<div class="row">
 	  <div class="col text-center">
-	    {% if chapter.nb != 1 %}
-	      <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb - 2].id) }}">
-		<i class="fas fa-arrow-left"></i>
-		{{ _("Previous chapter") }}
-	      </a>
-	    {% endif %}
+	    <i class="far fa-heart"></i> {{ _("Like") }}
 	  </div>
 	  <div class="col text-center">
-	    <a href="{{ url_for('story.story_index', story_id=story.id) }}">
-	      {{ _("Chapter index") }}
-	    </a>
-	  </div>
-	  <div class="col text-center">
-	    {% if chapter.nb != story.chapters|length %}
-	      <a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb].id) }}">
-		{{ _("Next chapter") }}
-		<i class="fas fa-arrow-right"></i>
-	      </a>
-	    {% endif %}
+	    <i class="fas fa-comment"></i> {{ _("Comment") }}
 	  </div>
 	</div>
       </div>
