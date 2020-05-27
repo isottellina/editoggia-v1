@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sun May 24 20:17:54 2020 (+0200)
+# Last-Updated: Wed May 27 18:56:56 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -79,6 +79,11 @@ class User(CRUDMixin, UserMixin, db.Model):
 
     # Stories and such
     stories = db.relationship('Story', back_populates='author')
+    likes = db.relationship(
+        'Story',
+        secondary='user_likes', lazy='dynamic',
+        back_populates='user_likes'
+    )
     
     # Tracking info
     last_active_at = db.Column(db.DateTime())
@@ -95,9 +100,8 @@ class User(CRUDMixin, UserMixin, db.Model):
         'Role',
         secondary='roles_users', lazy='dynamic',
         back_populates='users'
-    )
-                            
-    
+    )                  
+
     def __init__(self, password, **kwargs):
         super(User, self).__init__(**kwargs)
         self.set_password(password)
@@ -125,6 +129,13 @@ class User(CRUDMixin, UserMixin, db.Model):
         
         return result is not None
 
+class UserLikes(db.Model):
+    __tablename__ = 'user_likes'
+    
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
+    story_id = db.Column('story_id', db.Integer(), db.ForeignKey('story.id'), nullable=False)
+    
 class AnonymousUser(AnonymousUserMixin):
     """
     This defines the anonymous user.

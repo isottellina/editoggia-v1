@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun May 24 19:56:48 2020 (+0200)
+# Last-Updated: Wed May 27 18:57:33 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -79,6 +79,12 @@ class Story(db.Model, CRUDMixin):
                                order_by='Chapter.nb')
     tags = db.relationship('Tag', secondary='stories_tags',
                            back_populates='stories')
+
+    user_likes = db.relationship(
+        'User',
+        secondary='user_likes', lazy='dynamic',
+        back_populates='likes'
+    )
 
     def hit(self):
         """
