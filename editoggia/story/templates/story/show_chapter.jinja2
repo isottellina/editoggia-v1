@@ -58,10 +58,19 @@
 	{# Interaction #}
 	<div class="row">
 	  <div class="col text-center">
-	    <i class="far fa-heart"></i> {{ _("Like") }}
+	    <a id="like-link" href="javascript:void(0)">
+	      {% if story in current_user.liked %}
+		<i class="fas fa-heart"></i>
+	      {% else %}
+		<i class="far fa-heart"></i>
+	      {% endif %}
+	      {{ _("Like") }}
+	    </a>
 	  </div>
 	  <div class="col text-center">
-	    <i class="fas fa-comment"></i> {{ _("Comment") }}
+	    <a href="#">
+	      <i class="fas fa-comment"></i> {{ _("Comment") }}
+	    </a>
 	  </div>
 	</div>
       </div>

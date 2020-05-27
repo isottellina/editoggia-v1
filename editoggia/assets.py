@@ -3,7 +3,7 @@
 # Filename: assets.py
 # Author: Louise <louise>
 # Created: Sat May  2 05:38:44 2020 (+0200)
-# Last-Updated: Mon May 18 20:34:11 2020 (+0200)
+# Last-Updated: Wed May 27 21:52:39 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -23,7 +23,7 @@ css = Bundle(
 
 js = Bundle(
     Bundle(
-        'ts/menu.ts',
+        'ts/ui.ts',
         filters='typescript',
         output='js/compiled.js'
     ),

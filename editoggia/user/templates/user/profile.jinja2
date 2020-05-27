@@ -78,6 +78,12 @@
 	      {{ render_story_card(story) }}
 	    {% endfor %}
 	  {% endif %}
+
+	  {% if mode == 'liked' %}
+	    {% for story in user.liked %}
+	      {{ render_story_card(story) }}
+	    {% endfor %}
+	  {% endif %}
 	</div>
       </div>
   </section>
