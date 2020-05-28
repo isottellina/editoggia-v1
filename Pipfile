@@ -18,6 +18,7 @@ flask-bcrypt = "*"
 editoggia = {editable = true,path = "."}
 requests = "*"
 arrow = "*"
+flask-inputs = "*"
 
 [dev-packages]
 pytest = "*"
