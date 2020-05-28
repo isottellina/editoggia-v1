@@ -80,7 +80,7 @@
 	  {% endif %}
 
 	  {% if mode == 'liked' %}
-	    {% for story in user.liked %}
+	    {% for story in user.likes %}
 	      {{ render_story_card(story) }}
 	    {% endfor %}
 	  {% endif %}
