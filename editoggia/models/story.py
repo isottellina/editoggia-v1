@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Wed May 27 18:57:33 2020 (+0200)
+# Last-Updated: Thu May 28 16:27:36 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -81,8 +81,7 @@ class Story(db.Model, CRUDMixin):
                            back_populates='stories')
 
     user_likes = db.relationship(
-        'User',
-        secondary='user_likes', lazy='dynamic',
+        'User', secondary='user_likes',
         back_populates='likes'
     )
 

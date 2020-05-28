@@ -15,6 +15,9 @@
 	  {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
 	</span>
 	<span class="story-card-single">
+	  {{ _("Likes:") }} {{ story.user_likes|length }}
+	</span>
+	<span class="story-card-single">
 	  {{ _("Hits:") }} {{ story.hits }}
 	</span>
       </div>
