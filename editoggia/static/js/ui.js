@@ -1,10 +1,8 @@
-declare var $: any;
-
-window.onload = () => {
+window.onload = function() {
     console.log($("#like-link > i"));
     
     $("#like-link").click(
-	() => {
+	function () {
 	    let icon = $("#like-link").find("[data-fa-i2svg]");
 	    
 	    if (icon.attr("data-prefix") == "far") {

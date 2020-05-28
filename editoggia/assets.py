@@ -3,7 +3,7 @@
 # Filename: assets.py
 # Author: Louise <louise>
 # Created: Sat May  2 05:38:44 2020 (+0200)
-# Last-Updated: Wed May 27 21:52:39 2020 (+0200)
+# Last-Updated: Thu May 28 18:27:47 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -22,11 +22,7 @@ css = Bundle(
 )
 
 js = Bundle(
-    Bundle(
-        'ts/ui.ts',
-        filters='typescript',
-        output='js/compiled.js'
-    ),
+    'js/ui.js',
     'node_modules/jquery/dist/jquery.js',
     'node_modules/bootstrap/dist/js/bootstrap.min.js',
     'node_modules/@fortawesome/fontawesome-free/js/all.js',
