@@ -3,7 +3,7 @@
 // Filename: style.scss
 // Author: Louise <louise>
 // Created: Sat May  2 05:30:02 2020 (+0200)
-// Last-Updated: Wed May 27 19:43:34 2020 (+0200)
+// Last-Updated: Thu May 28 16:10:24 2020 (+0200)
 //           By: Louise <louise>
 // 
 @import "variables";
@@ -29,6 +29,7 @@
 @import "../node_modules/bootstrap/scss/card";
 @import "../node_modules/bootstrap/scss/pagination";
 @import "../node_modules/bootstrap/scss/badge";
+@import "../node_modules/bootstrap/scss/alert";
 @import "../node_modules/bootstrap/scss/list-group";
 @import "../node_modules/bootstrap/scss/close";
 @import "../node_modules/bootstrap/scss/toasts";

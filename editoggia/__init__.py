@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sat May 16 21:39:41 2020 (+0200)
+# Last-Updated: Thu May 28 15:30:16 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -26,6 +26,7 @@ from editoggia.home import home
 from editoggia.auth import auth
 from editoggia.user import user
 from editoggia.story import story
+from editoggia.ajax import ajax
 
 def create_app(config_name="default"):
     """
@@ -77,6 +78,7 @@ def register_blueprints(app):
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(user, url_prefix='/user')
     app.register_blueprint(story, url_prefix='/story')
+    app.register_blueprint(ajax, url_prefix='/ajax')
 
 def register_jinja_env(app):
     """
