@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:01 2020 (+0200)
-# Last-Updated: Sun May 24 20:23:31 2020 (+0200)
+# Last-Updated: Thu May 28 15:02:43 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -13,9 +13,7 @@ from flask_login import current_user
 
 from editoggia.database import db
 
-auth = Blueprint('auth',
-                 __name__,
-                 template_folder='templates')
+auth = Blueprint('auth', __name__)
 
 @auth.before_app_request
 def register_user_request():
