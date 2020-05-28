@@ -3,9 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Wed May 27 19:49:27 2020 (+0200)
+# Last-Updated: Thu May 28 21:53:39 2020 (+0200)
 #           By: Louise <louise>
 #
+import bleach
+
 from flask import render_template, redirect, url_for, abort
 from flask_login import login_required, current_user
 
@@ -38,13 +40,16 @@ def post_story():
     ]
     
     if form.validate_on_submit():
+        # First we have to bleach the HTML content we got
+        content = bleach.clean(form.data['content'])
+        
         # We have to load the fandoms
         loaded_fandoms = [
             db.session.query(Fandom).filter(Fandom.name==fandom).first_or_404()
             for fandom in form.data['fandom']
         ]
         
-        # We have to create the story first
+        # We have to create the story before the chapter
         story = Story.create(
             title=form.data['title'],
             author=current_user,
@@ -54,7 +59,7 @@ def post_story():
 
         # Then we create the first chapter
         chapter = Chapter.create(
-            content=form.data['content'],
+            content=content,
             story=story
         )
         

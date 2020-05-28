@@ -19,6 +19,7 @@ editoggia = {editable = true,path = "."}
 requests = "*"
 arrow = "*"
 flask-inputs = "*"
+bleach = "*"
 
 [dev-packages]
 pytest = "*"
