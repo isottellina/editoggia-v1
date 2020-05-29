@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Fri May 29 16:18:55 2020 (+0200)
+# Last-Updated: Fri May 29 20:54:33 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -94,20 +94,6 @@ class Story(db.Model, CRUDMixin):
         if current_user != self.author:
             self.hits += 1
             db.session.commit()
-
-    def most_recent_update(self):
-        """
-        Returns the date of the most recent update
-        to a chapter. This is done because this is
-        the real date we want to display, not the actual
-        update to the story.
-        """
-        most_recent = db.session.query(Chapter) \
-            .filter(Chapter.story_id = self.id) \
-            .order_by(Chapter.updated_on.desc()) \
-            .first()
-
-        return most_recent.updated_on
 
     
 def chapter_get_new_nb(context):
