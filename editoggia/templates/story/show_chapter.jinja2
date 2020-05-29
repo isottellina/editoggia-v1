@@ -59,8 +59,8 @@
 	{% if current_user.is_authenticated %}
 	  <div class="row">
 	    <div class="col text-center">
-	      <a id="like-link" href="javascript:void(0)">
-		{% if story in current_user.liked %}
+	      <a id="like-link" href="javascript:void(0)" onclick="like_link({{ story.id }})">
+		{% if story in current_user.likes %}
 		  <i class="fas fa-heart"></i>
 		{% else %}
 		  <i class="far fa-heart"></i>

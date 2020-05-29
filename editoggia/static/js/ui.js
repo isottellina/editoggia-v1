@@ -1,8 +1,10 @@
-window.onload = function() {
-    console.log($("#like-link > i"));
-    
-    $("#like-link").click(
-	function () {
+function like_link (story_id) {
+    $.post(
+	'/ajax/story/like',
+	{
+	    "story": story_id
+	},
+	success=function() {
 	    let icon = $("#like-link").find("[data-fa-i2svg]");
 	    
 	    if (icon.attr("data-prefix") == "far") {
@@ -12,4 +14,4 @@ window.onload = function() {
 	    }
 	}
     );
-};
+}

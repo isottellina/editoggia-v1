@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Thu May 28 15:30:16 2020 (+0200)
+# Last-Updated: Fri May 29 14:25:06 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -18,7 +18,7 @@ from editoggia.commands import register_commands
 # Import extensions
 from editoggia.admin import admin
 from editoggia.assets import assets
-from editoggia.extensions import babel, lm
+from editoggia.extensions import babel, lm, csrf
 from editoggia.database import db, migrate
 
 # Import blueprints
@@ -69,6 +69,7 @@ def register_extensions(app):
     babel.init_app(app)
     admin.init_app(app)
     lm.init_app(app)
+    csrf.init_app(app)
 
 def register_blueprints(app):
     """
