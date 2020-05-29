@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+editoggia = {editable = true,path = "."}
 flask = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
@@ -15,10 +16,8 @@ libsass = "*"
 wtforms = "*"
 email-validator = "*"
 flask-bcrypt = "*"
-editoggia = {editable = true,path = "."}
 requests = "*"
 arrow = "*"
-flask-inputs = "*"
 bleach = "*"
 
 [dev-packages]
