@@ -1,0 +1,24 @@
+// story_card.scss --- 
+// 
+// Filename: story_card.scss
+// Author: Louise <louise>
+// Created: Sat May 30 16:04:19 2020 (+0200)
+// Last-Updated: Sat May 30 16:04:21 2020 (+0200)
+//           By: Louise <louise>
+//
+
+.story-card {
+    .story-card-info {
+	text-align: right;
+
+	.story-card-single {
+	    margin-left: 1em;
+	}
+    }
+    
+    .story-card-date {
+	position: absolute;
+	top: 0.25em;
+	right: 0.5em;
+    }
+}

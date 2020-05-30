@@ -1,11 +1,13 @@
-// _editoggia.scss --- 
+// navbar.scss --- 
 // 
-// Filename: _editoggia.scss
+// Filename: navbar.scss
 // Author: Louise <louise>
-// Created: Sun May  3 05:03:32 2020 (+0200)
-// Last-Updated: Sun May 24 17:33:28 2020 (+0200)
+// Created: Sat May 30 16:04:08 2020 (+0200)
+// Last-Updated: Sat May 30 16:04:11 2020 (+0200)
 //           By: Louise <louise>
 //
+
+// General navbar
 .navbar {
     font-family: $font-family-navbar;
 
@@ -26,6 +28,7 @@
     }
 }
 
+// Navbar in the profile page
 .profile-nav {
     margin-bottom: 1em;
     border-bottom: 1px solid map-get($theme-colors, palette3);
@@ -36,33 +39,5 @@
     
     a.active {
 	border-bottom: 3px solid map-get($theme-colors, palette3);
-    }
-}
-
-.story-card {
-    .story-card-info {
-	text-align: right;
-
-	.story-card-single {
-	    margin-left: 1em;
-	}
-    }
-    
-    .story-card-date {
-	position: absolute;
-	top: 0.25em;
-	right: 0.5em;
-    }
-}
-
-body {
-    min-height: 100vh;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    main {
-	flex-grow: 1;
     }
 }

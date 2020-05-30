@@ -1,0 +1,24 @@
+// editoggia.scss --- 
+// 
+// Filename: editoggia.scss
+// Author: Louise <louise>
+// Created: Sat May 30 16:03:31 2020 (+0200)
+// Last-Updated: Sat May 30 18:41:27 2020 (+0200)
+//           By: Louise <louise>
+//
+
+@import 'story_card';
+@import 'comment_card';
+@import 'navbar';
+
+body {
+    min-height: 100vh;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    main {
+	flex-grow: 1;
+    }
+}
