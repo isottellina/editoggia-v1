@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat May 30 15:16:08 2020 (+0200)
+# Last-Updated: Sat May 30 15:27:28 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -96,6 +96,8 @@ class Chapter(db.Model, CRUDMixin):
     summary = db.Column(db.Text())
     content = db.Column(db.Text(), nullable=False)
 
+    comments = db.relationship('Comment', back_populates='chapter')
+
     created_on = db.Column(db.DateTime(), nullable=False,
                            default=datetime.utcnow)
     updated_on = db.Column(db.DateTime(), nullable=False,
@@ -129,3 +131,4 @@ class Tag(db.Model, CRUDMixin):
 
 from editoggia.models.user import User
 from editoggia.models.fandom import Fandom
+from editoggia.models.comment import Comment
