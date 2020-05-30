@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Tue May 26 20:36:04 2020 (+0200)
+# Last-Updated: Sat May 30 15:18:45 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, datetime, timedelta, timezone
@@ -16,7 +16,8 @@ from flask_babel import gettext
 from editoggia.database import db
 from editoggia.user import user
 from editoggia.user.forms import EditUserForm
-from editoggia.models.user import User
+
+from editoggia.models import User
 
 def get_profile_info(username):
     user = db.session.query(User).filter(User.username == username) \

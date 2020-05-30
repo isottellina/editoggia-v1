@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Sat May 23 19:11:53 2020 (+0200)
+# Last-Updated: Sat May 30 15:20:57 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -11,7 +11,7 @@ from faker import Faker
 
 from editoggia import create_app
 from editoggia.database import db
-from editoggia.models.user import User
+from editoggia.models import User
 
 class EditoggiaTestCase(TestCase):
     def create_app(self):

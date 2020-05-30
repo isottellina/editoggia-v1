@@ -3,14 +3,14 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
-# Last-Updated: Sat May 23 19:11:50 2020 (+0200)
+# Last-Updated: Sat May 30 15:21:02 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 These tests test the auth blueprint.
 """
 from editoggia.database import db
-from editoggia.models.user import User
+from editoggia.models import User
 
 from helpers import EditoggiaTestCase
 

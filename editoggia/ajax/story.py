@@ -3,7 +3,7 @@
 # Filename: story.py
 # Author: Louise <louise>
 # Created: Thu May 28 15:56:24 2020 (+0200)
-# Last-Updated: Sat May 30 13:15:32 2020 (+0200)
+# Last-Updated: Sat May 30 15:20:07 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import request
@@ -14,7 +14,7 @@ from editoggia.ajax.decorators import ajax_login_required
 from editoggia.ajax.forms import LikeForm
 
 from editoggia.database import db
-from editoggia.models.story import Story
+from editoggia.models import Story
 
 @ajax.route('/story/like', methods=['POST'])
 @ajax_login_required

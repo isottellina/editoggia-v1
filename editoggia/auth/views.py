@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Tue May 19 15:39:01 2020 (+0200)
+# Last-Updated: Sat May 30 15:20:41 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
@@ -15,7 +15,7 @@ from editoggia.extensions import lm
 
 from editoggia.user.forms import SignupUserForm
 from editoggia.auth.forms import LoginForm
-from editoggia.models.user import User
+from editoggia.models import User
 
 @lm.user_loader
 def load_user(id):

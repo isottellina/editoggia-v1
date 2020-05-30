@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Thu May 28 21:53:39 2020 (+0200)
+# Last-Updated: Sat May 30 15:18:36 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -14,7 +14,8 @@ from flask_login import login_required, current_user
 from editoggia.database import db
 from editoggia.story import story
 from editoggia.story.forms import StoryForm
-from editoggia.models.story import Fandom, Story, Chapter
+
+from editoggia.models import Fandom, Story, Chapter
 
 @story.route('/')
 def index():

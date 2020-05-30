@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:41:06 2020 (+0200)
-# Last-Updated: Sat May 23 19:20:28 2020 (+0200)
+# Last-Updated: Sat May 30 15:21:11 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -12,7 +12,7 @@ These tests test the user blueprint.
 import datetime
 
 from editoggia.database import db
-from editoggia.models.user import User
+from editoggia.models import User
 
 from helpers import EditoggiaTestCase
 

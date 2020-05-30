@@ -3,14 +3,14 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 00:22:56 2020 (+0200)
-# Last-Updated: Tue May 19 15:38:14 2020 (+0200)
+# Last-Updated: Sat May 30 15:17:32 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template
 
 from editoggia.home import home
 from editoggia.database import db
-from editoggia.models.story import FandomCategory, Story
+from editoggia.models import FandomCategory, Story
 
 @home.route('/')
 def index():
