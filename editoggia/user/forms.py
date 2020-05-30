@@ -3,13 +3,16 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Sat May 30 15:19:36 2020 (+0200)
+# Last-Updated: Sat May 30 15:59:43 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import StringField, TextAreaField, PasswordField
-from wtforms import SelectField, DateField
+
+from wtforms.fields import StringField, TextAreaField, PasswordField
+from wtforms.fields import SelectField
+from wtforms.fields.html5 import DateField
+
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from editoggia.models import User
@@ -124,5 +127,5 @@ class EditUserForm(UserForm):
     )
 
     location = StringField()
-    birthdate = DateField(render_kw={'type': 'date'})
+    birthdate = DateField()
     bio = TextAreaField()
