@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat May 30 15:27:28 2020 (+0200)
+# Last-Updated: Sat May 30 21:05:00 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -41,6 +41,7 @@ class Story(db.Model, CRUDMixin):
     author = db.relationship('User', back_populates='stories')
 
     chapters = db.relationship('Chapter', back_populates='story',
+                               cascade='all, delete, delete-orphan',
                                order_by='Chapter.nb')
     tags = db.relationship('Tag', secondary='stories_tags',
                            back_populates='stories')
@@ -49,6 +50,9 @@ class Story(db.Model, CRUDMixin):
         'User', secondary='user_likes',
         back_populates='likes'
     )
+
+    def __repr__(self):
+        return "<Story '{}', by '{}'>".format(self.title, self.author)
 
     def hit(self):
         """
@@ -104,8 +108,17 @@ class Chapter(db.Model, CRUDMixin):
                            default=datetime.utcnow,
                            onupdate=datetime.utcnow)
 
-    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
+    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'),
+                         nullable=False)
     story = db.relationship('Story', back_populates='chapters')
+
+    def __repr__(self):
+        print(self.id, self.story)
+        return "<Chapter {} of story '{}', by '{}'>".format(
+            self.nb,
+            self.story.title,
+            self.story.author
+        )
 
 
 class StoriesTags(db.Model):
