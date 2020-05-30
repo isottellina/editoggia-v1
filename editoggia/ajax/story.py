@@ -3,7 +3,7 @@
 # Filename: story.py
 # Author: Louise <louise>
 # Created: Thu May 28 15:56:24 2020 (+0200)
-# Last-Updated: Fri May 29 14:26:46 2020 (+0200)
+# Last-Updated: Sat May 30 13:15:32 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import request
@@ -29,8 +29,13 @@ def story_like():
             return jsonify(
                 message="Story doesn't exist"
             ), 404
-        
-        story.user_likes.append(current_user)
+
+        # If the story is not already liked, like it
+        if story not in current_user.likes:
+            current_user.likes.append(story)
+        else:
+            current_user.likes.remove(story)
+
         db.session.commit()
         
         return "", 200
