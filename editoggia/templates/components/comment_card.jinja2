@@ -2,8 +2,10 @@
   <div class="card comment-card mb-3">
     <div class="card-header">
       <div class="row">
-	<div class="col comment-author">
-	  {{ comment.author }}
+	<div class="col-9 comment-author">
+	  <a href="{{ url_for('user.profile', username=comment.author.username) }}">
+	    {{ comment.author }}
+	  </a>
 	</div>
 	<div class="col comment-date text-right">
 	  {{ arrow.get(comment.created_on).humanize() }}
