@@ -3,7 +3,7 @@
 # Filename: assets.py
 # Author: Louise <louise>
 # Created: Sat May  2 05:38:44 2020 (+0200)
-# Last-Updated: Thu May 28 18:27:47 2020 (+0200)
+# Last-Updated: Sun May 31 13:29:43 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -16,7 +16,7 @@ css = Bundle(
         'scss/style.scss',
         filters='libsass',
         output='css/compiled.css',
-        depends=('**/*.scss')
+        depends=('scss/**/*.scss')
     ),
     output='css/style.css'
 )

@@ -1,0 +1,17 @@
+{% macro render_comment_card(comment) %}
+  <div class="card comment-card mb-3">
+    <div class="card-header">
+      <div class="row">
+	<div class="col comment-author">
+	  {{ comment.author }}
+	</div>
+	<div class="col comment-date text-right">
+	  {{ arrow.get(comment.created_on).humanize() }}
+	</div>
+      </div>
+    </div>
+    <div class="card-body">
+      {{ comment.content }}
+    </div>
+  </div>
+{% endmacro %}

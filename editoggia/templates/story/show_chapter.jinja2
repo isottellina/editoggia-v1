@@ -1,3 +1,4 @@
+{% from 'components/comment_card.jinja2' import render_comment_card %}
 {% extends 'base.jinja2' %}
 
 {% block title %}
@@ -75,6 +76,13 @@
 	    </div>
 	  </div>
 	{% endif %}
+
+	{# Comments #}
+	<div class="comments">
+	  {% for comment in chapter.comments %}
+	    {{ render_comment_card(comment) }}
+	  {% endfor %}
+	</div>
       </div>
     </div>
   </section>

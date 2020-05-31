@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat May 30 21:05:00 2020 (+0200)
+# Last-Updated: Sun May 31 13:22:02 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -113,7 +113,6 @@ class Chapter(db.Model, CRUDMixin):
     story = db.relationship('Story', back_populates='chapters')
 
     def __repr__(self):
-        print(self.id, self.story)
         return "<Chapter {} of story '{}', by '{}'>".format(
             self.nb,
             self.story.title,
