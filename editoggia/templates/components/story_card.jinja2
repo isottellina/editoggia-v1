@@ -10,16 +10,25 @@
       <p class="card-text mb-2">
 	{{ story.summary }}
       </p>
-      <div class="story-card-info">
-	<span class="story-card-single">
-	  {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
-	</span>
-	<span class="story-card-single">
-	  {{ _("Likes:") }} {{ story.user_likes|length }}
-	</span>
-	<span class="story-card-single">
-	  {{ _("Hits:") }} {{ story.hits }}
-	</span>
+      <div class="row align-items-center">
+	<div class="col">
+	  {# Buttons to edit the story #}
+	  {% if current_user == story.author %}
+	    <button class="btn btn-sm btn-secondary">{{ _("Edit story") }}</button>
+	    <button class="btn btn-sm btn-secondary">{{ _("Add chapter") }}</button>
+	  {% endif %}
+	</div>
+	<div class="col story-card-info">
+	  <span class="story-card-single">
+	    {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
+	  </span>
+	  <span class="story-card-single">
+	    {{ _("Likes:") }} {{ story.user_likes|length }}
+	  </span>
+	  <span class="story-card-single">
+	    {{ _("Hits:") }} {{ story.hits }}
+	  </span>
+	</div>
       </div>
       <div class="story-card-date">
 	{{ arrow.get(story.updated_on).humanize() }}
