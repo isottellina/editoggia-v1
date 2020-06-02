@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun May 31 13:22:02 2020 (+0200)
+# Last-Updated: Tue Jun  2 11:39:58 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -14,7 +14,7 @@ from datetime import datetime
 from flask_babel import gettext
 from editoggia.database import db
 from editoggia.models.mixins import CRUDMixin
-    
+
 class Story(db.Model, CRUDMixin):
     """
     A story, written on the site.
@@ -25,6 +25,13 @@ class Story(db.Model, CRUDMixin):
     summary = db.Column(db.String(1000), nullable=False, default="")
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
     total_chapters = db.Column(db.Integer())
+
+    rating = db.Column(db.Enum(
+        gettext("General audiences"),
+        gettext("Teen and up audiences"),
+        gettext("Mature"),
+        gettext("Explicit")
+    ))
 
     fandom = db.relationship('Fandom',
                              secondary='story_fandoms',
@@ -139,7 +146,7 @@ class Tag(db.Model, CRUDMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
     stories = db.relationship('Story', secondary='stories_tags',
-                               back_populates='tags')
+                              back_populates='tags')
 
 from editoggia.models.user import User
 from editoggia.models.fandom import Fandom
