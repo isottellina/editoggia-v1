@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sat May 30 15:18:36 2020 (+0200)
+# Last-Updated: Tue Jun  2 11:10:13 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -13,7 +13,7 @@ from flask_login import login_required, current_user
 
 from editoggia.database import db
 from editoggia.story import story
-from editoggia.story.forms import StoryForm
+from editoggia.story.forms import StoryForm, EditStoryForm
 
 from editoggia.models import Fandom, Story, Chapter
 
@@ -67,6 +67,44 @@ def post_story():
         return redirect(url_for('home.index'))
     else:
         return render_template('story/post_story.jinja2', form=form)
+
+@story.route('/edit/<int:story_id>', methods=["GET", "POST"])
+@login_required
+def edit_story(story_id):
+    """
+    Edit a story.
+    """
+    # The story has to exist and to have been written by the
+    # current user
+    story = Story.get_by_id_or_404(story_id)
+    if story.author != current_user:
+        abort(403)
+        
+    form = EditStoryForm(obj=story)
+
+    # We have to populate the fandom field
+    fandoms = db.session.query(Fandom).all()
+    form.fandom.choices = [
+        (fandom.name, fandom.name) for fandom in fandoms
+    ]
+    
+    if form.validate_on_submit():
+        # We have to load the fandoms
+        loaded_fandoms = [
+            db.session.query(Fandom).filter(Fandom.name==fandom).first_or_404()
+            for fandom in form.data['fandom']
+        ]
+        
+        # We update the story
+        story.update(
+            title=form.data['title'],
+            summary=form.data['summary'],
+            fandom=loaded_fandoms
+        )
+        
+        return redirect(url_for('home.index'))
+    else:
+        return render_template('story/edit_story.jinja2', form=form, story=story)
 
 @story.route('/<int:story_id>')
 def show_story(story_id):

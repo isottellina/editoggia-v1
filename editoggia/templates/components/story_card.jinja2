@@ -10,12 +10,12 @@
       <p class="card-text mb-2">
 	{{ story.summary }}
       </p>
-      <div class="row align-items-center">
+      <div class="row align-items-end">
 	<div class="col">
 	  {# Buttons to edit the story #}
 	  {% if current_user == story.author %}
-	    <button class="btn btn-sm btn-secondary">{{ _("Edit story") }}</button>
-	    <button class="btn btn-sm btn-secondary">{{ _("Add chapter") }}</button>
+	    <a href="{{ url_for('story.edit_story', story_id=story.id) }}" class="btn btn-sm btn-secondary">{{ _("Edit story") }}</a>
+	    <a class="btn btn-sm btn-secondary">{{ _("Add chapter") }}</a>
 	  {% endif %}
 	</div>
 	<div class="col story-card-info">
