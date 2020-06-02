@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Fri May 29 14:25:06 2020 (+0200)
+# Last-Updated: Tue Jun  2 11:05:38 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -56,6 +56,7 @@ def register_errorhandlers(app):
             requests.codes.INTERNAL_SERVER_ERROR,
             requests.codes.NOT_FOUND,
             requests.codes.UNAUTHORIZED,
+            requests.codes.FORBIDDEN
     ]:
         app.errorhandler(e)(render_error)
         

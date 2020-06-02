@@ -1,0 +1,7 @@
+{% extends 'errors/base.jinja2' %}
+
+{% block title %} {{ _('Forbidden') }} {% endblock %}
+
+{% block description %}
+  {% trans %}Your access rights are not sufficient to access this page.{% endtrans %}
+{% endblock %}
