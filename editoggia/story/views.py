@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Tue Jun  2 11:10:13 2020 (+0200)
+# Last-Updated: Tue Jun  2 11:50:43 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -13,7 +13,7 @@ from flask_login import login_required, current_user
 
 from editoggia.database import db
 from editoggia.story import story
-from editoggia.story.forms import StoryForm, EditStoryForm
+from editoggia.story.forms import PostStoryForm, EditStoryForm
 
 from editoggia.models import Fandom, Story, Chapter
 
@@ -32,7 +32,7 @@ def post_story():
     """
     Post a new story.
     """
-    form = StoryForm()
+    form = PostStoryForm()
 
     # We have to populate the fandom field
     fandoms = db.session.query(Fandom).all()
@@ -53,6 +53,7 @@ def post_story():
         # We have to create the story before the chapter
         story = Story.create(
             title=form.data['title'],
+            rating=form.data['rating'],
             author=current_user,
             summary=form.data['summary'],
             fandom=loaded_fandoms
@@ -98,6 +99,7 @@ def edit_story(story_id):
         # We update the story
         story.update(
             title=form.data['title'],
+            rating=form.data['rating'],
             summary=form.data['summary'],
             fandom=loaded_fandoms
         )
