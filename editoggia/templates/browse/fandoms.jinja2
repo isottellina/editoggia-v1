@@ -1,0 +1,24 @@
+{% extends 'base.jinja2' %}
+
+{% block title %}Fandoms in category '{{ category.name}}' {% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="row justify-content-center">
+	<div class="col-lg-8 text-justified">
+	  <h2>Fandoms in category '{{ category.name}}'</h2>
+	  {% for two_fandoms in category.fandoms|slice(2) %}
+	    <div class="row">
+	      {% for fandom in two_fandoms %}
+		<div class="col-6">
+		  {{ fandom.name }}
+		</div>
+	      {% endfor %}
+	    </div>
+	  {% endfor %}
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

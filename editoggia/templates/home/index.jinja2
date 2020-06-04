@@ -11,7 +11,9 @@
 	    <div class="row">
 	      {% for category in two_categories %}
 		<div class="col-6">
-		  {{ category.name }}
+		  <a href="{{ url_for('browse.fandoms', category=category.name) }}">
+		    {{ category.name }}
+		  </a>
 		</div>
 	      {% endfor %}
 	    </div>
