@@ -15,7 +15,6 @@
 	  {# Buttons to edit the story #}
 	  {% if current_user == story.author %}
 	    <a href="{{ url_for('story.edit_story', story_id=story.id) }}" class="btn btn-sm btn-secondary">{{ _("Edit story") }}</a>
-	    <a class="btn btn-sm btn-secondary">{{ _("Add chapter") }}</a>
 	  {% endif %}
 	</div>
 	<div class="col-6 story-card-info">

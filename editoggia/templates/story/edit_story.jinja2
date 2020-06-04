@@ -7,8 +7,8 @@
   <section class="section">
     <div class="container">
       <div class="row justify-content-center">
-	<div class="col-lg-8 text-justified">
-	  <h2 class="title text-center"> {{ _("Edit a story") }} </h2>
+	<div class="col-lg-6">
+	  <h2> {{ _("Edit a story") }} </h2>
 	  <form action="{{ url_for('story.edit_story', story_id=story.id) }}" method="POST">
 	    {{ form.csrf_token }}
 	    <div class="row">
@@ -29,6 +29,21 @@
 	      </div>
 	    </div>
 	  </form>
+	</div>
+	<div class="col-lg-3">
+	  <h2>{{ _("Edit chapters") }}</h2>
+	  <ol>
+	    {% for chapter in story.chapters %}
+	      {% if chapter.title %}
+		<li>{{ _("Chapter {chapter_nb}: {chapter_title}").format(chapter_nb=chapter.nb, chapter_title=chapter.title) }}</li>
+	      {% else %}
+		<li>{{ _("Chapter {chapter_nb}").format(chapter_nb=chapter.nb) }}</li>
+	      {% endif %}
+	    {% endfor %}
+	  </ol>
+	  <a href="#">
+	    {{ _("Add a chapter") }}
+	  </a>
 	</div>
       </div>
     </div>
