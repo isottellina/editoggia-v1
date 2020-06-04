@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Tue Jun  2 11:39:58 2020 (+0200)
+# Last-Updated: Thu Jun  4 21:45:03 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -13,7 +13,7 @@ from datetime import datetime
 
 from flask_babel import gettext
 from editoggia.database import db
-from editoggia.models.mixins import CRUDMixin
+from editoggia.models.mixins import PKMixin, CRUDMixin
 
 class Story(db.Model, CRUDMixin):
     """
@@ -71,6 +71,8 @@ class Story(db.Model, CRUDMixin):
             self.hits += 1
             db.session.commit()
 
+class StoryStats(db.Model, PKMixin):
+    hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
     
 def chapter_get_new_nb(context):
     """

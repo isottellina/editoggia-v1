@@ -3,17 +3,17 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Fri May 22 22:27:05 2020 (+0200)
+# Last-Updated: Thu Jun  4 21:08:19 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import abort
 from editoggia.database import db
 
-class CRUDMixin(object):
+class PKMixin(object):
     __table_args__ = {'extend_existing': True}
-
     id = db.Column(db.Integer, primary_key=True)
-
+    
+class CRUDMixin(PKMixin):
     @classmethod
     def get_by_id(cls, id):
         if any((isinstance(id, str) and id.isdigit(),

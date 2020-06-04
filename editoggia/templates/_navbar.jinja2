@@ -51,6 +51,12 @@
 		<i class="fas fa-fw fa-user-alt"></i>
 		{{ _("Profile") }}
 	      </a>
+	      {% if current_user.has_permission("admin.ACCESS_ADMIN_INTERFACE") %}
+		<a class="dropdown-item" href="{{ url_for('admin.index') }}">
+		  <i class="fas fa-fw fa-tools"></i>
+		  {{ _("Administration interface") }}
+		</a>
+	      {% endif %}
 	      <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
 		<i class="fas fa-fw fa-sign-out-alt"></i>
 		{{ _("Log out") }}
