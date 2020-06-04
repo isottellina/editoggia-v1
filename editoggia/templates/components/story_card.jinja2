@@ -11,23 +11,26 @@
 	{{ story.summary }}
       </p>
       <div class="row align-items-end">
-	<div class="col">
+	<div class="col-6">
 	  {# Buttons to edit the story #}
 	  {% if current_user == story.author %}
 	    <a href="{{ url_for('story.edit_story', story_id=story.id) }}" class="btn btn-sm btn-secondary">{{ _("Edit story") }}</a>
 	    <a class="btn btn-sm btn-secondary">{{ _("Add chapter") }}</a>
 	  {% endif %}
 	</div>
-	<div class="col story-card-info">
-	  <span class="story-card-single">
+	<div class="col-6 story-card-info">
+	  <div class="story-card-single">
+	    {{ _("Rating: ") }} {{ _(story.rating if story.rating else "Not rated") }}
+	  </div>
+	  <div class="story-card-single">
 	    {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
-	  </span>
-	  <span class="story-card-single">
+	  </div>
+	  <div class="story-card-single">
 	    {{ _("Likes:") }} {{ story.user_likes|length }}
-	  </span>
-	  <span class="story-card-single">
+	  </div>
+	  <div class="story-card-single">
 	    {{ _("Hits:") }} {{ story.hits }}
-	  </span>
+	  </div>
 	</div>
       </div>
       <div class="story-card-date">
