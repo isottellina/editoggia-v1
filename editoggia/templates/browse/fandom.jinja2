@@ -1,0 +1,19 @@
+{% from 'components/story_card.jinja2' import render_story_card with context %}
+{% extends 'base.jinja2' %}
+
+{% block title %}{{  _("Stories in '{fandom}'").format(fandom=fandom.name) }}{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <div class="container">
+      <div class="row">
+	<div class="col-lg-9 text-justified">
+	  <h2> {{  _("Stories in '{fandom}'").format(fandom=fandom.name) }} </h2>
+	  {% for story in fandom.stories %}
+	    {{ render_story_card(story) }}
+	  {% endfor %}
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
