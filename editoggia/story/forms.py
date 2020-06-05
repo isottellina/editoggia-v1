@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Fri Jun  5 16:17:46 2020 (+0200)
+# Last-Updated: Fri Jun  5 16:26:33 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
@@ -63,7 +63,7 @@ class PostStoryForm(StoryForm):
 class EditStoryForm(StoryForm):
     pass
 
-class EditChapterForm(FlaskForm):
+class ChapterForm(FlaskForm):
     title = StringField(
         gettext("Title"), validators=[
             DataRequired(

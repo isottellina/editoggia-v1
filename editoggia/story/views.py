@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Fri Jun  5 16:13:30 2020 (+0200)
+# Last-Updated: Fri Jun  5 16:28:45 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -13,7 +13,7 @@ from flask_login import login_required, current_user
 
 from editoggia.database import db
 from editoggia.story import story
-from editoggia.story.forms import PostStoryForm, EditStoryForm, EditChapterForm
+from editoggia.story.forms import PostStoryForm, EditStoryForm, ChapterForm
 
 from editoggia.models import Fandom, Story, Chapter
 
@@ -120,7 +120,7 @@ def edit_chapter(chapter_id):
     if chapter.story.author != current_user:
         abort(403)
         
-    form = EditChapterForm(obj=chapter)
+    form = ChapterForm(obj=chapter)
     
     if form.validate_on_submit():
         content = bleach.clean(form.data['content'])
