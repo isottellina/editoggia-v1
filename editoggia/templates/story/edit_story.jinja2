@@ -32,18 +32,18 @@
 	</div>
 	<div class="col-lg-3">
 	  <h2>{{ _("Edit chapters") }}</h2>
-	  <ol class="list-group list-group-flush">
+	  <div class="list-group list-group-flush">
 	    {% for chapter in story.chapters %}
-	      <a href="{{ url_for('story.edit_chapter', chapter_id=chapter.id) }}">
+	      <a class="list-group-item list-group-item-action" href="{{ url_for('story.edit_chapter', chapter_id=chapter.id) }}">
 		{% if chapter.title %}
-		  <li class="list-group-item">{{ _("Chapter {chapter_nb}: {chapter_title}").format(chapter_nb=chapter.nb, chapter_title=chapter.title) }}</li>
+		  {{ _("Chapter {chapter_nb}: {chapter_title}").format(chapter_nb=chapter.nb, chapter_title=chapter.title) }}
 		{% else %}
-		  <li class="list-group-item">{{ _("Chapter {chapter_nb}").format(chapter_nb=chapter.nb) }}</li>
+		  {{ _("Chapter {chapter_nb}").format(chapter_nb=chapter.nb) }}
 		{% endif %}
 	      </a>
 	    {% endfor %}
-	  </ol>
-	  <a class="btn btn-secondary mt-1" href="#">
+	  </div>
+	  <a class="btn btn-block btn-secondary mt-1" href="#">
 	    {{ _("Add a chapter") }}
 	  </a>
 	</div>
