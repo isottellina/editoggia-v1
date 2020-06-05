@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Tue Jun  2 11:50:43 2020 (+0200)
+# Last-Updated: Fri Jun  5 16:13:30 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -13,7 +13,7 @@ from flask_login import login_required, current_user
 
 from editoggia.database import db
 from editoggia.story import story
-from editoggia.story.forms import PostStoryForm, EditStoryForm
+from editoggia.story.forms import PostStoryForm, EditStoryForm, EditChapterForm
 
 from editoggia.models import Fandom, Story, Chapter
 
@@ -108,6 +108,34 @@ def edit_story(story_id):
     else:
         return render_template('story/edit_story.jinja2', form=form, story=story)
 
+@story.route('/edit/chapter/<int:chapter_id>', methods=["GET", "POST"])
+@login_required
+def edit_chapter(chapter_id):
+    """
+    Edit a chapter
+    """
+    # The story has to exist and to have been written by the
+    # current user
+    chapter = Chapter.get_by_id_or_404(chapter_id)
+    if chapter.story.author != current_user:
+        abort(403)
+        
+    form = EditChapterForm(obj=chapter)
+    
+    if form.validate_on_submit():
+        content = bleach.clean(form.data['content'])
+        
+        chapter.update(
+            title=form.data['title'],
+            nb=form.data['nb'],
+            summary=form.data['summary'],
+            content=content
+        )
+        
+        return redirect(url_for('home.index'))
+    else:
+        return render_template('story/edit_chapter.jinja2', form=form, chapter=chapter)
+    
 @story.route('/<int:story_id>')
 def show_story(story_id):
     """
