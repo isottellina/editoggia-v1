@@ -32,16 +32,18 @@
 	</div>
 	<div class="col-lg-3">
 	  <h2>{{ _("Edit chapters") }}</h2>
-	  <ol>
+	  <ol class="list-group list-group-flush">
 	    {% for chapter in story.chapters %}
-	      {% if chapter.title %}
-		<li>{{ _("Chapter {chapter_nb}: {chapter_title}").format(chapter_nb=chapter.nb, chapter_title=chapter.title) }}</li>
-	      {% else %}
-		<li>{{ _("Chapter {chapter_nb}").format(chapter_nb=chapter.nb) }}</li>
-	      {% endif %}
+	      <a href="#">
+		{% if chapter.title %}
+		  <li class="list-group-item">{{ _("Chapter {chapter_nb}: {chapter_title}").format(chapter_nb=chapter.nb, chapter_title=chapter.title) }}</li>
+		{% else %}
+		  <li class="list-group-item">{{ _("Chapter {chapter_nb}").format(chapter_nb=chapter.nb) }}</li>
+		{% endif %}
+	      </a>
 	    {% endfor %}
 	  </ol>
-	  <a href="#">
+	  <a class="btn btn-secondary mt-1" href="#">
 	    {{ _("Add a chapter") }}
 	  </a>
 	</div>
