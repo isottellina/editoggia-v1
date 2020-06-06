@@ -3,7 +3,7 @@
 # Filename: fields.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:49:03 2020 (+0200)
-# Last-Updated: Sat Jun  6 17:32:38 2020 (+0200)
+# Last-Updated: Sat Jun  6 19:34:11 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -32,28 +32,3 @@ class Select2MultipleField(fields.SelectMultipleField):
 
         for value, label in self.choices:
             yield (value, label, self.coerce(value) == self.data)
-
-    def process_data(self, value):
-        if value is None:
-            self.data = None
-        else:
-            try:
-                self.data = self.coerce(value)
-            except (ValueError, TypeError):
-                self.data = None
-
-    def process_formdata(self, valuelist):
-        if valuelist:
-            if valuelist[0] == '__None':
-                self.data = None
-            else:
-                try:
-                    self.data = self.coerce(valuelist[0])
-                except ValueError:
-                    raise ValueError(self.gettext(u'Invalid Choice: could not coerce'))
-
-    def pre_validate(self, form):
-        if self.allow_blank and self.data is None:
-            return
-
-        super().pre_validate(form)
