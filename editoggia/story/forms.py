@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Fri Jun  5 16:26:33 2020 (+0200)
+# Last-Updated: Sat Jun  6 17:32:51 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
@@ -12,6 +12,8 @@ from wtforms import StringField, TextAreaField
 from wtforms import SelectField, SelectMultipleField
 from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length
+
+from editoggia.forms.fields import Select2MultipleField 
 
 class StoryForm(FlaskForm):
     title = StringField(
@@ -48,7 +50,7 @@ class StoryForm(FlaskForm):
         ]
     )
 
-    fandom = SelectMultipleField(gettext("Fandoms"), validate_choice=False)
+    fandom = Select2MultipleField(gettext("Fandoms"), validate_choice=False)
 
 class PostStoryForm(StoryForm):
     content = TextAreaField(

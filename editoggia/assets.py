@@ -3,7 +3,7 @@
 # Filename: assets.py
 # Author: Louise <louise>
 # Created: Sat May  2 05:38:44 2020 (+0200)
-# Last-Updated: Sun May 31 13:29:43 2020 (+0200)
+# Last-Updated: Sat Jun  6 17:19:14 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -18,6 +18,7 @@ css = Bundle(
         output='css/compiled.css',
         depends=('scss/**/*.scss')
     ),
+    'node_modules/select2/dist/css/select2.min.css',
     output='css/style.css'
 )
 
@@ -26,6 +27,7 @@ js = Bundle(
     'node_modules/jquery/dist/jquery.js',
     'node_modules/bootstrap/dist/js/bootstrap.min.js',
     'node_modules/@fortawesome/fontawesome-free/js/all.js',
+    'node_modules/select2/dist/js/select2.full.min.js',
     output='js/scripts.js'
 )
 

@@ -15,3 +15,7 @@ function like_link (story_id) {
 	}
     );
 }
+
+window.onload = function() {
+    $("#fandom").select2();
+}
