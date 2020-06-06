@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Sat May 30 15:17:21 2020 (+0200)
+# Last-Updated: Sat Jun  6 22:31:32 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -124,7 +124,7 @@ def create_db():
         FandomCategory.create(name="TV Shows")
         FandomCategory.create(name="Video games")
         category = FandomCategory.create(name="Other")
-        fandom = Fandom.create(name="Original Work", category=category)
+        fandom = Fandom.create(name="Original Work", category=category, waiting_mod=False)
         
 # Various helpers
 @click.argument('username')

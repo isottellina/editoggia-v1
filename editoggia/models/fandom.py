@@ -3,7 +3,7 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Sat May 30 20:36:43 2020 (+0200)
+# Last-Updated: Sat Jun  6 22:30:34 2020 (+0200)
 #           By: Louise <louise>
 # 
 from editoggia.database import db
@@ -27,14 +27,16 @@ class Fandom(db.Model, CRUDMixin):
     """
     __tablename__ = "fandom"
     
-    category_id = db.Column(db.Integer(), db.ForeignKey('fandomcategory.id'),
-                            nullable=False)
+    category_id = db.Column(db.Integer(), db.ForeignKey('fandomcategory.id'))
     category = db.relationship('FandomCategory', back_populates='fandoms')
     
     name = db.Column(db.String(255), index=True, unique=True, nullable=False)
     stories = db.relationship('Story',
                                secondary='story_fandoms',
                                back_populates='fandom')
+
+    # Is this fandom waiting for moderation?
+    waiting_mod = db.Column(db.Boolean(), nullable=False, default=True)
 
     def __repr__(self):
         return "<Fandom '{}'>".format(self.name)

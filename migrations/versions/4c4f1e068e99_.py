@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a8086bed6a8f
+Revision ID: 4c4f1e068e99
 Revises: 
-Create Date: 2020-06-02 11:40:36.435290
+Create Date: 2020-06-06 22:32:32.742501
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a8086bed6a8f'
+revision = '4c4f1e068e99'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,6 +37,12 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
+    op.create_table('story_stats',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('hits', sa.Integer(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_story_stats_hits'), 'story_stats', ['hits'], unique=False)
     op.create_table('tag',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=255), nullable=False),
@@ -67,8 +73,9 @@ def upgrade():
     )
     op.create_table('fandom',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('category_id', sa.Integer(), nullable=False),
+    sa.Column('category_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=255), nullable=False),
+    sa.Column('waiting_mod', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['category_id'], ['fandomcategory.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -172,6 +179,8 @@ def downgrade():
     op.drop_table('fandom')
     op.drop_table('user')
     op.drop_table('tag')
+    op.drop_index(op.f('ix_story_stats_hits'), table_name='story_stats')
+    op.drop_table('story_stats')
     op.drop_table('role')
     op.drop_table('permission')
     op.drop_table('fandomcategory')
