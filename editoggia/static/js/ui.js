@@ -17,5 +17,6 @@ function like_link (story_id) {
 }
 
 window.onload = function() {
-    $("#fandom").select2();
+    // Load Select2
+    $(".select2").select2();
 }
