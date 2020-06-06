@@ -3,17 +3,16 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Sat Jun  6 17:32:51 2020 (+0200)
+# Last-Updated: Sat Jun  6 21:44:28 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms import StringField, TextAreaField
-from wtforms import SelectField, SelectMultipleField
+from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length
 
-from editoggia.forms.fields import Select2MultipleField 
+from editoggia.forms.fields import Select2Field, Select2MultipleField 
 
 class StoryForm(FlaskForm):
     title = StringField(
@@ -28,7 +27,7 @@ class StoryForm(FlaskForm):
         ]
     )
     
-    rating = SelectField(
+    rating = Select2Field(
         gettext("Rating"),
         choices=[
             (None, gettext("Not rated")),
