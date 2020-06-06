@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-05-11 18:13+0200\n"
+"POT-Creation-Date: 2020-06-06 23:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,43 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: auth/forms.py:17 user/forms.py:18
+#: commands.py:111
+msgid "Administrator"
+msgstr ""
+
+#: commands.py:112
+msgid "Administrator of the website."
+msgstr ""
+
+#: ajax/decorators.py:28
+msgid "You have to be authenticated to do this."
+msgstr ""
+
+#: ajax/forms.py:21
+msgid "The story parameter is needed."
+msgstr ""
+
+#: ajax/forms.py:30
+msgid "The chapter parameter is needed."
+msgstr ""
+
+#: ajax/forms.py:38
+msgid "Comment can't be empty."
+msgstr ""
+
+#: auth/forms.py:17 user/forms.py:22
 msgid "Username"
 msgstr ""
 
-#: auth/forms.py:19 user/forms.py:20
+#: auth/forms.py:19 user/forms.py:24
 msgid "Username must be filled."
 msgstr ""
 
-#: auth/forms.py:22 user/forms.py:59
+#: auth/forms.py:22 user/forms.py:63
 msgid "Password"
 msgstr ""
 
-#: auth/forms.py:24 user/forms.py:62
+#: auth/forms.py:24 user/forms.py:66
 msgid "Password must be filled."
 msgstr ""
 
@@ -41,55 +65,185 @@ msgstr ""
 msgid "Invalid password."
 msgstr ""
 
-#: auth/views.py:40
+#: auth/views.py:38
 msgid "Signed-up user {username}."
 msgstr ""
 
-#: auth/views.py:56
+#: auth/views.py:54
 msgid "You were logged in as {username}"
 msgstr ""
 
-#: auth/views.py:69
+#: auth/views.py:67
 msgid "You were logged out"
 msgstr ""
 
-#: auth/templates/login.jinja2:4 auth/templates/login.jinja2:11
-#: templates/_navbar.jinja2:23
-msgid "Log in"
+#: models/story.py:30 story/forms.py:34
+msgid "General audiences"
 msgstr ""
 
-#: auth/templates/login.jinja2:20 auth/templates/register.jinja2:27
-#: user/templates/edit_profile.jinja2:25
-msgid "Submit"
+#: models/story.py:31 story/forms.py:35
+msgid "Teen and up audiences"
 msgstr ""
 
-#: auth/templates/register.jinja2:4 auth/templates/register.jinja2:11
-#: templates/_navbar.jinja2:17
-msgid "Sign up"
+#: models/story.py:32 story/forms.py:36
+msgid "Mature"
 msgstr ""
 
-#: home/templates/index.jinja2:8
-msgid "new-articles"
+#: models/story.py:33 story/forms.py:37
+msgid "Explicit"
 msgstr ""
 
-#: home/templates/index.jinja2:14
-msgid "new-stories"
+#: models/user.py:65 templates/user/profile.jinja2:49 user/forms.py:120
+msgid "Woman"
+msgstr ""
+
+#: models/user.py:66 templates/user/profile.jinja2:52 user/forms.py:121
+msgid "Man"
+msgstr ""
+
+#: models/user.py:67 templates/user/profile.jinja2:55 user/forms.py:122
+msgid "Other"
+msgstr ""
+
+#: story/forms.py:19 story/forms.py:69
+msgid "Title"
+msgstr ""
+
+#: story/forms.py:21 story/forms.py:71
+msgid "Title can't be empty."
+msgstr ""
+
+#: story/forms.py:25 story/forms.py:75
+msgid "Title must be less than 255 characters."
+msgstr ""
+
+#: story/forms.py:31
+msgid "Rating"
+msgstr ""
+
+#: story/forms.py:33
+msgid "Not rated"
+msgstr ""
+
+#: story/forms.py:44 story/forms.py:93
+msgid "Summary"
+msgstr ""
+
+#: story/forms.py:47 story/forms.py:96
+msgid "Summary must be less than 1000 characters."
+msgstr ""
+
+#: story/forms.py:52
+msgid "Fandoms"
+msgstr ""
+
+#: story/forms.py:59 story/forms.py:105
+msgid "Content"
+msgstr ""
+
+#: story/forms.py:81
+msgid "Chapter number"
+msgstr ""
+
+#: story/forms.py:83
+msgid "Chapter number can't be empty."
+msgstr ""
+
+#: story/forms.py:87
+msgid "Chapter number can't be less than zero."
 msgstr ""
 
 #: templates/_footer.jinja2:2
 msgid "Editoggia by Isottellina."
 msgstr ""
 
-#: templates/_navbar.jinja2:38
+#: templates/_navbar.jinja2:16 templates/user/profile.jinja2:69
+msgid "Stories"
+msgstr ""
+
+#: templates/_navbar.jinja2:22
+msgid "Post"
+msgstr ""
+
+#: templates/_navbar.jinja2:31 templates/auth/register.jinja2:4
+#: templates/auth/register.jinja2:11
+msgid "Sign up"
+msgstr ""
+
+#: templates/_navbar.jinja2:37 templates/auth/login.jinja2:4
+#: templates/auth/login.jinja2:11
+msgid "Log in"
+msgstr ""
+
+#: templates/_navbar.jinja2:52
+msgid "Profile"
+msgstr ""
+
+#: templates/_navbar.jinja2:57
+msgid "Administration interface"
+msgstr ""
+
+#: templates/_navbar.jinja2:62
 msgid "Log out"
+msgstr ""
+
+#: templates/auth/login.jinja2:20 templates/auth/register.jinja2:27
+#: templates/story/edit_chapter.jinja2:26 templates/story/edit_story.jinja2:28
+#: templates/story/post_story.jinja2:31 templates/user/edit_profile.jinja2:34
+msgid "Submit"
+msgstr ""
+
+#: templates/browse/fandom.jinja2:4 templates/browse/fandom.jinja2:11
+msgid "Stories in '{fandom}'"
+msgstr ""
+
+#: templates/browse/fandoms.jinja2:3 templates/browse/fandoms.jinja2:10
+msgid "Fandoms in category '{category}'"
+msgstr ""
+
+#: templates/components/story_card.jinja2:17
+#: templates/story/edit_story.jinja2:4 templates/story/edit_story.jinja2:11
+msgid "Edit story"
+msgstr ""
+
+#: templates/components/story_card.jinja2:22
+msgid "Rating: "
+msgstr ""
+
+#: templates/components/story_card.jinja2:25
+msgid "Chapters: "
+msgstr ""
+
+#: templates/components/story_card.jinja2:28
+msgid "Likes:"
+msgstr ""
+
+#: templates/components/story_card.jinja2:31
+msgid "Hits:"
 msgstr ""
 
 #: templates/errors/400.jinja2:3
 msgid "Bad request"
 msgstr ""
 
+#: templates/errors/400.jinja2:6
+msgid "The server cannot process this request due to an error of the client"
+msgstr ""
+
 #: templates/errors/401.jinja2:3
 msgid "Unauthorized"
+msgstr ""
+
+#: templates/errors/401.jinja2:6
+msgid "You have to be logged in to access this page or resource."
+msgstr ""
+
+#: templates/errors/403.jinja2:3
+msgid "Forbidden"
+msgstr ""
+
+#: templates/errors/403.jinja2:6
+msgid "Your access rights are not sufficient to access this page."
 msgstr ""
 
 #: templates/errors/404.jinja2:3
@@ -100,96 +254,148 @@ msgstr ""
 msgid "The page or the resource you requested doesn't exist."
 msgstr ""
 
-#: user/forms.py:25
-msgid "Username must be between 2 and 50 characters."
+#: templates/home/index.jinja2:9
+msgid "Browse"
 msgstr ""
 
-#: user/forms.py:31
-msgid "Email"
+#: templates/home/index.jinja2:23
+msgid "New stories"
 msgstr ""
 
-#: user/forms.py:33
-msgid "Email must be valid."
+#: templates/story/edit_chapter.jinja2:4 templates/story/edit_chapter.jinja2:11
+msgid "Edit chapter"
 msgstr ""
 
-#: user/forms.py:36
-msgid "Email must be filled."
+#: templates/story/edit_story.jinja2:34
+msgid "Edit chapters"
 msgstr ""
 
-#: user/forms.py:40
-msgid "Email must be less than 128 characters."
+#: templates/story/edit_story.jinja2:39
+msgid "Chapter {chapter_nb}: {chapter_title}"
 msgstr ""
 
-#: user/forms.py:46
-msgid "Display name"
+#: templates/story/edit_story.jinja2:41
+msgid "Chapter {chapter_nb}"
 msgstr ""
 
-#: user/forms.py:49
-msgid "Display name must be less than 128 characters."
+#: templates/story/edit_story.jinja2:47
+msgid "Add a chapter"
 msgstr ""
 
-#: user/forms.py:66
-msgid "Passwords must match."
+#: templates/story/index.jinja2:4
+msgid "Story list"
 msgstr ""
 
-#: user/forms.py:71
-msgid "Password must be between 6 and 50 characters."
+#: templates/story/post_story.jinja2:4 templates/story/post_story.jinja2:11
+msgid "Post a new story"
 msgstr ""
 
-#: user/forms.py:76
-msgid "Confirm Password"
+#: templates/story/show_chapter.jinja2:6 templates/story/show_chapter.jinja2:24
+msgid "Chapter"
 msgstr ""
 
-#: user/forms.py:78
-msgid "Password must be confirmed."
+#: templates/story/show_chapter.jinja2:39
+msgid "Previous chapter"
 msgstr ""
 
-#: user/forms.py:91
-msgid "Username can only contain alphanumerical characters."
+#: templates/story/show_chapter.jinja2:45
+msgid "Chapter index"
 msgstr ""
 
-#: user/forms.py:101
-msgid "Username already registered."
+#: templates/story/show_chapter.jinja2:51
+msgid "Next chapter"
 msgstr ""
 
-#: user/forms.py:106
-msgid "Email already registered."
+#: templates/story/show_chapter.jinja2:69
+msgid "Like"
 msgstr ""
 
-#: user/forms.py:114
-msgid "Gender"
+#: templates/story/show_chapter.jinja2:74
+msgid "Comment"
 msgstr ""
 
-#: user/forms.py:116 user/models.py:58 user/templates/profile.jinja2:33
-msgid "Woman"
+#: templates/story/story_index.jinja2:3
+msgid "Index"
 msgstr ""
 
-#: user/forms.py:117 user/models.py:59 user/templates/profile.jinja2:36
-msgid "Man"
-msgstr ""
-
-#: user/forms.py:118 user/models.py:60 user/templates/profile.jinja2:39
-msgid "Other"
-msgstr ""
-
-#: user/forms.py:119
-msgid "Doesn't want to say"
-msgstr ""
-
-#: user/views.py:49
-msgid "Profile edited with success"
-msgstr ""
-
-#: user/templates/edit_profile.jinja2:4 user/templates/edit_profile.jinja2:11
-#: user/templates/profile.jinja2:45
+#: templates/user/edit_profile.jinja2:4 templates/user/edit_profile.jinja2:11
+#: templates/user/profile.jinja2:61
 msgid "Edit profile"
 msgstr ""
 
-#: user/templates/profile.jinja2:52
-msgid "Bio"
+#: templates/user/profile.jinja2:42
+msgid "years old"
 msgstr ""
 
-#: user/templates/profile.jinja2:53
-msgid "Stories"
+#: templates/user/profile.jinja2:72
+msgid "Liked stories"
+msgstr ""
+
+#: user/forms.py:29
+msgid "Username must be between 2 and 50 characters."
+msgstr ""
+
+#: user/forms.py:35
+msgid "Email"
+msgstr ""
+
+#: user/forms.py:37
+msgid "Email must be valid."
+msgstr ""
+
+#: user/forms.py:40
+msgid "Email must be filled."
+msgstr ""
+
+#: user/forms.py:44
+msgid "Email must be less than 128 characters."
+msgstr ""
+
+#: user/forms.py:50
+msgid "Display name"
+msgstr ""
+
+#: user/forms.py:53
+msgid "Display name must be less than 128 characters."
+msgstr ""
+
+#: user/forms.py:70
+msgid "Passwords must match."
+msgstr ""
+
+#: user/forms.py:75
+msgid "Password must be between 6 and 50 characters."
+msgstr ""
+
+#: user/forms.py:80
+msgid "Confirm Password"
+msgstr ""
+
+#: user/forms.py:82
+msgid "Password must be confirmed."
+msgstr ""
+
+#: user/forms.py:95
+msgid "Username can only contain alphanumerical characters."
+msgstr ""
+
+#: user/forms.py:105
+msgid "Username already registered."
+msgstr ""
+
+#: user/forms.py:110
+msgid "Email already registered."
+msgstr ""
+
+#: user/forms.py:118
+msgid "Gender"
+msgstr ""
+
+#: user/forms.py:123
+msgid "Doesn't want to say"
+msgstr ""
+
+#: user/views.py:87
+msgid "Profile edited with success"
 msgstr ""
 
