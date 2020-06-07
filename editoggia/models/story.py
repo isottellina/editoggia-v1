@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Thu Jun  4 21:45:03 2020 (+0200)
+# Last-Updated: Sun Jun  7 12:48:20 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -128,28 +128,7 @@ class Chapter(db.Model, CRUDMixin):
             self.story.author
         )
 
-
-class StoriesTags(db.Model):
-    """
-    Association table between Story and Tags.
-    """
-    __tablename__ = "stories_tags"
-
-    id = db.Column(db.Integer(), primary_key=True)
-    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
-    tag_id = db.Column(db.Integer(), db.ForeignKey('tag.id'))
-
-class Tag(db.Model, CRUDMixin):
-    """
-    A tag. I really don't know how else to describe it.
-    """
-    __tablename__ = "tag"
-
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(255), unique=True, nullable=False)
-    stories = db.relationship('Story', secondary='stories_tags',
-                              back_populates='tags')
-
 from editoggia.models.user import User
 from editoggia.models.fandom import Fandom
 from editoggia.models.comment import Comment
+from editoggia.models.tag import Tag
