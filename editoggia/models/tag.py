@@ -3,7 +3,7 @@
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
-# Last-Updated: Sun Jun  7 12:49:23 2020 (+0200)
+# Last-Updated: Sun Jun  7 12:50:59 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_babel import gettext
@@ -23,7 +23,7 @@ class Tag(db.Model, CRUDMixin):
         "General",
         "Characters",
         "Relationship",
-    ))
+    ), nullable=False)
     
     fandoms = db.relationship('Fandom', secondary='tags_fandoms',
                               back_populates='tags')
