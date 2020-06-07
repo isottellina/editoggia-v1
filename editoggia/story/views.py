@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sat Jun  6 21:34:57 2020 (+0200)
+# Last-Updated: Sun Jun  7 21:14:51 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -46,7 +46,7 @@ def post_story():
         
         # We have to load the fandoms
         loaded_fandoms = [
-            db.session.query(Fandom).filter(Fandom.name==fandom).first_or_404()
+            Fandom.get_or_create(fandom)
             for fandom in form.data['fandom']
         ]
         
@@ -92,7 +92,7 @@ def edit_story(story_id):
     if form.validate_on_submit():
         # We have to load the fandoms
         loaded_fandoms = [
-            db.session.query(Fandom).filter(Fandom.name==fandom).first_or_404()
+            Fandom.get_or_create(fandom)
             for fandom in form.data['fandom']
         ]
         

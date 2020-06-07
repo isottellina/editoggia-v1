@@ -3,11 +3,11 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Sun Jun  7 12:48:51 2020 (+0200)
+# Last-Updated: Sun Jun  7 21:21:21 2020 (+0200)
 #           By: Louise <louise>
 # 
 from editoggia.database import db
-from editoggia.models.mixins import CRUDMixin
+from editoggia.models.mixins import CRUDMixin, ModeratedMixin
 
 class FandomCategory(db.Model, CRUDMixin):
     """
@@ -21,7 +21,7 @@ class FandomCategory(db.Model, CRUDMixin):
     def __repr__(self):
         return "<FandomCategory '{}'>".format(self.name)
 
-class Fandom(db.Model, CRUDMixin):
+class Fandom(db.Model, CRUDMixin, ModeratedMixin):
     """
     Represent a fandom. 
     """
@@ -36,10 +36,7 @@ class Fandom(db.Model, CRUDMixin):
                                back_populates='fandom')
     tags = db.relationship('Tag', secondary='tags_fandoms',
                            back_populates='fandoms')
-
-    # Is this fandom waiting for moderation?
-    waiting_mod = db.Column(db.Boolean(), nullable=False, default=True)
-
+    
     def __repr__(self):
         return "<Fandom '{}'>".format(self.name)
 

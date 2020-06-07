@@ -3,14 +3,14 @@
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
-# Last-Updated: Sun Jun  7 12:50:59 2020 (+0200)
+# Last-Updated: Sun Jun  7 21:21:30 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_babel import gettext
 from editoggia.database import db
-from editoggia.models.mixins import CRUDMixin
+from editoggia.models.mixins import CRUDMixin, ModeratedMixin
 
-class Tag(db.Model, CRUDMixin):
+class Tag(db.Model, CRUDMixin, ModeratedMixin):
     """
     A tag. I really don't know how else to describe it.
     """
@@ -19,11 +19,13 @@ class Tag(db.Model, CRUDMixin):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
 
+    # The tag type. It can only be null in the case of a tag awaiting
+    # moderation.
     tag_type = db.Column(db.Enum(
         "General",
         "Characters",
         "Relationship",
-    ), nullable=False)
+    ))
     
     fandoms = db.relationship('Fandom', secondary='tags_fandoms',
                               back_populates='tags')

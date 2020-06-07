@@ -3,7 +3,7 @@
 # Filename: widgets.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:50:00 2020 (+0200)
-# Last-Updated: Sat Jun  6 18:03:59 2020 (+0200)
+# Last-Updated: Sun Jun  7 21:02:01 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -20,9 +20,9 @@ class Select2Widget(widgets.Select):
     def __call__(self, field, **kwargs):
         kwargs.setdefault('data-role', u'select2')
         kwargs['class'] = kwargs.get('class', '') + ' select2'
-        
-        allow_blank = getattr(field, 'allow_blank', False)
-        if allow_blank and not self.multiple:
-            kwargs['data-allow-blank'] = u'1'
 
+        # If tags is set on the field, set data-tags to true
+        if getattr(field, 'tags', False):
+            kwargs['data-tags'] = '1'
+        
         return super().__call__(field, **kwargs)

@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Thu Jun  4 21:08:19 2020 (+0200)
+# Last-Updated: Sun Jun  7 21:21:14 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import abort
@@ -47,3 +47,34 @@ class CRUDMixin(PKMixin):
     def delete(self, commit=True):
         db.session.delete(self)
         return commit and db.session.commit()
+
+class ModeratedMixin(object):
+    """
+    A mixin for moderated objects, such as fandoms or tags.
+    It allows for objects to be gotten or created, and set
+    to be waiting for moderation. 
+    """
+    waiting_mod = db.Column(db.Boolean(), nullable=False, default=True)
+    
+    @classmethod
+    def get_or_create(cls, name, **kwargs):
+        """
+        If the object exists, return it. If
+        it doesn't exist, create it, set it
+        to be moderated, and return the created one.
+
+        Indexing is done by `name`, and this column must exist.
+        If it does not, it will abort with a 500 error.
+        """
+        if getattr(cls, 'name') is None:
+            abort(500)
+        obj = cls.query.filter(cls.name == name).first()
+        
+        if obj:
+            return obj
+        else:
+            return cls.create(
+                name=name,
+                waiting_mod=True,
+                **kwargs
+            )
