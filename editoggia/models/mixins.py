@@ -3,9 +3,11 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Mon Jun  8 18:50:21 2020 (+0200)
+# Last-Updated: Mon Jun  8 20:08:53 2020 (+0200)
 #           By: Louise <louise>
 #
+from datetime import datetime
+
 from flask import abort
 from editoggia.database import db
 
@@ -29,9 +31,9 @@ class CRUDMixin(PKMixin):
         return obj
 
     @classmethod
-    def create(cls, **kwargs):
+    def create(cls, commit=True, **kwargs):
         instance = cls(**kwargs)
-        return instance.save()
+        return instance.save(commit=commit)
 
     def update(self, commit=True, **kwargs):
         for attr, value in kwargs.items():

@@ -3,14 +3,12 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Mon Jun  8 18:51:07 2020 (+0200)
+# Last-Updated: Mon Jun  8 20:09:21 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 The models for the story blueprint.
 """
-from datetime import datetime
-
 from flask_babel import gettext
 from editoggia.database import db
 from editoggia.models.mixins import PKMixin, CRUDMixin, DatesMixin
@@ -23,7 +21,6 @@ class Story(db.Model, CRUDMixin, DatesMixin):
 
     title = db.Column(db.String(255), nullable=False, index=True)
     summary = db.Column(db.String(1000), nullable=False, default="")
-    hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
     total_chapters = db.Column(db.Integer())
 
     rating = db.Column(db.Enum(
@@ -36,6 +33,10 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     fandom = db.relationship('Fandom',
                              secondary='story_fandoms',
                              back_populates='stories')
+
+    stats_id = db.Column(db.Integer(), db.ForeignKey('storystats.id'),
+                         nullable=False)
+    stats = db.relationship('StoryStats', back_populates='story')
     
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'),
                           nullable=False)
@@ -51,6 +52,30 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         'User', secondary='user_likes',
         back_populates='likes'
     )
+
+    @classmethod
+    def create(cls, commit=True, **kwargs):
+        """
+        We overload the create method to create automatically
+        the Story and the StoryStats object.
+        """
+        stats = StoryStats()
+        story = Story(
+            stats=stats,
+            **kwargs
+        )
+
+        return story.save()
+    
+    def hit(self):
+        """
+        If user is not the author, increment hit.
+        """
+        from flask_login import current_user
+        
+        if current_user != self.author:
+            self.stats.hits += 1
+            db.session.commit()
 
     def __setattr__(self, attr, value):
         """
@@ -74,18 +99,11 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     def __repr__(self):
         return "<Story '{}', by '{}'>".format(self.title, self.author)
 
-    def hit(self):
-        """
-        If user is not the author, increment hit.
-        """
-        from flask_login import current_user
-        
-        if current_user != self.author:
-            self.hits += 1
-            db.session.commit()
-
 class StoryStats(db.Model, PKMixin):
+    __tablename__ = "storystats"
+    
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
+    story = db.relationship('Story', back_populates='stats')
     
 class Chapter(db.Model, CRUDMixin, DatesMixin):
     """

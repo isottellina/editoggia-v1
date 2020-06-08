@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 227272657f60
+Revision ID: dc2740e84001
 Revises: 
-Create Date: 2020-06-08 17:22:31.165416
+Create Date: 2020-06-08 20:09:24.991441
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '227272657f60'
+revision = 'dc2740e84001'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -37,12 +37,12 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
-    op.create_table('story_stats',
+    op.create_table('storystats',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('hits', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_story_stats_hits'), 'story_stats', ['hits'], unique=False)
+    op.create_index(op.f('ix_storystats_hits'), 'storystats', ['hits'], unique=False)
     op.create_table('tag',
     sa.Column('waiting_mod', sa.Boolean(), nullable=False),
     sa.Column('id', sa.Integer(), nullable=False),
@@ -100,27 +100,27 @@ def upgrade():
     )
     op.create_table('story',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('title', sa.String(length=255), nullable=False),
-    sa.Column('summary', sa.String(length=1000), nullable=False),
-    sa.Column('hits', sa.Integer(), nullable=False),
-    sa.Column('total_chapters', sa.Integer(), nullable=True),
-    sa.Column('rating', sa.Enum('General audiences', 'Teen and up audiences', 'Mature', 'Explicit'), nullable=True),
     sa.Column('created_on', sa.DateTime(), nullable=False),
     sa.Column('updated_on', sa.DateTime(), nullable=False),
+    sa.Column('title', sa.String(length=255), nullable=False),
+    sa.Column('summary', sa.String(length=1000), nullable=False),
+    sa.Column('total_chapters', sa.Integer(), nullable=True),
+    sa.Column('rating', sa.Enum('General audiences', 'Teen and up audiences', 'Mature', 'Explicit'), nullable=True),
+    sa.Column('stats_id', sa.Integer(), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['author_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['stats_id'], ['storystats.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_story_hits'), 'story', ['hits'], unique=False)
     op.create_index(op.f('ix_story_title'), 'story', ['title'], unique=False)
     op.create_table('chapter',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('created_on', sa.DateTime(), nullable=False),
+    sa.Column('updated_on', sa.DateTime(), nullable=False),
     sa.Column('nb', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('summary', sa.Text(), nullable=True),
     sa.Column('content', sa.Text(), nullable=False),
-    sa.Column('created_on', sa.DateTime(), nullable=False),
-    sa.Column('updated_on', sa.DateTime(), nullable=False),
     sa.Column('story_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['story_id'], ['story.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -161,9 +161,9 @@ def upgrade():
     )
     op.create_table('comment',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('content', sa.Text(), nullable=False),
     sa.Column('created_on', sa.DateTime(), nullable=False),
     sa.Column('updated_on', sa.DateTime(), nullable=False),
+    sa.Column('content', sa.Text(), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=True),
     sa.Column('chapter_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['author_id'], ['user.id'], ),
@@ -183,7 +183,6 @@ def downgrade():
     op.drop_index(op.f('ix_chapter_nb'), table_name='chapter')
     op.drop_table('chapter')
     op.drop_index(op.f('ix_story_title'), table_name='story')
-    op.drop_index(op.f('ix_story_hits'), table_name='story')
     op.drop_table('story')
     op.drop_table('roles_users')
     op.drop_table('permissions_roles')
@@ -191,8 +190,8 @@ def downgrade():
     op.drop_table('fandom')
     op.drop_table('user')
     op.drop_table('tag')
-    op.drop_index(op.f('ix_story_stats_hits'), table_name='story_stats')
-    op.drop_table('story_stats')
+    op.drop_index(op.f('ix_storystats_hits'), table_name='storystats')
+    op.drop_table('storystats')
     op.drop_table('role')
     op.drop_table('permission')
     op.drop_table('fandomcategory')

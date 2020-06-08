@@ -3,11 +3,9 @@
 # Filename: comments.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:16:18 2020 (+0200)
-# Last-Updated: Mon Jun  8 18:50:33 2020 (+0200)
+# Last-Updated: Mon Jun  8 20:08:57 2020 (+0200)
 #           By: Louise <louise>
 #
-from datetime import datetime
-
 from editoggia.database import db
 from editoggia.models.mixins import CRUDMixin, DatesMixin
 
