@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun Jun  7 12:48:20 2020 (+0200)
+# Last-Updated: Mon Jun  8 14:58:06 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -58,6 +58,25 @@ class Story(db.Model, CRUDMixin):
         back_populates='likes'
     )
 
+    def __setattr__(self, attr, value):
+        """
+        We overload this method to allow for special behaviour
+        for the fandom and tag fields. Hereby, we can set their
+        fields with strings and actually set the objects.
+        """
+        # We import the models here to ensure that there be no
+        # issues loading the file.
+        from editoggia.models import Fandom
+
+        # The second check checks that the first element in the
+        # list exists, and that it's a string. If there is no
+        # first element, or if the value is already a model,
+        # we have no need for the transformation.
+        if attr == "fandom" and type(next(iter(value), 0)) == str:
+            value = [Fandom.get_or_create(fandom) for fandom in value]
+        
+        db.Model.__setattr__(self, attr, value)
+    
     def __repr__(self):
         return "<Story '{}', by '{}'>".format(self.title, self.author)
 
@@ -120,7 +139,7 @@ class Chapter(db.Model, CRUDMixin):
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'),
                          nullable=False)
     story = db.relationship('Story', back_populates='chapters')
-
+    
     def __repr__(self):
         return "<Chapter {} of story '{}', by '{}'>".format(
             self.nb,

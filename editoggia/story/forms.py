@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Sun Jun  7 20:54:01 2020 (+0200)
+# Last-Updated: Mon Jun  8 14:22:56 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_wtf import FlaskForm
@@ -50,6 +50,9 @@ class StoryForm(FlaskForm):
     )
 
     fandom = Select2MultipleTagsField(gettext("Fandoms"), validate_choice=False)
+    characters = Select2MultipleTagsField(gettext("Characters"), validate_choice=False)
+    relationships = Select2MultipleTagsField(gettext("Relationships"), validate_choice=False)
+    tags = Select2MultipleTagsField(gettext("Tags"), validate_choice=False)
 
 class PostStoryForm(StoryForm):
     content = TextAreaField(

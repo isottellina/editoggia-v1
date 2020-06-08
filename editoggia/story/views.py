@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sun Jun  7 21:14:51 2020 (+0200)
+# Last-Updated: Mon Jun  8 15:01:16 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -44,19 +44,13 @@ def post_story():
         # First we have to bleach the HTML content we got
         content = bleach.clean(form.data['content'])
         
-        # We have to load the fandoms
-        loaded_fandoms = [
-            Fandom.get_or_create(fandom)
-            for fandom in form.data['fandom']
-        ]
-        
         # We have to create the story before the chapter
         story = Story.create(
             title=form.data['title'],
             rating=form.data['rating'],
             author=current_user,
             summary=form.data['summary'],
-            fandom=loaded_fandoms
+            fandom=form.data['fandom']
         )
 
         # Then we create the first chapter
@@ -88,21 +82,14 @@ def edit_story(story_id):
     form.fandom.choices = [
         (fandom.name, fandom.name) for fandom in fandoms
     ]
+    form.characters.choices = []
+    form.relationships.choices = []
+    form.tags.choices = []
     
     if form.validate_on_submit():
-        # We have to load the fandoms
-        loaded_fandoms = [
-            Fandom.get_or_create(fandom)
-            for fandom in form.data['fandom']
-        ]
-        
         # We update the story
-        story.update(
-            title=form.data['title'],
-            rating=form.data['rating'],
-            summary=form.data['summary'],
-            fandom=loaded_fandoms
-        )
+        form.populate_obj(story)
+        story.update()
         
         return redirect(url_for('home.index'))
     else:
@@ -126,14 +113,10 @@ def edit_chapter(chapter_id):
     form = ChapterForm(obj=chapter)
     
     if form.validate_on_submit():
-        content = bleach.clean(form.data['content'])
+        form.data['content'] = bleach.clean(form.data['content'])
         
-        chapter.update(
-            title=form.data['title'],
-            nb=form.data['nb'],
-            summary=form.data['summary'],
-            content=content
-        )
+        form.populate_obj(chapter)
+        chapter.update()
         
         return redirect(url_for('home.index'))
     else:
