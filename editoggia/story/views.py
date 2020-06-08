@@ -3,19 +3,15 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:11:37 2020 (+0200)
+# Last-Updated: Mon Jun  8 15:17:30 2020 (+0200)
 #           By: Louise <louise>
 #
-import bleach
-
-from flask import render_template, redirect, url_for, abort
-from flask_login import login_required, current_user
+from flask import render_template, redirect, url_for
 
 from editoggia.database import db
 from editoggia.story import story
-from editoggia.story.forms import PostStoryForm, EditStoryForm, ChapterForm
 
-from editoggia.models import Fandom, Story, Chapter
+from editoggia.models import Story, Chapter
 
 @story.route('/')
 def index():

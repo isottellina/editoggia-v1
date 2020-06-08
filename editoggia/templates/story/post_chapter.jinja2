@@ -1,15 +1,15 @@
 {% from 'components/field.jinja2' import render_field %}
 {% extends 'base.jinja2' %}
 
-{% block title %} {{ _("Edit chapter") }} {% endblock %}
+{% block title %} {{ _("Post chapter") }} {% endblock %}
 
 {% block content %}
   <section class="section">
     <div class="container">
       <div class="row justify-content-center">
 	<div class="col-lg-10">
-	  <h2> {{ _("Edit chapter") }} </h2>
-	  <form action="{{ url_for('story.edit_chapter', story_id=chapter.story.id, chapter_id=chapter.id) }}" method="POST">
+	  <h2> {{ _("Post chapter") }} </h2>
+	  <form action="{{ url_for('story.post_chapter', story_id=story.id) }}" method="POST">
 	    {{ form.csrf_token }}
 	    <div class="row">
 	      {{ render_field(form.title, col="col-lg-10") }}

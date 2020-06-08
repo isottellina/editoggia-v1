@@ -3,12 +3,12 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:11:34 2020 (+0200)
+# Last-Updated: Mon Jun  8 15:16:48 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
 
-from flask import render_template, redirect, abort
+from flask import render_template, redirect, abort, url_for
 from flask_login import current_user, login_required
 
 from editoggia.database import db
@@ -52,9 +52,9 @@ def edit_story(story_id):
         
         return render_template('story/edit_story.jinja2', form=form, story=story)
 
-@story.route('/edit/chapter/<int:chapter_id>', methods=["GET", "POST"])
+@story.route('/edit/<int:story_id>/chapter/<int:chapter_id>', methods=["GET", "POST"])
 @login_required
-def edit_chapter(chapter_id):
+def edit_chapter(story_id, chapter_id):
     """
     Edit a chapter
     """

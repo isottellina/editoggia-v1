@@ -3,12 +3,12 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:11:46 2020 (+0200)
+# Last-Updated: Mon Jun  8 15:27:22 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
 
-from flask import render_template, redirect 
+from flask import render_template, redirect, url_for
 from flask_login import current_user, login_required
 
 from editoggia.database import db
@@ -53,3 +53,31 @@ def post_story():
         return redirect(url_for('home.index'))
     else:
         return render_template('story/post_story.jinja2', form=form)
+
+@story.route('/post/<int:story_id>/chapter', methods=["GET", "POST"])
+@login_required
+def post_chapter(story_id):
+    """
+    Post a new story.
+    """
+    story = Story.get_by_id_or_404(story_id)
+    form = ChapterForm()
+    
+    if form.validate_on_submit():
+        # First we have to bleach the HTML content we got
+        content = bleach.clean(form.data['content'])
+
+        Chapter.create(
+            story=story,
+            title=form.data['title'],
+            nb=form.data['nb'],
+            summary=form.data['summary'],
+            content=content
+        )
+        
+        return redirect(url_for('home.index'))
+    else:
+        # Set a default chapter number (Last chapter + 1)
+        form.nb.process_data(story.chapters[-1].nb + 1)
+        
+        return render_template('story/post_chapter.jinja2', story=story, form=form)
