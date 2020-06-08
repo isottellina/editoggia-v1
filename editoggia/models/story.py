@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Mon Jun  8 14:58:06 2020 (+0200)
+# Last-Updated: Mon Jun  8 17:21:54 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -93,36 +93,18 @@ class Story(db.Model, CRUDMixin):
 class StoryStats(db.Model, PKMixin):
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
     
-def chapter_get_new_nb(context):
-    """
-    Returns the new number for a chapter for a given story.
-    """
-    def is_persistent(obj):
-        """
-        Returns if an object is persistent, so we can
-        filter out transient or pending objects.
-        """
-        return db.inspect(obj).persistent
-    
-    story_id = context.get_current_parameters()['story_id']
-    story = Story.get_by_id(story_id)
-
-    persistent_chapters = list(filter(is_persistent, story.chapters))
-    
-    if len(persistent_chapters) == 0:
-        return 1
-    else:
-        return persistent_chapters[-1].nb + 1
-    
 class Chapter(db.Model, CRUDMixin):
     """
     A chapter. Simple as that.
     """
     __tablename__ = "chapter"
+    __table_args__ = (
+        # There can only be one chapter with a certain number by
+        # story ID.
+        db.UniqueConstraint('nb', 'story_id', name="unique_chapter_nb"),
+    )
 
-    nb = db.Column(db.Integer(),
-                   default=chapter_get_new_nb,
-                   nullable=False, index=True)
+    nb = db.Column(db.Integer(), nullable=False, index=True)
 
     title = db.Column(db.String(255), nullable=False, default="")
     summary = db.Column(db.Text())
