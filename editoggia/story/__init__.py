@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:24:27 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:13:20 2020 (+0200)
+# Last-Updated: Mon Jun  8 15:30:38 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -15,6 +15,4 @@ from flask import Blueprint
 story = Blueprint('story', __name__)
 
 import editoggia.story.views
-import editoggia.story.post_views
-import editoggia.story.edit_views
 import editoggia.story.admin
