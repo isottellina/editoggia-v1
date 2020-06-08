@@ -3,7 +3,7 @@
 # Filename: test_story.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 16:06:35 2020 (+0200)
-# Last-Updated: Mon Jun  8 16:44:13 2020 (+0200)
+# Last-Updated: Mon Jun  8 18:48:57 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -20,6 +20,11 @@ class TestStory(EditoggiaTestCase):
     """
     Test story views.
     """
+
+    #
+    # Views that are defined in view.py
+    #
+    
     def test_index(self):
         """
         Tests the index.
@@ -73,3 +78,8 @@ class TestStory(EditoggiaTestCase):
         self.assert200(rv)
         self.assertIn(story.chapters[0].title.encode(), rv.data)
         self.assertIn(story.chapters[1].title.encode(), rv.data)
+
+    #
+    # Views that are defined in post.py
+    #
+    

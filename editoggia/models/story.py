@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Mon Jun  8 17:21:54 2020 (+0200)
+# Last-Updated: Mon Jun  8 18:51:07 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -13,9 +13,9 @@ from datetime import datetime
 
 from flask_babel import gettext
 from editoggia.database import db
-from editoggia.models.mixins import PKMixin, CRUDMixin
+from editoggia.models.mixins import PKMixin, CRUDMixin, DatesMixin
 
-class Story(db.Model, CRUDMixin):
+class Story(db.Model, CRUDMixin, DatesMixin):
     """
     A story, written on the site.
     """
@@ -36,12 +36,6 @@ class Story(db.Model, CRUDMixin):
     fandom = db.relationship('Fandom',
                              secondary='story_fandoms',
                              back_populates='stories')
-
-    created_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow)
-    updated_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow,
-                           onupdate=datetime.utcnow)
     
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'),
                           nullable=False)
@@ -93,7 +87,7 @@ class Story(db.Model, CRUDMixin):
 class StoryStats(db.Model, PKMixin):
     hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
     
-class Chapter(db.Model, CRUDMixin):
+class Chapter(db.Model, CRUDMixin, DatesMixin):
     """
     A chapter. Simple as that.
     """
@@ -111,12 +105,6 @@ class Chapter(db.Model, CRUDMixin):
     content = db.Column(db.Text(), nullable=False)
 
     comments = db.relationship('Comment', back_populates='chapter')
-
-    created_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow)
-    updated_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow,
-                           onupdate=datetime.utcnow)
 
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'),
                          nullable=False)

@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Sun Jun  7 21:21:14 2020 (+0200)
+# Last-Updated: Mon Jun  8 18:50:21 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import abort
@@ -78,3 +78,14 @@ class ModeratedMixin(object):
                 waiting_mod=True,
                 **kwargs
             )
+
+class DatesMixin(object):
+    """
+    Mixins to add a created_on and updated_on fields
+    to a model, automatically set.
+    """
+    created_on = db.Column(db.DateTime(), nullable=False,
+                           default=datetime.utcnow)
+    updated_on = db.Column(db.DateTime(), nullable=False,
+                           default=datetime.utcnow,
+                           onupdate=datetime.utcnow)
