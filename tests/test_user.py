@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:41:06 2020 (+0200)
-# Last-Updated: Sat May 30 15:21:11 2020 (+0200)
+# Last-Updated: Mon Jun  8 16:22:14 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -20,7 +20,6 @@ class TestUser(EditoggiaTestCase):
     """
     Test view profile.
     """
-    
     def test_view_profile_doesnt_exist(self):
         """
         Tests that the app 404s when an user doesn't exist.

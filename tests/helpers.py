@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Sat May 30 15:20:57 2020 (+0200)
+# Last-Updated: Mon Jun  8 16:32:22 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -11,7 +11,7 @@ from faker import Faker
 
 from editoggia import create_app
 from editoggia.database import db
-from editoggia.models import User
+from editoggia.models import Fandom, FandomCategory, Story, Chapter, User
 
 class EditoggiaTestCase(TestCase):
     def create_app(self):
@@ -34,6 +34,12 @@ class EditoggiaTestCase(TestCase):
             password=self.password
         )
 
+        # Create a fandom and fandomcategory
+        self.category = FandomCategory.create(name="Other")
+        self.fandom = Fandom.create(name="Original Work",
+                                    category=self.category,
+                                    waiting_mod=False)
+
     def tearDown(self):
         db.session.remove()
         db.drop_all()
@@ -46,3 +52,31 @@ class EditoggiaTestCase(TestCase):
             "username": username,
             "password": password
         }, follow_redirects=True)
+
+    def create_stories(self, nb_stories, nb_chapters=1,
+                       author=None, fandom=None):
+        author = author if author else self.user
+        fandom = fandom if fandom else self.fandom
+        stories = []
+        
+        for _ in range(nb_stories):
+            story = Story(
+                title=self.faker.sentence(),
+                summary=" ".join(self.faker.sentences(nb=5)),
+                total_chapters=nb_chapters,
+                author=author,
+                fandom=[fandom]
+            ).save(commit=False)
+
+            for _ in range(nb_chapters):
+                chapter = Chapter(
+                    title=self.faker.sentence(),
+                    summary=" ".join(self.faker.sentences(nb=5)),
+                    content=self.faker.text(max_nb_chars=3000),
+                    story=story
+                ).save(commit=False)
+
+            stories.append(story)
+
+        db.session.commit()
+        return stories
