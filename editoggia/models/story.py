@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Mon Jun  8 20:09:21 2020 (+0200)
+# Last-Updated: Tue Jun  9 14:35:02 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -102,7 +102,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
 class StoryStats(db.Model, PKMixin):
     __tablename__ = "storystats"
     
-    hits = db.Column(db.Integer(), nullable=False, default=0, index=True)
+    hits = db.Column(db.Integer(), nullable=False, default=0)
     story = db.relationship('Story', back_populates='stats')
     
 class Chapter(db.Model, CRUDMixin, DatesMixin):
