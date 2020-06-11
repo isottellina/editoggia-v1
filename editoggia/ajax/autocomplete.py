@@ -3,7 +3,7 @@
 # Filename: autocomplete.py
 # Author: Louise <louise>
 # Created: Fri Jun  5 11:35:08 2020 (+0200)
-# Last-Updated: Thu Jun 11 16:39:35 2020 (+0200)
+# Last-Updated: Thu Jun 11 16:43:16 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import request, jsonify
@@ -42,7 +42,7 @@ def autocomplete(model_name):
 
     return jsonify(
         results=[
-            {"id": n + 1, "text": result[0]}
+            {"id": result[0], "text": result[0]}
             for n, result in enumerate(results)
         ]
     )
