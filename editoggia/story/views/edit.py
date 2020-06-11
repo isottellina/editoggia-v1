@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:16:48 2020 (+0200)
+# Last-Updated: Thu Jun 11 15:55:06 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -12,10 +12,17 @@ from flask import render_template, redirect, abort, url_for
 from flask_login import current_user, login_required
 
 from editoggia.database import db
-from editoggia.models import Fandom, Story, Chapter
+from editoggia.models import Fandom, Story, Chapter, Tag
 
 from editoggia.story import story
 from editoggia.story.forms import EditStoryForm, ChapterForm
+
+def populate_select_field(model, base, field):
+    field.choices = [
+        (base_sgl.name, base_sgl.name)
+        for base_sgl in base
+    ]
+    field.process_data([base_sgl.name for base_sgl in base])
 
 @story.route('/edit/<int:story_id>', methods=["GET", "POST"])
 @login_required
@@ -30,15 +37,6 @@ def edit_story(story_id):
         abort(403)
         
     form = EditStoryForm(obj=story)
-
-    # We have to populate the fandom field
-    fandoms = db.session.query(Fandom).all()
-    form.fandom.choices = [
-        (fandom.name, fandom.name) for fandom in fandoms
-    ]
-    form.characters.choices = []
-    form.relationships.choices = []
-    form.tags.choices = []
     
     if form.validate_on_submit():
         # We update the story
@@ -47,8 +45,8 @@ def edit_story(story_id):
         
         return redirect(url_for('home.index'))
     else:
-        # Select the right fandoms
-        form.fandom.process_data([fandom.name for fandom in story.fandom])
+        populate_select_field(Fandom, story.fandom, form.fandom)
+        populate_select_field(Tag, story.tags, form.tags)
         
         return render_template('story/edit_story.jinja2', form=form, story=story)
 

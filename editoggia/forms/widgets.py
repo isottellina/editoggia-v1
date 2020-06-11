@@ -3,7 +3,7 @@
 # Filename: widgets.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:50:00 2020 (+0200)
-# Last-Updated: Thu Jun 11 13:10:55 2020 (+0200)
+# Last-Updated: Thu Jun 11 15:59:51 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -28,6 +28,7 @@ class Select2Widget(widgets.Select):
         # Do the same for url, which set an AJAX endpoint for
         # select2 to get its data
         if getattr(field, 'model_name', False):
+            kwargs['data-ajax--delay'] = "250"
             kwargs['data-ajax--url'] = url_for('ajax.autocomplete', model_name=field.model_name)
         
         return super().__call__(field, **kwargs)

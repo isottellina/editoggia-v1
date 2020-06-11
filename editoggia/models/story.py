@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Tue Jun  9 14:35:02 2020 (+0200)
+# Last-Updated: Thu Jun 11 15:58:37 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -91,9 +91,12 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         # list exists, and that it's a string. If there is no
         # first element, or if the value is already a model,
         # we have no need for the transformation.
+        print(attr, value)
         if attr == "fandom" and type(next(iter(value), 0)) == str:
             value = [Fandom.get_or_create(fandom) for fandom in value]
-        
+        if attr == "tags" and type(next(iter(value), 0)) == str:
+            value = [Tag.get_or_create(tag) for tag in value]
+            
         db.Model.__setattr__(self, attr, value)
     
     def __repr__(self):
