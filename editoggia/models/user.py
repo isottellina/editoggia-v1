@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue Jun  9 16:18:02 2020 (+0200)
+# Last-Updated: Tue Jun  9 17:32:52 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -80,8 +80,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     # Stories and such
     stories = db.relationship('Story', back_populates='author')
     likes = db.relationship(
-        'Story',
-        secondary='user_likes', lazy='dynamic',
+        'Story', secondary='user_likes',
         back_populates='user_likes'
     )
     comments = db.relationship('Comment', back_populates='author')

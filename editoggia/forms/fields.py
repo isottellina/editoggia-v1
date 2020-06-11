@@ -3,7 +3,7 @@
 # Filename: fields.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:49:03 2020 (+0200)
-# Last-Updated: Sun Jun  7 21:02:12 2020 (+0200)
+# Last-Updated: Thu Jun 11 12:54:55 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -31,6 +31,10 @@ class Select2MultipleTagsField(Select2MultipleField):
     """
     widget = Select2Widget(multiple=True)
     tags = True
+
+    def __init__(self, *args, url=None, **kwargs):
+        self.url = url
+        super().__init__(*args, **kwargs)
     
     def pre_validate(self, form):
         pass
