@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: dc2740e84001
+Revision ID: 2df2874b2386
 Revises: 
-Create Date: 2020-06-08 20:09:24.991441
+Create Date: 2020-06-11 16:17:01.973264
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'dc2740e84001'
+revision = '2df2874b2386'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -42,7 +42,6 @@ def upgrade():
     sa.Column('hits', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_storystats_hits'), 'storystats', ['hits'], unique=False)
     op.create_table('tag',
     sa.Column('waiting_mod', sa.Boolean(), nullable=False),
     sa.Column('id', sa.Integer(), nullable=False),
@@ -127,20 +126,29 @@ def upgrade():
     sa.UniqueConstraint('nb', 'story_id', name='unique_chapter_nb')
     )
     op.create_index(op.f('ix_chapter_nb'), 'chapter', ['nb'], unique=False)
-    op.create_table('stories_tags',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('story_id', sa.Integer(), nullable=True),
-    sa.Column('tag_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['story_id'], ['story.id'], ),
-    sa.ForeignKeyConstraint(['tag_id'], ['tag.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
-    op.create_table('story_fandoms',
+    op.create_table('fandom_stories',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('fandom_id', sa.Integer(), nullable=True),
     sa.Column('story_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['fandom_id'], ['fandom.id'], ),
     sa.ForeignKeyConstraint(['story_id'], ['story.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('history_view',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('date', sa.DateTime(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('story_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['story_id'], ['story.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('story_tags',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('story_id', sa.Integer(), nullable=True),
+    sa.Column('tag_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['story_id'], ['story.id'], ),
+    sa.ForeignKeyConstraint(['tag_id'], ['tag.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('tags_fandoms',
@@ -178,8 +186,9 @@ def downgrade():
     op.drop_table('comment')
     op.drop_table('user_likes')
     op.drop_table('tags_fandoms')
-    op.drop_table('story_fandoms')
-    op.drop_table('stories_tags')
+    op.drop_table('story_tags')
+    op.drop_table('history_view')
+    op.drop_table('fandom_stories')
     op.drop_index(op.f('ix_chapter_nb'), table_name='chapter')
     op.drop_table('chapter')
     op.drop_index(op.f('ix_story_title'), table_name='story')
@@ -190,7 +199,6 @@ def downgrade():
     op.drop_table('fandom')
     op.drop_table('user')
     op.drop_table('tag')
-    op.drop_index(op.f('ix_storystats_hits'), table_name='storystats')
     op.drop_table('storystats')
     op.drop_table('role')
     op.drop_table('permission')

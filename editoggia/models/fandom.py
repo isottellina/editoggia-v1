@@ -3,7 +3,7 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Sun Jun  7 21:21:21 2020 (+0200)
+# Last-Updated: Thu Jun 11 16:16:02 2020 (+0200)
 #           By: Louise <louise>
 # 
 from editoggia.database import db
@@ -32,7 +32,7 @@ class Fandom(db.Model, CRUDMixin, ModeratedMixin):
     
     name = db.Column(db.String(255), index=True, unique=True, nullable=False)
     stories = db.relationship('Story',
-                               secondary='story_fandoms',
+                               secondary='fandom_stories',
                                back_populates='fandom')
     tags = db.relationship('Tag', secondary='tags_fandoms',
                            back_populates='fandoms')
@@ -40,11 +40,11 @@ class Fandom(db.Model, CRUDMixin, ModeratedMixin):
     def __repr__(self):
         return "<Fandom '{}'>".format(self.name)
 
-class StoryFandoms(db.Model):
+class FandomStories(db.Model):
     """
     An association table, allowing each story to have several fandoms.
     """
-    __tablename__ = "story_fandoms"
+    __tablename__ = "fandom_stories"
 
     id = db.Column(db.Integer(), primary_key=True)
     fandom_id = db.Column(db.Integer(), db.ForeignKey('fandom.id'))

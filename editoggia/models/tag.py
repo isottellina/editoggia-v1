@@ -3,7 +3,7 @@
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
-# Last-Updated: Sun Jun  7 21:21:30 2020 (+0200)
+# Last-Updated: Thu Jun 11 16:16:53 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_babel import gettext
@@ -29,7 +29,7 @@ class Tag(db.Model, CRUDMixin, ModeratedMixin):
     
     fandoms = db.relationship('Fandom', secondary='tags_fandoms',
                               back_populates='tags')
-    stories = db.relationship('Story', secondary='stories_tags',
+    stories = db.relationship('Story', secondary='story_tags',
                               back_populates='tags')
 
 class TagsFandoms(db.Model):
@@ -43,11 +43,11 @@ class TagsFandoms(db.Model):
     tag_id = db.Column(db.Integer(), db.ForeignKey('tag.id'))
     fandom_id = db.Column(db.Integer(), db.ForeignKey('fandom.id'))
     
-class StoriesTags(db.Model):
+class StoryTags(db.Model):
     """
     Association table between Story and Tags.
     """
-    __tablename__ = "stories_tags"
+    __tablename__ = "story_tags"
 
     id = db.Column(db.Integer(), primary_key=True)
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))

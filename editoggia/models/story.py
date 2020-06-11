@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Thu Jun 11 15:58:37 2020 (+0200)
+# Last-Updated: Thu Jun 11 16:23:54 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -31,7 +31,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     ))
 
     fandom = db.relationship('Fandom',
-                             secondary='story_fandoms',
+                             secondary='fandom_stories',
                              back_populates='stories')
 
     stats_id = db.Column(db.Integer(), db.ForeignKey('storystats.id'),
@@ -45,7 +45,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     chapters = db.relationship('Chapter', back_populates='story',
                                cascade='all, delete, delete-orphan',
                                order_by='Chapter.nb')
-    tags = db.relationship('Tag', secondary='stories_tags',
+    tags = db.relationship('Tag', secondary='story_tags',
                            back_populates='stories')
 
     user_likes = db.relationship(
@@ -91,7 +91,6 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         # list exists, and that it's a string. If there is no
         # first element, or if the value is already a model,
         # we have no need for the transformation.
-        print(attr, value)
         if attr == "fandom" and type(next(iter(value), 0)) == str:
             value = [Fandom.get_or_create(fandom) for fandom in value]
         if attr == "tags" and type(next(iter(value), 0)) == str:
