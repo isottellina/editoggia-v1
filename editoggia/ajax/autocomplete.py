@@ -3,33 +3,46 @@
 # Filename: autocomplete.py
 # Author: Louise <louise>
 # Created: Fri Jun  5 11:35:08 2020 (+0200)
-# Last-Updated: Thu Jun 11 15:59:18 2020 (+0200)
+# Last-Updated: Thu Jun 11 16:37:52 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import request, jsonify
 from flask_login import current_user
+
+from sqlalchemy import func
 
 from editoggia.ajax import ajax
 from editoggia.ajax.decorators import ajax_login_required
 from editoggia.ajax.forms import LikeForm
 
 from editoggia.database import db
-from editoggia.models import Fandom, Tag
+from editoggia.models import Fandom, Tag, FandomStories, StoryTags
 
 @ajax.route('/autocomplete/<model_name>')
 def autocomplete(model_name):
     """
     Returns the 20 most popular model_name.
     """
-    models = {
-        "Fandom": Fandom,
-        "Tag": Tag
-    }
-
-    if model_name not in models:
+    if model_name == "Fandom":
+        count_stmt = db.session.query(FandomStories.fandom_id,
+                                      func.count('*').label('story_count')
+        ).group_by(FandomStories.fandom_id).subquery()
+        results = db.session.query(Fandom.name) \
+                            .outerjoin(count_stmt, Fandom.id==count_stmt.c.fandom_id) \
+                            .order_by(count_stmt.c.story_count.desc())[:20]
+    elif model_name == "Tag":
+        count_stmt = db.session.query(StoryTags.tag_id,
+                                      func.count('*').label('story_count')
+        ).group_by(StoryTags.tag_id).subquery()
+        results = db.session.query(Tag.name) \
+                            .outerjoin(count_stmt, Tag.id==count_stmt.c.tag_id) \
+                            .order_by(count_stmt.c.story_count.desc())[:20]
+    else:
         abort(400)
-    model = models[model_name]
-    
+
     return jsonify(
-        results=[]
+        results=[
+            {"id": n + 1, "text": result[0]}
+            for n, result in enumerate(results)
+        ]
     )
