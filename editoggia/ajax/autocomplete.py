@@ -3,7 +3,7 @@
 # Filename: autocomplete.py
 # Author: Louise <louise>
 # Created: Fri Jun  5 11:35:08 2020 (+0200)
-# Last-Updated: Thu Jun 11 16:37:52 2020 (+0200)
+# Last-Updated: Thu Jun 11 16:39:35 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import request, jsonify
