@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Thu Jun 11 15:55:06 2020 (+0200)
+# Last-Updated: Fri Jun 12 13:27:45 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -16,13 +16,6 @@ from editoggia.models import Fandom, Story, Chapter, Tag
 
 from editoggia.story import story
 from editoggia.story.forms import EditStoryForm, ChapterForm
-
-def populate_select_field(model, base, field):
-    field.choices = [
-        (base_sgl.name, base_sgl.name)
-        for base_sgl in base
-    ]
-    field.process_data([base_sgl.name for base_sgl in base])
 
 @story.route('/edit/<int:story_id>', methods=["GET", "POST"])
 @login_required
@@ -45,9 +38,7 @@ def edit_story(story_id):
         
         return redirect(url_for('home.index'))
     else:
-        populate_select_field(Fandom, story.fandom, form.fandom)
-        populate_select_field(Tag, story.tags, form.tags)
-        
+        form.populate_select2(story.fandoms, story.tags)
         return render_template('story/edit_story.jinja2', form=form, story=story)
 
 @story.route('/edit/<int:story_id>/chapter/<int:chapter_id>', methods=["GET", "POST"])

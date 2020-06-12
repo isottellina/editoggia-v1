@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Thu Jun 11 15:46:22 2020 (+0200)
+# Last-Updated: Fri Jun 12 13:28:32 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -51,6 +51,22 @@ class StoryForm(FlaskForm):
 
     fandom = Select2MultipleTagsField(gettext("Fandoms"), model_name='Fandom', validate_choice=False)
     tags = Select2MultipleTagsField(gettext("Tags"), model_name='Tag', validate_choice=False)
+
+    def populate_select2(self, fandoms=[], tags=[]):
+        """
+        Populate the fandom and tags fields, so they can be used.
+        """
+        def populate_field(field, base):
+            """
+            Populate a field.
+            """
+            field.choices = [
+                (base_sgl.name, base_sgl.name)
+                for base_sgl in base
+            ]
+            field.process_data([base_sgl.name for base_sgl in base])
+        populate_field(self.fandom, fandoms)
+        populate_field(self.tags, tags)
 
 class PostStoryForm(StoryForm):
     content = TextAreaField(

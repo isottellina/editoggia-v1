@@ -3,7 +3,7 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:27:22 2020 (+0200)
+# Last-Updated: Fri Jun 12 13:28:19 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -24,12 +24,6 @@ def post_story():
     Post a new story.
     """
     form = PostStoryForm()
-
-    # We have to populate the fandom field
-    fandoms = db.session.query(Fandom).all()
-    form.fandom.choices = [
-        (fandom.name, fandom.name) for fandom in fandoms
-    ]
     
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
@@ -52,6 +46,7 @@ def post_story():
         
         return redirect(url_for('home.index'))
     else:
+        form.populate_select2()
         return render_template('story/post_story.jinja2', form=form)
 
 @story.route('/post/<int:story_id>/chapter', methods=["GET", "POST"])

@@ -18,13 +18,16 @@
 	      {{ render_field(form.rating) }}
 	    </div>
 	    <div class="row">
-	      {{ render_field(form.summary) }}
+	      {{ render_field(form.summary, rows=5) }}
 	    </div>
 	    <div class="row">
 	      {{ render_field(form.fandom) }}
 	    </div>
 	    <div class="row">
-	      {{ render_field(form.content) }}
+	      {{ render_field(form.tags) }}
+	    </div>
+	    <div class="row">
+	      {{ render_field(form.content, rows=20) }}
 	    </div>
 	    <div class="row pt-2">
 	      <div class="form-group col-lg-12">
