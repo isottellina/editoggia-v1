@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Fri Jun 12 13:27:45 2020 (+0200)
+# Last-Updated: Sat Jun 13 01:06:37 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -38,7 +38,7 @@ def edit_story(story_id):
         
         return redirect(url_for('home.index'))
     else:
-        form.populate_select2(story.fandoms, story.tags)
+        form.populate_select2(story.fandom, story.tags)
         return render_template('story/edit_story.jinja2', form=form, story=story)
 
 @story.route('/edit/<int:story_id>/chapter/<int:chapter_id>', methods=["GET", "POST"])
