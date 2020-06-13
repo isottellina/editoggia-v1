@@ -3,7 +3,7 @@
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
-# Last-Updated: Thu Jun 11 16:16:53 2020 (+0200)
+# Last-Updated: Sat Jun 13 17:41:59 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_babel import gettext
@@ -18,14 +18,6 @@ class Tag(db.Model, CRUDMixin, ModeratedMixin):
 
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(255), unique=True, nullable=False)
-
-    # The tag type. It can only be null in the case of a tag awaiting
-    # moderation.
-    tag_type = db.Column(db.Enum(
-        "General",
-        "Characters",
-        "Relationship",
-    ))
     
     fandoms = db.relationship('Fandom', secondary='tags_fandoms',
                               back_populates='tags')

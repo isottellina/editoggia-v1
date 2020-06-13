@@ -54,3 +54,10 @@
     </div>
   </section>
 {% endblock %}
+
+{% block javascript %}
+  {{ super() }}
+  {% assets 'js_select2' %}
+  <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% endblock %}

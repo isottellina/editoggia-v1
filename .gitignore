@@ -2,7 +2,7 @@
 .sass-cache
 .webassets-cache
 editoggia/static/css
-editoggia/static/js/scripts.js
+editoggia/static/js/output
 
 # Ignore dev database
 db.sqlite3
