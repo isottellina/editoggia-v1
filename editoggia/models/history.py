@@ -3,21 +3,25 @@
 # Filename: history.py
 # Author: Louise <louise>
 # Created: Tue Jun  9 16:12:19 2020 (+0200)
-# Last-Updated: Tue Jun  9 16:19:52 2020 (+0200)
+# Last-Updated: Sun Jun 14 14:07:20 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
 
 from editoggia.database import db
-from editoggia.models.mixins import PKMixin
+from editoggia.models.mixins import CRUDMixin
 
-class HistoryView(db.Model, PKMixin):
+class HistoryView(db.Model, CRUDMixin):
     """
     Association table between User and Story.
     It associates a date with it to record when
     the story was visited by the user.
     """
     __tablename__ = 'history_view'
+    __table_args__ = (
+        # A story can only be added to the history of a user once
+        db.UniqueConstraint('user_id', 'story_id', name="unique_history"),
+    )
 
     date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
     

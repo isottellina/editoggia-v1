@@ -3,10 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Mon Jun  8 15:17:30 2020 (+0200)
+# Last-Updated: Sun Jun 14 14:09:03 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
+from flask_login import current_user
 
 from editoggia.database import db
 from editoggia.story import story
@@ -36,6 +37,7 @@ def show_story(story_id):
                                 chapter_id=story.chapters[0].id)
         )
     else:
+        current_user.add_to_history(story)
         story.hit()
         return render_template('story/show_chapter.jinja2',
                                story=story,
@@ -49,6 +51,7 @@ def show_chapter(story_id, chapter_id):
     story = Story.get_by_id_or_404(story_id)
     chapter = Chapter.get_by_id_or_404(chapter_id)
 
+    current_user.add_to_history(story)
     story.hit()
     
     return render_template('story/show_chapter.jinja2',

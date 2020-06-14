@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue Jun  9 17:32:52 2020 (+0200)
+# Last-Updated: Sun Jun 14 14:08:25 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -130,6 +130,26 @@ class User(CRUDMixin, UserMixin, db.Model):
         
         return result is not None
 
+    def add_to_history(self, story):
+        """
+        A user has loaded a story. Update view time, or
+        add to history.
+        """
+        from datetime import datetime
+        from editoggia.models import HistoryView
+
+        existing = db.session.query(HistoryView) \
+                             .filter(HistoryView.user_id == self.id) \
+                             .filter(HistoryView.story_id == story.id) \
+                             .first()
+        if existing:
+            existing.date = datetime.utcnow()
+        else:
+            HistoryView.create(
+                user_id=self.id,
+                story=story
+            )
+
 class UserLikes(db.Model):
     __tablename__ = 'user_likes'
     
@@ -142,10 +162,12 @@ class AnonymousUser(AnonymousUserMixin):
     This defines the anonymous user.
     We define this so we can use the same
     functions everywhere for the permission
-    system.
+    system, and the history.
     """
     def has_permission(self, permission):
         return False
+    def add_to_history(self, story):
+        pass
 
 lm.anonymous_user = AnonymousUser
 
