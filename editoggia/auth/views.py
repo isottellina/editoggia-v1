@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Sat May 30 15:20:41 2020 (+0200)
+# Last-Updated: Sun Jun 14 14:20:58 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import flash, render_template, request, redirect, url_for
@@ -49,6 +49,13 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         login_user(form.user)
+
+        # set tracking info
+        form.user.update(
+            last_login_at=datetime.utcnow(),
+            last_login_ip = request.remote_addr
+        )
+        
         flash(
             gettext(
                 'You were logged in as {username}'.format(

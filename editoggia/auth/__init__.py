@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:01 2020 (+0200)
-# Last-Updated: Thu May 28 15:02:43 2020 (+0200)
+# Last-Updated: Sun Jun 14 14:21:41 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -17,9 +17,14 @@ auth = Blueprint('auth', __name__)
 
 @auth.before_app_request
 def register_user_request():
+    """
+    If the user is connected, register the
+    last time they loaded a page (now).
+    """
     if not current_user.is_anonymous:
-        current_user.last_active_at = datetime.utcnow()
-        current_user.last_active_ip = request.remote_addr
-        db.session.commit()
+        current_user.update(
+            last_active_at = datetime.utcnow(),
+            last_active_ip = request.remote_addr
+        )
 
 import editoggia.auth.views
