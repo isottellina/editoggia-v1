@@ -71,6 +71,9 @@
 	  <a class="nav-link {% if mode == 'liked' %}active{% endif %}" href="{{ url_for('user.profile_liked', username=user.username) }}#">
 	    {{ _("Liked stories") }}
 	  </a>
+	  <a class="nav-link {% if mode == 'history' %}active{% endif %}" href="{{ url_for('user.profile_history', username=user.username) }}#">
+	    {{ _("History") }}
+	  </a>
 	</nav>
 	<div>
 	  {% if mode == 'stories' %}
@@ -82,6 +85,12 @@
 	  {% if mode == 'liked' %}
 	    {% for story in user.likes %}
 	      {{ render_story_card(story) }}
+	    {% endfor %}
+	  {% endif %}
+
+	  {% if mode == 'history' %}
+	    {% for history_view in user.history %}
+	      {{ render_story_card(history_view.story) }}
 	    {% endfor %}
 	  {% endif %}
 	</div>
