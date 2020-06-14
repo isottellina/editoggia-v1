@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sun Jun 14 14:15:07 2020 (+0200)
+# Last-Updated: Sun Jun 14 16:38:38 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -145,6 +145,8 @@ class User(CRUDMixin, UserMixin, db.Model):
         if existing:
             existing.date = datetime.utcnow()
         else:
+            # Add a hit to the story
+            story.hit()
             HistoryView.create(
                 user_id=self.id,
                 story=story
@@ -167,7 +169,10 @@ class AnonymousUser(AnonymousUserMixin):
     def has_permission(self, permission):
         return False
     def add_to_history(self, story):
-        pass
+        """
+        Add a hit to the story, an anonymous user has no history.
+        """
+        story.hit()
 
 lm.anonymous_user = AnonymousUser
 

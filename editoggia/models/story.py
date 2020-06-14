@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Thu Jun 11 16:23:54 2020 (+0200)
+# Last-Updated: Sun Jun 14 16:38:03 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -70,6 +70,8 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     def hit(self):
         """
         If user is not the author, increment hit.
+        Should only be called once per registrated
+        user.
         """
         from flask_login import current_user
         

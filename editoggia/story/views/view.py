@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sun Jun 14 14:09:03 2020 (+0200)
+# Last-Updated: Sun Jun 14 16:38:52 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -38,7 +38,6 @@ def show_story(story_id):
         )
     else:
         current_user.add_to_history(story)
-        story.hit()
         return render_template('story/show_chapter.jinja2',
                                story=story,
                                chapter=story.chapters[0])
@@ -52,7 +51,6 @@ def show_chapter(story_id, chapter_id):
     chapter = Chapter.get_by_id_or_404(chapter_id)
 
     current_user.add_to_history(story)
-    story.hit()
     
     return render_template('story/show_chapter.jinja2',
                            story=story,
