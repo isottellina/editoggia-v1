@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Sat Jun 13 01:06:37 2020 (+0200)
+# Last-Updated: Wed Jun 17 00:03:47 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -53,7 +53,7 @@ def edit_chapter(story_id, chapter_id):
     if chapter.story.author != current_user:
         abort(403)
         
-    form = ChapterForm(obj=chapter)
+    form = ChapterForm(obj=chapter, chapter=chapter, story=chapter.story)
     
     if form.validate_on_submit():
         form.data['content'] = bleach.clean(form.data['content'])

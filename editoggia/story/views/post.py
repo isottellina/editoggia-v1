@@ -3,7 +3,7 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Tue Jun 16 12:31:24 2020 (+0200)
+# Last-Updated: Tue Jun 16 23:57:02 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -57,7 +57,7 @@ def post_chapter(story_id):
     Post a new chapter.
     """
     story = Story.get_by_id_or_404(story_id)
-    form = ChapterForm()
+    form = ChapterForm(story=story)
     
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got

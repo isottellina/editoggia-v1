@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Tue Jun 16 12:36:00 2020 (+0200)
+# Last-Updated: Wed Jun 17 00:08:47 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -82,6 +82,10 @@ class StoryForm(FlaskForm):
         populate_field(self.tags, tags)
 
 class PostStoryForm(StoryForm):
+    """
+    The form to post a story. It's got a content
+    field, to create the first chapter.
+    """
     content = TextAreaField(
         gettext("Content", validators=[
             Length(
@@ -136,3 +140,35 @@ class ChapterForm(FlaskForm):
             )
         ])
     )
+
+    def __init__(self, *args, story=None, chapter=None, **kwargs):
+        """
+        Overload init to add a story parameter, to enable checking
+        unique constraint for the chapter number in the form.
+        If editing, we also pass the chapter object.
+        """
+        FlaskForm.__init__(self, *args, **kwargs)
+        self.story = story
+        self.chapter = chapter
+
+    def validate_nb(form, field):
+        """
+        Validate the nb field. In practice, we check that the
+        chapter number is not already taken by another chapter.
+        """
+        def is_same_number(other_chapter):
+            """
+            Returns true if the other_chapter has the same number
+            as the chapter of the form, but a different ID (because
+            if it has the same ID, it's the same chapter so it's 
+            allowed). If the chapter is None, returns True if the
+            chapter has the same number.
+            """
+            if form.chapter:
+                return field.data == other_chapter.nb \
+                    and form.chapter.id != other_chapter.id
+            else:
+                return field.data == other_chapter.nb
+            
+        if any(map(is_same_number, form.story.chapters)):
+            raise ValidationError("This chapter number already exists.")
