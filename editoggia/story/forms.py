@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Wed Jun 17 00:08:47 2020 (+0200)
+# Last-Updated: Wed Jun 17 00:13:20 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -54,6 +54,16 @@ class StoryForm(FlaskForm):
     fandom = Select2MultipleTagsField(gettext("Fandoms"), model_name='Fandom', validate_choice=False)
     tags = Select2MultipleTagsField(gettext("Tags"), model_name='Tag', validate_choice=False)
 
+    def __init__(self, *args, **kwargs):
+        """
+        Overload init so we can modify the obj parameter,
+        so that if total_chapters == None, we can modify it to '?'.
+        Using default parameter in the field is not enough.
+        """
+        FlaskForm.__init__(self, *args, **kwargs)
+        if self.total_chapters.data == None:
+            self.total_chapters.process_data('?')
+    
     def validate_total_chapters(form, field):
         """
         Validate the total_chapters field.
@@ -63,7 +73,7 @@ class StoryForm(FlaskForm):
         elif field.data == '?':
             field.data = None
         else:
-            raise ValidationError("Total chapters must be '?' or a number.")
+            raise ValidationError(gettext("Total chapters must be '?' or a number."))
 
     def populate_select2(self, fandoms=[], tags=[]):
         """
@@ -171,4 +181,4 @@ class ChapterForm(FlaskForm):
                 return field.data == other_chapter.nb
             
         if any(map(is_same_number, form.story.chapters)):
-            raise ValidationError("This chapter number already exists.")
+            raise ValidationError(gettext("This chapter number already exists."))
