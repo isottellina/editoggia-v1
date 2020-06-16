@@ -3,14 +3,14 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Fri Jun 12 13:28:32 2020 (+0200)
+# Last-Updated: Tue Jun 16 12:36:00 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
 from flask_babel import gettext
 from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField
-from wtforms.validators import DataRequired, NumberRange, Length
+from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
 
 from editoggia.forms.fields import Select2Field, Select2MultipleTagsField 
 
@@ -48,9 +48,22 @@ class StoryForm(FlaskForm):
             )
         ]
     )
+    
+    total_chapters = StringField(gettext("Total chapters"), default='?')
 
     fandom = Select2MultipleTagsField(gettext("Fandoms"), model_name='Fandom', validate_choice=False)
     tags = Select2MultipleTagsField(gettext("Tags"), model_name='Tag', validate_choice=False)
+
+    def validate_total_chapters(form, field):
+        """
+        Validate the total_chapters field.
+        """
+        if field.data.isdecimal():
+            field.data = int(field.data)
+        elif field.data == '?':
+            field.data = None
+        else:
+            raise ValidationError("Total chapters must be '?' or a number.")
 
     def populate_select2(self, fandoms=[], tags=[]):
         """

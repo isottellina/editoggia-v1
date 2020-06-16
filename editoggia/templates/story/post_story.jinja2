@@ -15,7 +15,8 @@
 	      {{ render_field(form.title) }}
 	    </div>
 	    <div class="row">
-	      {{ render_field(form.rating) }}
+	      {{ render_field(form.rating, 'col-lg-9') }}
+	      {{ render_field(form.total_chapters, 'col-lg-3')}}
 	    </div>
 	    <div class="row">
 	      {{ render_field(form.summary, rows=5) }}

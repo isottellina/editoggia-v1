@@ -3,7 +3,7 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Fri Jun 12 13:28:19 2020 (+0200)
+# Last-Updated: Tue Jun 16 12:31:24 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -35,7 +35,8 @@ def post_story():
             rating=form.data['rating'],
             author=current_user,
             summary=form.data['summary'],
-            fandom=form.data['fandom']
+            fandom=form.data['fandom'],
+            total_chapters=form.data['total_chapters']
         )
 
         # Then we create the first chapter
@@ -53,7 +54,7 @@ def post_story():
 @login_required
 def post_chapter(story_id):
     """
-    Post a new story.
+    Post a new chapter.
     """
     story = Story.get_by_id_or_404(story_id)
     form = ChapterForm()
