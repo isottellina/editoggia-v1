@@ -8,7 +8,10 @@
   <section class="section">
     <div class="container">
       <div class="row">
-	<h2> {{  _("{begin_range} - {end_range} of {total_stories} stories in '{fandom}'").format(begin_range=(stories_page.page - 1) * stories_page.per_page + 1, end_range=stories_page.page * stories_page.per_page, total_stories=stories_page.total, fandom=fandom.name) }} </h2>
+	{# Calculate limit here because the expressions are long #}
+	{% set begin_range = (stories_page.page - 1) * stories_page.per_page + 1 %}
+	{% set end_range = stories_page.page * stories_page.per_page if stories_page.page * stories_page.per_page < stories_page.total else stories_page.total %}
+	<h2> {{  _("{begin_range} - {end_range} of {total_stories} stories in '{fandom}'").format(begin_range=begin_range, end_range=end_range, total_stories=stories_page.total, fandom=fandom.name) }} </h2>
       </div>
       
       {# Pagination control top #}

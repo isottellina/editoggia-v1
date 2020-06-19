@@ -4,20 +4,22 @@
       <h5 class="card-title">
 	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a><small>, by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a></small>
       </h5>
+
       <div class="card-subtitle mb-2">
+	{# Fandoms #}
 	{% for fandom in story.fandom %}
-	  <span class="badge badge-dark">{{ fandom.name }}</span>
+	  <a class="badge badge-dark" href="{{ url_for('browse.fandom', name=fandom.name) }}">{{ fandom.name }}</a>
 	{% endfor %}
-      </div>
-      <p class="card-text mb-2">
-	{{ story.summary }}
-      </p>
-      {# Tags #}
-      <div class="mb-2">
+	
+	{# Tags #}
 	{% for tag in story.tags %}
 	  <span class="badge badge-primary">{{ tag.name }}</span>
 	{% endfor %}
       </div>
+      
+      <p class="card-text mb-2">
+	{{ story.summary }}
+      </p>
       <div class="row align-items-end">
 	<div class="col-6">
 	  {# Buttons to edit the story #}

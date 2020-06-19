@@ -8,6 +8,7 @@
     <div class="row">
       <div class="col">
 	<h2>{{ _("Recent stories") }}</h2>
+	<h6>{{ _("This page only lists the 20 most recent stories. To find more stories, check out directly a fandom or a tag!") }}</h6>
 	{% for story in stories %}
 	  {{ render_story_card(story) }} 
 	{% endfor %}
