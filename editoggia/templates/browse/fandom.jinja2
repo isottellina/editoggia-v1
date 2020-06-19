@@ -1,18 +1,33 @@
 {% from 'components/story_card.jinja2' import render_story_card with context %}
+{% from 'components/pagination.jinja2' import render_pagination %}
 {% extends 'base.jinja2' %}
 
-{% block title %}{{  _("Stories in '{fandom}'").format(fandom=fandom.name) }}{% endblock %}
+{% block title %}{{  _("{fandom} - Stories").format(fandom=fandom.name) }}{% endblock %}
 
 {% block content %}
   <section class="section">
     <div class="container">
       <div class="row">
+	<h2> {{  _("{begin_range} - {end_range} of {total_stories} stories in '{fandom}'").format(begin_range=(stories_page.page - 1) * stories_page.per_page + 1, end_range=stories_page.page * stories_page.per_page, total_stories=stories_page.total, fandom=fandom.name) }} </h2>
+      </div>
+      
+      {# Pagination control top #}
+      <div class="row justify-content-center">
+	{{ render_pagination(stories_page, "browse.fandom", name=fandom.name) }}
+      </div>
+
+      {# Actual stories #}
+      <div class="row">
 	<div class="col-lg-9 text-justified">
-	  <h2> {{  _("Stories in '{fandom}'").format(fandom=fandom.name) }} </h2>
-	  {% for story in fandom.stories %}
+	  {% for story in stories_page.items %}
 	    {{ render_story_card(story) }}
 	  {% endfor %}
 	</div>
+      </div>
+
+      {# Pagination control bottom #}
+      <div class="row justify-content-center">
+	{{ render_pagination(stories_page, "browse.fandom", name=fandom.name) }}
       </div>
     </div>
   </section>

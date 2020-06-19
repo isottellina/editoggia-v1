@@ -3,14 +3,14 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Thu Jun  4 17:45:20 2020 (+0200)
+# Last-Updated: Fri Jun 19 16:33:39 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template
 
 from editoggia.browse import browse
 from editoggia.database import db
-from editoggia.models import FandomCategory, Fandom
+from editoggia.models import FandomCategory, Fandom, Story
 
 @browse.route('/fandoms/<category>')
 def fandoms(category):
@@ -31,5 +31,8 @@ def fandom(name):
     fandom = db.session.query(Fandom) \
                        .filter(Fandom.name == name) \
                        .first_or_404()
+    stories_page = db.session.query(Story) \
+                             .filter(Story.fandom.contains(fandom)) \
+                             .paginate()
 
-    return render_template('browse/fandom.jinja2', fandom=fandom)
+    return render_template('browse/fandom.jinja2', fandom=fandom, stories_page=stories_page)

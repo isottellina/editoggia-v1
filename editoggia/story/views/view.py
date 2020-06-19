@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sun Jun 14 16:38:52 2020 (+0200)
+# Last-Updated: Fri Jun 19 16:51:14 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -17,9 +17,12 @@ from editoggia.models import Story, Chapter
 @story.route('/')
 def index():
     """
-    Show the index of all stories
+    Show the last 20 stories.
     """
-    stories = db.session.query(Story).order_by(Story.updated_on.desc()).all()
+    stories = db.session.query(Story) \
+                        .order_by(Story.updated_on.desc()) \
+                        .limit(20) \
+                        .all()
     
     return render_template("story/index.jinja2", stories=stories)
     

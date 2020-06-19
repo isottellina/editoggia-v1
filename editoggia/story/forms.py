@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Wed Jun 17 00:13:20 2020 (+0200)
+# Last-Updated: Wed Jun 17 00:15:11 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -181,4 +181,6 @@ class ChapterForm(FlaskForm):
                 return field.data == other_chapter.nb
             
         if any(map(is_same_number, form.story.chapters)):
-            raise ValidationError(gettext("This chapter number already exists."))
+            raise ValidationError(
+                gettext("This chapter number already exists.")
+            )

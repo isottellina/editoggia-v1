@@ -6,10 +6,8 @@
 {% block content %}
   <section class="container mt-1" id="main_profile">
     <div class="row">
-      <div class="col-lg-2">
-	{# Maybe search here later #}
-      </div>
-      <div class="col-lg-10">
+      <div class="col">
+	<h2>{{ _("Recent stories") }}</h2>
 	{% for story in stories %}
 	  {{ render_story_card(story) }} 
 	{% endfor %}
