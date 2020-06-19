@@ -13,10 +13,10 @@
 	
 	{# Tags #}
 	{% for tag in story.tags %}
-	  <span class="badge badge-primary">{{ tag.name }}</span>
+	  <a class="badge badge-primary" href="{{ url_for('browse.tag', name=tag.name) }}">{{ tag.name }}</a>
 	{% endfor %}
       </div>
-      
+
       <p class="card-text mb-2">
 	{{ story.summary }}
       </p>
