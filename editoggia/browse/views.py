@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Sat Jun 20 14:36:17 2020 (+0200)
+# Last-Updated: Sat Jun 20 14:39:37 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template
@@ -27,6 +27,8 @@ def fandoms(category):
 class CollectionView(View):
     """
     Print a collection of stories, be it a fandom or a tag.
+    They are all more or less the same, and should all support
+    search, so the code is centralized here.
     """
     def dispatch_request(self, name):
         collection = db.session.query(self.MODEL) \

@@ -3,9 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Sun Jun 14 14:20:58 2020 (+0200)
+# Last-Updated: Sat Jun 20 15:11:58 2020 (+0200)
 #           By: Louise <louise>
 #
+from datetime import datetime
+
 from flask import flash, render_template, request, redirect, url_for
 from flask_login import login_user, login_required, logout_user
 from flask_babel import gettext
@@ -30,6 +32,7 @@ def signup():
             name=form.data['name'],
             email=form.data['email'],
             password=form.data['password'],
+            last_login_at=datetime.utcnow(),
             last_login_ip=request.remote_addr
         )
 
@@ -41,6 +44,8 @@ def signup():
             ),
             'success'
         )
+
+        login_user(user)
         return redirect(url_for('home.index'))
     return render_template('auth/register.jinja2', form=form)
 

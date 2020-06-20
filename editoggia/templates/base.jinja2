@@ -13,18 +13,22 @@
   </head>
   <body>
     {% include '_navbar.jinja2' %}
-    <main>
-      {# Flash messages from the view #}
-      {% with messages = get_flashed_messages(with_categories=true) %}
-	{% if messages %}
+    
+    {# Flash messages from the view #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+	<div id="messages">
 	  {% for category, message in messages %}
 	    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
 	      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
 	      {{ message }}
 	    </div>
 	  {% endfor %}
-	{% endif %}
-      {% endwith %}
+	</div>
+      {% endif %}
+    {% endwith %}
+    
+    <main>
       {% block content %}
 	
       {% endblock %}

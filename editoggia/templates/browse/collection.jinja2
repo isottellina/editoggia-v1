@@ -1,4 +1,5 @@
 {% from 'components/story_card.jinja2' import render_story_card with context %}
+{% from 'components/search.jinja2' import render_search %}
 {% from 'components/pagination.jinja2' import render_pagination %}
 {% extends 'base.jinja2' %}
 
@@ -23,6 +24,9 @@
 	  {% for story in stories_page.items %}
 	    {{ render_story_card(story) }}
 	  {% endfor %}
+	</div>
+	<div class="col-lg-3">
+	  {{ render_search() }}
 	</div>
       </div>
 
