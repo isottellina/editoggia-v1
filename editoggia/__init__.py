@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Thu Jun  4 14:50:01 2020 (+0200)
+# Last-Updated: Sat Jun 20 15:47:42 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -54,7 +54,7 @@ def register_errorhandlers(app):
         return render_template('errors/%s.jinja2' % e.code), e.code
     
     for e in [
-            requests.codes.INTERNAL_SERVER_ERROR,
+            requests.codes.BAD_REQUEST,
             requests.codes.NOT_FOUND,
             requests.codes.UNAUTHORIZED,
             requests.codes.FORBIDDEN
