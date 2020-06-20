@@ -3,10 +3,11 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Fri Jun 19 18:43:59 2020 (+0200)
+# Last-Updated: Sat Jun 20 14:36:17 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template
+from flask.views import View
 
 from editoggia.browse import browse
 from editoggia.database import db
@@ -23,41 +24,40 @@ def fandoms(category):
 
     return render_template('browse/fandoms.jinja2', category=fandomcategory)
 
-@browse.route('/fandom/<name>')
-def fandom(name):
+class CollectionView(View):
     """
-    Print stories in a fandom.
+    Print a collection of stories, be it a fandom or a tag.
     """
-    fandom = db.session.query(Fandom) \
-                       .filter(Fandom.name == name) \
-                       .first_or_404()
-    stories_page = db.session.query(Story) \
-                             .filter(Story.fandom.contains(fandom)) \
-                             .paginate()
+    def dispatch_request(self, name):
+        collection = db.session.query(self.MODEL) \
+                               .filter(self.MODEL.name == name) \
+                               .first_or_404()
+        stories_page = db.session.query(Story) \
+                                 .filter(getattr(Story, self.STORY_FIELD).contains(collection)) \
+                                 .paginate()
 
-    return render_template(
-        'browse/collection.jinja2',
-        endpoint="browse.fandom",
-        collection=fandom,
-        stories_page=stories_page
-    )
+        return render_template(
+            'browse/collection.jinja2',
+            endpoint='browse.{}'.format(self.ENDPOINT),
+            collection=collection,
+            stories_page=stories_page
+        )
 
-@browse.route('/tag/<name>')
-def tag(name):
+class FandomView(CollectionView):
     """
-    Print stories in a tag.
+    Print all stories in a fandom.
     """
-    tag = db.session.query(Tag) \
-                    .filter(Tag.name == name) \
-                    .first_or_404()
+    MODEL = Fandom
+    STORY_FIELD = 'fandom'
+    ENDPOINT = 'fandom'
 
-    stories_page = db.session.query(Story) \
-                             .filter(Story.tags.contains(tag)) \
-                             .paginate()
+class TagView(CollectionView):
+    """
+    Print all stories in a tag.
+    """
+    MODEL = Tag
+    STORY_FIELD = 'tags'
+    ENDPOINT = 'tag'
 
-    return render_template(
-        'browse/collection.jinja2',
-        endpoint="browse.tag",
-        collection=tag,
-        stories_page=stories_page
-    )
+browse.add_url_rule('/fandom/<name>', view_func=FandomView.as_view(FandomView.ENDPOINT))
+browse.add_url_rule('/tag/<name>', view_func=TagView.as_view(TagView.ENDPOINT))
