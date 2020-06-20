@@ -3,9 +3,10 @@
     {% for page in pagination.iter_pages() %}
       {% if page %}
 	{% if page != pagination.page %}
-	  {# Calculate argument to preserve GET arguments #}
+	  {# Calculate argument to preserve GET arguments. Don't forget to pop the page argument.' #}
 	  {% set args = request.args.deepcopy().to_dict() %}
 	  {% do args.update(kwargs) %}
+	  {% do args.pop('page', None) %}
           <li class="page-item"><a class="page-link" href="{{ url_for(endpoint, page=page, **args) }}">{{ page }}</a></li>
 	{% else %}
           <li class="page-item active"><span class="page-link">{{ page }}</span></li>
