@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sat Jun 20 15:47:42 2020 (+0200)
+# Last-Updated: Sat Jun 20 16:53:34 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -39,10 +39,10 @@ def create_app(config_name="default"):
     config[config_name].init_app(app)
 
     register_commands(app)
+    register_jinja_env(app)
     register_errorhandlers(app)
     register_extensions(app)
     register_blueprints(app)
-    register_jinja_env(app)
     
     return app
 
@@ -88,6 +88,8 @@ def register_jinja_env(app):
     """
     Register functions and modules in Jinja env.
     """
+    app.jinja_options['extensions'].append('jinja2.ext.do')
+    
     app.jinja_env.globals.update({
         'arrow': arrow
     })
