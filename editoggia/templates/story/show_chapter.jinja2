@@ -8,7 +8,7 @@
     {{ story.title }}
   {% endif %}
 {% endblock %}
-  
+
 {% block content %}
   <section class="container">
     <div class="row justify-content-center">
@@ -86,4 +86,11 @@
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block javascript %}
+  {{ super() }}
+  {% assets 'js_story' %}
+  <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
 {% endblock %}
