@@ -3,12 +3,12 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Mon Jun 22 18:18:22 2020 (+0200)
+# Last-Updated: Mon Jun 22 19:04:37 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms.fields import StringField, TextAreaField
+from wtforms.fields import StringField, TextAreaField, HiddenField
 from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
 
