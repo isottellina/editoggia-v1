@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sun Jun 14 16:38:03 2020 (+0200)
+# Last-Updated: Mon Jun 22 21:50:23 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -87,7 +87,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         """
         # We import the models here to ensure that there be no
         # issues loading the file.
-        from editoggia.models import Fandom
+        from editoggia.models import Fandom, Tag
 
         # The second check checks that the first element in the
         # list exists, and that it's a string. If there is no
