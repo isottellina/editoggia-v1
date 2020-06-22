@@ -2,7 +2,7 @@
   <div class="card mb-3">
     <div class="card-body story-card">
       <h5 class="card-title">
-	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a><small>, by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a></small>
+	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a></small>
       </h5>
 
       <div class="card-subtitle mb-2">
@@ -21,13 +21,13 @@
 	{{ story.summary }}
       </p>
       <div class="row align-items-end">
-	<div class="col-6">
+	<div class="col-2">
 	  {# Buttons to edit the story #}
 	  {% if current_user == story.author %}
 	    <a href="{{ url_for('story.edit_story', story_id=story.id) }}" class="btn btn-sm btn-secondary">{{ _("Edit story") }}</a>
 	  {% endif %}
 	</div>
-	<div class="col-6 story-card-info">
+	<div class="col-10 story-card-info">
 	  <div class="story-card-single">
 	    {{ _("Rating: ") }} {{ _(story.rating if story.rating else "Not rated") }}
 	  </div>

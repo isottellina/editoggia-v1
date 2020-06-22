@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Mon Jun  8 20:07:46 2020 (+0200)
+# Last-Updated: Sun Jun 21 20:11:17 2020 (+0200)
 #           By: Louise <louise>
 # 
 import click
@@ -110,12 +110,21 @@ def create_db():
             name="admin.ACCESS_ADMIN_INTERFACE",
             description="Can access the admin interface."
         )
+        moderation_perm = Permission.create(
+            name="mod.ACCESS_TAG_INTERFACE",
+            description="Can access the interface to manage tag and fandoms."
+        )
         
         # Create roles
         admin_role = Role.create(
             name=gettext("Administrator"),
             description=gettext("Administrator of the website."),
-            permissions=[admin_perm]
+            permissions=[admin_perm, moderation_perm]
+        )
+        moderation_role = Role.create(
+            name=gettext("Moderator"),
+            description=gettext("Moderator"),
+            permissions=[moderation_perm]
         )
 
     other_category = db.session.query(FandomCategory) \

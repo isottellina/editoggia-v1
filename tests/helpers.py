@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Mon Jun  8 16:32:22 2020 (+0200)
+# Last-Updated: Sun Jun 21 21:27:47 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -60,21 +60,24 @@ class EditoggiaTestCase(TestCase):
         stories = []
         
         for _ in range(nb_stories):
-            story = Story(
+            story = Story.create(
                 title=self.faker.sentence(),
                 summary=" ".join(self.faker.sentences(nb=5)),
                 total_chapters=nb_chapters,
                 author=author,
-                fandom=[fandom]
-            ).save(commit=False)
+                fandom=[fandom],
+                commit=False
+            )
 
-            for _ in range(nb_chapters):
-                chapter = Chapter(
+            for i in range(nb_chapters):
+                chapter = Chapter.create(
                     title=self.faker.sentence(),
+                    nb=i+1,
                     summary=" ".join(self.faker.sentences(nb=5)),
                     content=self.faker.text(max_nb_chars=3000),
-                    story=story
-                ).save(commit=False)
+                    story=story,
+                    commit=False
+                )
 
             stories.append(story)
 
