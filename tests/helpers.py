@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Sun Jun 21 21:27:47 2020 (+0200)
+# Last-Updated: Tue Jun 23 18:24:30 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -44,17 +44,29 @@ class EditoggiaTestCase(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def login(self, username, password):
+    def login(self, username=None, password=None):
         """
         Helper function to login as an user.
+        If called without an argument, will login
+        using parameters created during init.
         """
+        username = username if username is not None else self.user.username
+        password = password if password is not None else self.password
+        
         return self.client.post('/login', data={
             "username": username,
             "password": password
         }, follow_redirects=True)
 
+    def create_story(self, nb_chapters=1, author=None, fandom=None):
+        return self.create_stories(1, nb_chapters, author, fandom)[0]
+    
     def create_stories(self, nb_stories, nb_chapters=1,
                        author=None, fandom=None):
+        """
+        Create nb_stories stories with nb_chapters chapters each,
+        written by author (self.user if None).
+        """
         author = author if author else self.user
         fandom = fandom if fandom else self.fandom
         stories = []
