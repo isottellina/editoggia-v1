@@ -3,7 +3,7 @@
 # Filename: test_commands.py
 # Author: Louise <louise>
 # Created: Sun Jun 21 19:37:24 2020 (+0200)
-# Last-Updated: Mon Jun 22 19:07:57 2020 (+0200)
+# Last-Updated: Wed Jun 24 11:30:34 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -41,11 +41,27 @@ class TestCommands(TestCase):
         roles = db.session.query(Role).all()
         perms = db.session.query(Permission).all()
         categories = db.session.query(FandomCategory).all()
-        
+
+        self.assertEqual(len(roles), 2)
         self.assertEqual(roles[0].name, "Administrator")
         self.assertEqual(roles[1].name, "Moderator")
         self.assertEqual(roles[0].permissions, perms)
         self.assertTrue(len(categories) >= 1)
+
+    def test_create_db_twice(self):
+        """
+        Tests that the create_db function doesn't create the roles twice.
+        """
+        create_db()
+        create_db()
+
+        roles = db.session.query(Role).all()
+        perms = db.session.query(Permission).all()
+        
+        self.assertEqual(len(roles), 2)
+        self.assertEqual(roles[0].name, "Administrator")
+        self.assertEqual(roles[1].name, "Moderator")
+        self.assertEqual(roles[0].permissions, perms)
 
     def test_populate_db_users(self):
         """

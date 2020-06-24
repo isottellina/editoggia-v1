@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Tue Jun 23 18:24:30 2020 (+0200)
+# Last-Updated: Wed Jun 24 11:24:06 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -57,6 +57,22 @@ class EditoggiaTestCase(TestCase):
             "username": username,
             "password": password
         }, follow_redirects=True)
+
+    def create_user(self, username=None):
+        """
+        Creates a user and returns (user, password).
+        """
+        username = username if username is not None else self.faker.user_name()
+        password = self.faker.password()
+        
+        user = User.create(
+            username=username,
+            name=self.faker.name(),
+            email=self.faker.email(),
+            password=password
+        )
+
+        return user, password
 
     def create_story(self, nb_chapters=1, author=None, fandom=None):
         return self.create_stories(1, nb_chapters, author, fandom)[0]

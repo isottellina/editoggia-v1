@@ -3,7 +3,7 @@
 # Filename: test_story.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 16:06:35 2020 (+0200)
-# Last-Updated: Tue Jun 23 18:40:35 2020 (+0200)
+# Last-Updated: Wed Jun 24 11:52:34 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -47,7 +47,29 @@ class TestStory(EditoggiaTestCase):
         # have occured.
         self.assert200(rv)
         self.assertIn(story.title.encode(), rv.data)
+        self.assertEqual(story.stats.hits, 1)
 
+    def test_show_story_as_author(self):
+        """
+        Same, but shouldn't add a hit.
+        """
+        story = self.create_story()
+        self.login()
+        
+        rv = self.client.get(f'/story/{story.id}')
+
+        self.assert200(rv)
+        self.assertIn(story.title.encode(), rv.data)
+        self.assertEqual(story.stats.hits, 0)
+
+    def test_show_story_inexistent(self):
+        """
+        Should return 404.
+        """
+        rv = self.client.get(f'/story/2')
+
+        self.assert404(rv)
+        
     def test_show_story_redirect(self):
         """
         Tests that a story with multiple chapters will
@@ -207,3 +229,144 @@ class TestStory(EditoggiaTestCase):
     #
     # Views that are defined in edit.py
     #
+    def test_edit_story_bad_user(self):
+        """
+        Tests the edit_story view with a user 
+        that is not the user who wrote the story.
+        """
+        story = self.create_story()
+
+        new_user, new_password = self.create_user()
+        self.login(new_user.username, new_password)
+
+        rv = self.client.get(f'/story/edit/{story.id}')
+        self.assert403(rv)
+        
+    def test_edit_story_get(self):
+        """
+        Tests the GET route for edit_story
+        """
+        story = self.create_story()
+
+        self.login()
+
+        rv = self.client.get(f'/story/edit/{story.id}')
+        self.assert200(rv)
+
+    def test_edit_story_get_unknown_chapters(self):
+        """
+        Tests that a story with None as total_chapters get a '?' in the field.
+        """
+        story = self.create_story()
+        story.total_chapters = None
+        db.session.commit()
+
+        self.login()
+
+        rv = self.client.get(f'/story/edit/{story.id}')
+        self.assert200(rv)
+        self.assertIn(b'value="?"', rv.data)
+
+    def test_edit_story_post(self):
+        """
+        Tests the normal POST route for edit_story
+        """
+        story = self.create_story()
+        self.login()
+
+        rv = self.client.post(f'/story/edit/{story.id}', data={
+            'title': 'New title',
+            'rating': story.rating,
+            'summary': story.summary,
+            'total_chapters': story.total_chapters,
+            'fandom': ['Original Work'],
+            'tag': ['Tag 1']
+        })
+        
+        self.assertStatus(rv, 302)
+        self.assertEqual(story.title, 'New title')
+
+    def test_edit_chapter_bad_user(self):
+        """
+        Tests the edit_chapter view with a user 
+        that is not the user who wrote the story.
+        """
+        story = self.create_story()
+        chapter = story.chapters[0]
+
+        new_user, new_password = self.create_user()
+        self.login(new_user.username, new_password)
+
+        rv = self.client.get(f'/story/edit/{story.id}/chapter/{chapter.id}')
+        self.assert403(rv)
+        
+    def test_edit_chapter_get(self):
+        """
+        Tests the GET route for edit_chapter
+        """
+        story = self.create_story()
+        chapter = story.chapters[0]
+
+        self.login()
+
+        rv = self.client.get(f'/story/edit/{story.id}/chapter/{chapter.id}')
+        self.assert200(rv)
+
+    def test_edit_chapter_post(self):
+        """
+        Tests a normal POST request for the edit_chapter.
+        Should work with the same chapter nb.
+        """
+        story = self.create_story(2)
+        chapter = story.chapters[0]
+
+        self.login()
+
+        rv = self.client.post(f'/story/edit/{story.id}/chapter/{chapter.id}', data={
+            'title': 'New title',
+            'nb': chapter.nb,
+            'summary': chapter.summary,
+            'content': chapter.content
+        })
+        
+        self.assertStatus(rv, 302)
+
+    def test_edit_chapter_post_change_nb(self):
+        """
+        Tests a normal POST request for the edit_chapter, but with a different
+        chapter_nb. Should work.
+        """
+        story = self.create_story(2)
+        chapter = story.chapters[0]
+
+        self.login()
+
+        rv = self.client.post(f'/story/edit/{story.id}/chapter/{chapter.id}', data={
+            'title': 'New title',
+            'nb': 3,
+            'summary': chapter.summary,
+            'content': chapter.content
+        })
+        
+        self.assertStatus(rv, 302)
+        self.assertEqual(chapter.nb, 3)
+
+    def test_edit_chapter_post_change_nb_conflict(self):
+        """
+        Tests a normal POST request for the edit_chapter, but with a different
+        chapter_nb, but this one is taken. Shouldn't work.
+        """
+        story = self.create_story(2)
+        chapter = story.chapters[0]
+
+        self.login()
+
+        rv = self.client.post(f'/story/edit/{story.id}/chapter/{chapter.id}', data={
+            'title': 'New title',
+            'nb': 2,
+            'summary': chapter.summary,
+            'content': chapter.content
+        })
+        
+        self.assert200(rv)
+        self.assertNotEqual(chapter.nb, 2)
