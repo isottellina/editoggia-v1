@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Sat Jun 20 16:38:49 2020 (+0200)
+# Last-Updated: Fri Jun 26 16:19:22 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template, request, flash, abort
@@ -36,13 +36,15 @@ class CollectionView(View):
     search, so the code is centralized here.
     """
     def dispatch_request(self, name):
+        decoded_name = self.MODEL.decode_name(name)
+        
         form = SearchForm(request.args)
         if not form.validate():
             print(form.errors)
             abort(400)
         
         collection = db.session.query(self.MODEL) \
-                               .filter(self.MODEL.name == name) \
+                               .filter(self.MODEL.name == decoded_name) \
                                .first_or_404()
         
         b_query = db.session.query(Story) \

@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Mon Jun  8 20:08:53 2020 (+0200)
+# Last-Updated: Fri Jun 26 16:18:28 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -50,11 +50,35 @@ class CRUDMixin(PKMixin):
         db.session.delete(self)
         return commit and db.session.commit()
 
-class ModeratedMixin(object):
+class NameMixin(object):
+    """
+    A mixin for models that have a name, and can be encoded to be
+    in the URL.
+    """
+    __table_args__ = {'extend_existing': True}
+    
+    name = db.Column(db.String(255), unique=True, nullable=False)
+
+    def encode_name(self):
+        """
+        Replace URL-sensitive characters.
+        """
+        return self.name.replace('*', '*a*') \
+                        .replace('/', '*s*')
+
+    @staticmethod
+    def decode_name(name):
+        """
+        Does the inverse operation.
+        """
+        return name.replace('*s*', '/') \
+                   .replace('*a*', '*')
+
+class ModeratedMixin(NameMixin):
     """
     A mixin for moderated objects, such as fandoms or tags.
     It allows for objects to be gotten or created, and set
-    to be waiting for moderation. 
+    to be waiting for moderation. Implies name mixin.
     """
     waiting_mod = db.Column(db.Boolean(), nullable=False, default=True)
     
@@ -80,7 +104,7 @@ class ModeratedMixin(object):
                 waiting_mod=True,
                 **kwargs
             )
-
+    
 class DatesMixin(object):
     """
     Mixins to add a created_on and updated_on fields

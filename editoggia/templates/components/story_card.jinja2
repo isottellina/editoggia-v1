@@ -8,12 +8,12 @@
       <div class="card-subtitle mb-2">
 	{# Fandoms #}
 	{% for fandom in story.fandom %}
-	  <a class="badge badge-dark" href="{{ url_for('browse.fandom', name=fandom.name) }}">{{ fandom.name }}</a>
+	  <a class="badge badge-dark" href="{{ url_for('browse.fandom', name=fandom.encode_name()) }}">{{ fandom.name }}</a>
 	{% endfor %}
 	
 	{# Tags #}
 	{% for tag in story.tags %}
-	  <a class="badge badge-primary" href="{{ url_for('browse.tag', name=tag.name) }}">{{ tag.name }}</a>
+	  <a class="badge badge-primary" href="{{ url_for('browse.tag', name=tag.encode_name()) }}">{{ tag.name }}</a>
 	{% endfor %}
       </div>
 
