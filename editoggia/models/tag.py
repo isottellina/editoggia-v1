@@ -3,7 +3,7 @@
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
-# Last-Updated: Sat Jun 13 17:41:59 2020 (+0200)
+# Last-Updated: Fri Jun 26 19:06:03 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_babel import gettext
@@ -15,9 +15,6 @@ class Tag(db.Model, CRUDMixin, ModeratedMixin):
     A tag. I really don't know how else to describe it.
     """
     __tablename__ = "tag"
-
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(255), unique=True, nullable=False)
     
     fandoms = db.relationship('Fandom', secondary='tags_fandoms',
                               back_populates='tags')

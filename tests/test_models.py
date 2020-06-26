@@ -3,7 +3,7 @@
 # Filename: test_models.py
 # Author: Louise <louise>
 # Created: Mon Jun 22 21:35:44 2020 (+0200)
-# Last-Updated: Mon Jun 22 22:05:07 2020 (+0200)
+# Last-Updated: Fri Jun 26 17:16:16 2020 (+0200)
 #           By: Louise <louise>
 #
 from helpers import EditoggiaTestCase
@@ -69,3 +69,17 @@ class TestModel(EditoggiaTestCase):
         fandom.delete()
 
         self.assertEqual(Fandom.get_by_id(1), None)
+
+    def test_namemixin_encode(self):
+        """
+        Tries to encode a name.
+        """
+        fandom = Fandom.create(name='Test/Test2&Test3')
+
+        self.assertEqual(fandom.encode_name(), 'Test*s*Test2*a*Test3')
+
+    def test_namemixin_decode(self):
+        """
+        Tries to decode the same name.
+        """
+        self.assertEqual(Fandom.decode_name('Test*s*Test2*a*Test3'), 'Test/Test2&Test3')

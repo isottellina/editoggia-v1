@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Fri Jun 26 16:19:22 2020 (+0200)
+# Last-Updated: Fri Jun 26 20:02:59 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template, request, flash, abort
@@ -40,7 +40,6 @@ class CollectionView(View):
         
         form = SearchForm(request.args)
         if not form.validate():
-            print(form.errors)
             abort(400)
         
         collection = db.session.query(self.MODEL) \

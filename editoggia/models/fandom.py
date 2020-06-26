@@ -3,7 +3,7 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Thu Jun 11 16:16:02 2020 (+0200)
+# Last-Updated: Fri Jun 26 17:17:38 2020 (+0200)
 #           By: Louise <louise>
 # 
 from editoggia.database import db
@@ -14,7 +14,7 @@ class FandomCategory(db.Model, CRUDMixin):
     Represent a category of fandom, like “Books” and such.
     """
     __tablename__ = "fandomcategory"
-    
+
     name = db.Column(db.String(100), nullable=False)
     fandoms = db.relationship('Fandom', back_populates='category')
 
@@ -29,8 +29,7 @@ class Fandom(db.Model, CRUDMixin, ModeratedMixin):
     
     category_id = db.Column(db.Integer(), db.ForeignKey('fandomcategory.id'))
     category = db.relationship('FandomCategory', back_populates='fandoms')
-    
-    name = db.Column(db.String(255), index=True, unique=True, nullable=False)
+
     stories = db.relationship('Story',
                                secondary='fandom_stories',
                                back_populates='fandom')

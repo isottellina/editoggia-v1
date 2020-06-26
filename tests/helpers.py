@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Wed Jun 24 11:24:06 2020 (+0200)
+# Last-Updated: Fri Jun 26 20:24:05 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_testing import TestCase
@@ -111,3 +111,17 @@ class EditoggiaTestCase(TestCase):
 
         db.session.commit()
         return stories
+
+    def hit(self, story, user=None):
+        """
+        Add a hit of the story to user.
+        """
+        user = user if user is not None else self.user
+        user.add_to_history(story)
+    
+    def like(self, story, user=None):
+        """
+        Add story to stories liked by user user.
+        """
+        user = user if user is not None else self.user
+        user.likes.append(story)

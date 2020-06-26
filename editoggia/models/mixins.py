@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Fri Jun 26 16:18:28 2020 (+0200)
+# Last-Updated: Fri Jun 26 17:15:36 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -63,7 +63,7 @@ class NameMixin(object):
         """
         Replace URL-sensitive characters.
         """
-        return self.name.replace('*', '*a*') \
+        return self.name.replace('&', '*a*') \
                         .replace('/', '*s*')
 
     @staticmethod
@@ -71,8 +71,8 @@ class NameMixin(object):
         """
         Does the inverse operation.
         """
-        return name.replace('*s*', '/') \
-                   .replace('*a*', '*')
+        return name.replace('*a*', '&') \
+                   .replace('*s*', '/')
 
 class ModeratedMixin(NameMixin):
     """
