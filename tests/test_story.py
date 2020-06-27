@@ -3,7 +3,7 @@
 # Filename: test_story.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 16:06:35 2020 (+0200)
-# Last-Updated: Sat Jun 27 14:02:11 2020 (+0200)
+# Last-Updated: Sat Jun 27 16:26:22 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -370,3 +370,46 @@ class TestStory(EditoggiaTestCase):
         
         self.assert200(rv)
         self.assertNotEqual(chapter.nb, 2)
+
+    #
+    # Views defined in interaction.py
+    #
+    def test_like(self):
+        """
+        Like a story.
+        """
+        self.login()
+
+        story = self.create_story()
+        rv = self.client.post(f'/story/{story.id}/like')
+
+        self.assert200(rv)
+        self.assertIn(story, self.user.likes)
+
+    def test_unlike(self):
+        """
+        Unlike a story.
+        """
+        self.login()
+
+        story = self.create_story()
+        self.user.likes.append(story)
+        rv = self.client.post(f'/story/{story.id}/like')
+
+        self.assert200(rv)
+        self.assertNotIn(story, self.user.likes)
+
+    def test_comment(self):
+        """
+        Comment a chapter.
+        """
+        self.login()
+
+        story = self.create_story()
+        chapter = story.chapters[0]
+        rv = self.client.post(f'/story/{story.id}/chapter/{chapter.id}/comment', data={
+            "comment": "Test comment."
+        })
+
+        self.assertStatus(rv, 302)
+        self.assertEqual(len(chapter.comments), 1)
