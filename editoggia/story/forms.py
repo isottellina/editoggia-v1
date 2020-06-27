@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Mon Jun 22 19:04:37 2020 (+0200)
+# Last-Updated: Sat Jun 27 15:48:27 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -203,56 +203,11 @@ class CommentForm(FlaskForm):
     """
     Form to post a comment on a chapter.
     """
-    chapter_id = HiddenField(
-        gettext("Chapter ID"),
-        validators=[
-            NumberRange(
-                min=0,
-                message=gettext("Chapter ID can't be less than zero.")
-            )
-        ]
-    )
-    
-    comment = TextAreaField(
-        gettext("Comment", validators=[
-            Length(
-                min=5,
-                message=gettext("Comment must be at least 20 characters.")
-            )
-        ])
-    )
-
-    def validate_chapter_id(form, field):
-        """
-        Check the chapter exists.
-        Data should already be validated to be a number.
-        """
-        if Chapter.get_by_id(int(field.data)) is None:
-            raise ValidationError(
-                gettext("Chapter doesn't exist.")
-            )
+    comment = TextAreaField()
 
 class LikeForm(FlaskForm):
     """
-    Form to like a story. Mainly the same thing as comment,
-    but takes a story instead of a chapter.
+    Form to like a story. There are no fields, but we should
+    still check for CSRF.
     """
-    story_id = HiddenField(
-        gettext("Story ID"),
-        validators=[
-            NumberRange(
-                min=0,
-                message=gettext("Story ID can't be less than zero.")
-            )
-        ]
-    )
-
-    def validate_story_id(form, field):
-        """
-        Check the story exists.
-        Data should already be validated to be a number.
-        """
-        if Story.get_by_id(int(field.data)) is None:
-            raise ValidationError(
-                gettext("Story doesn't exist.")
-            )
+    pass

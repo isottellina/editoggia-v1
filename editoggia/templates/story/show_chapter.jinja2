@@ -1,3 +1,4 @@
+{% from 'components/field.jinja2' import render_field %}
 {% from 'components/comment_card.jinja2' import render_comment_card %}
 {% extends 'base.jinja2' %}
 
@@ -66,23 +67,44 @@
 	{% if current_user.is_authenticated %}
 	  <div class="row">
 	    <div class="col text-center">
-	      <a id="like-link" href="javascript:void(0)" onclick="like_link({{ story.id }})">
-		{% if story in current_user.likes %}
-		  <i class="fas fa-heart"></i>
-		{% else %}
-		  <i class="far fa-heart"></i>
-		{% endif %}
-		{{ _("Like") }}
-	      </a>
+	      <form id="like-form" action="{{ url_for('story.like', story_id=story.id) }}" method="POST">
+		{{ like_form.csrf_token }}
+		
+		{# Submit link #}
+		<a id="like-button" href="javascript:void(0)">
+		  {% if story in current_user.likes %}
+		    <i class="fas fa-heart"></i>
+		  {% else %}
+		    <i class="far fa-heart"></i>
+		  {% endif %}
+		  {{ _("Like") }}
+		</a>
+	      </form>
 	    </div>
 	    <div class="col text-center">
-	      <a href="javascript:void(0)">
+	      <a id="comment-appear" href="javascript:void(0)">
 		<i class="fas fa-comment"></i> {{ _("Comment") }}
 	      </a>
 	    </div>
 	  </div>
-	{% endif %}
 
+	  {# Comment form. Appears once the link is clicked. #}
+	  <div id="comment-form" class="row mt-2">
+	    <div class="col">
+	      <form action="{{ url_for('story.comment', story_id=story.id, chapter_id=chapter.id) }}" method="POST">
+		{{ comment_form.csrf_token }}
+		<div class="row">
+		  {{ render_field(comment_form.comment, label=False) }}
+		</div>
+		
+		<div class="d-flex justify-content-end">
+		  <button class="btn btn-primary btn-sm" type="submit">{{ _("Submit") }}</button>
+		</div>
+	      </form>
+	    </div>
+	  </div>
+	{% endif %}
+	
 	{# Comments #}
 	<div class="comments">
 	  {% for comment in chapter.comments %}

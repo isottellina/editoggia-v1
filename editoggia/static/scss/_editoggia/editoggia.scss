@@ -3,7 +3,7 @@
 // Filename: editoggia.scss
 // Author: Louise <louise>
 // Created: Sat May 30 16:03:31 2020 (+0200)
-// Last-Updated: Sat Jun 20 15:09:20 2020 (+0200)
+// Last-Updated: Sat Jun 27 15:45:38 2020 (+0200)
 //           By: Louise <louise>
 //
 
@@ -22,5 +22,9 @@ body {
 	margin-top: 0.4em;
 	
 	flex-grow: 1;
+    }
+
+    #comment-form {
+	display: none;
     }
 }

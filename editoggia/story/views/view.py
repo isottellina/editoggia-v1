@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Fri Jun 19 16:51:14 2020 (+0200)
+# Last-Updated: Sat Jun 27 14:27:46 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -13,6 +13,7 @@ from editoggia.database import db
 from editoggia.story import story
 
 from editoggia.models import Story, Chapter
+from editoggia.story.forms import LikeForm, CommentForm
 
 @story.route('/')
 def index():
@@ -40,8 +41,14 @@ def show_story(story_id):
                                 chapter_id=story.chapters[0].id)
         )
     else:
+        like_form = LikeForm()
+        comment_form = CommentForm()
+        
         current_user.add_to_history(story)
+        
         return render_template('story/show_chapter.jinja2',
+                               like_form=like_form,
+                               comment_form=comment_form,
                                story=story,
                                chapter=story.chapters[0])
 
@@ -53,9 +60,14 @@ def show_chapter(story_id, chapter_id):
     story = Story.get_by_id_or_404(story_id)
     chapter = Chapter.get_by_id_or_404(chapter_id)
 
+    like_form = LikeForm()
+    comment_form = CommentForm()
+    
     current_user.add_to_history(story)
     
     return render_template('story/show_chapter.jinja2',
+                           like_form=like_form,
+                           comment_form=comment_form,
                            story=story,
                            chapter=chapter)
 
