@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Wed Jun 17 00:03:47 2020 (+0200)
+# Last-Updated: Sat Jun 27 14:01:28 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -32,6 +32,9 @@ def edit_story(story_id):
     form = EditStoryForm(obj=story)
     
     if form.validate_on_submit():
+        # Bleach summary
+        form.data['summary'] = bleach.clean(form.data['summary'])
+        
         # We update the story
         form.populate_obj(story)
         story.update()
@@ -57,6 +60,7 @@ def edit_chapter(story_id, chapter_id):
     
     if form.validate_on_submit():
         form.data['content'] = bleach.clean(form.data['content'])
+        form.data['summary'] = bleach.clean(form.data['summary'])
         
         form.populate_obj(chapter)
         chapter.update()

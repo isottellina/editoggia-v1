@@ -3,7 +3,7 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Sat Jun 20 15:43:06 2020 (+0200)
+# Last-Updated: Sat Jun 27 14:00:44 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -27,6 +27,7 @@ def post_story():
     
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
+        summary = bleach.clean(form.data['summary'])
         content = bleach.clean(form.data['content'])
         
         # We have to create the story before the chapter
@@ -34,7 +35,7 @@ def post_story():
             title=form.data['title'],
             rating=form.data['rating'],
             author=current_user,
-            summary=form.data['summary'],
+            summary=summary,
             fandom=form.data['fandom'],
             tags=form.data['tags'],
             total_chapters=form.data['total_chapters']
@@ -64,12 +65,13 @@ def post_chapter(story_id):
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
         content = bleach.clean(form.data['content'])
+        summary = bleach.clean(form.data['summary'])
 
         Chapter.create(
             story=story,
             title=form.data['title'],
             nb=form.data['nb'],
-            summary=form.data['summary'],
+            summary=summary,
             content=content
         )
         
