@@ -3,7 +3,7 @@
 # Filename: autocomplete.py
 # Author: Louise <louise>
 # Created: Fri Jun  5 11:35:08 2020 (+0200)
-# Last-Updated: Thu Jun 11 17:02:04 2020 (+0200)
+# Last-Updated: Sat Jun 27 16:58:08 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import request, jsonify, abort
@@ -12,7 +12,6 @@ from flask_login import current_user
 from sqlalchemy import func
 
 from editoggia.ajax import ajax
-from editoggia.ajax.decorators import ajax_login_required
 from editoggia.ajax.forms import LikeForm
 
 from editoggia.database import db

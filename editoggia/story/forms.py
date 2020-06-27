@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Sat Jun 27 15:48:27 2020 (+0200)
+# Last-Updated: Sat Jun 27 18:19:48 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -203,7 +203,11 @@ class CommentForm(FlaskForm):
     """
     Form to post a comment on a chapter.
     """
-    comment = TextAreaField()
+    comment = TextAreaField(
+        gettext("Comment"), validators=[
+            DataRequired()
+        ]
+    )
 
 class LikeForm(FlaskForm):
     """
