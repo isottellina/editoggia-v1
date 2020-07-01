@@ -3,7 +3,7 @@
     {% for page in pagination.iter_pages() %}
       {% if page %}
 	{% if page != pagination.page %}
-	  {# Calculate argument to preserve GET arguments. Don't forget to pop the page argument.' #}
+	  {# Calculate argument to preserve GET arguments. Don't forget to pop the page argument. #}
 	  {% set args = request.args.deepcopy().to_dict() %}
 	  {% do args.update(kwargs) %}
 	  {% do args.pop('page', None) %}
