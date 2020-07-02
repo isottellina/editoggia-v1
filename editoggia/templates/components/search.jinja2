@@ -5,8 +5,31 @@
     <div class="card-body">
       <h3 class="card-title border-bottom">{{ _("Search") }}</h3>
       <form method="GET">
+	{# Sort #}
 	<div class="row">
-	  {{ render_field(form.order_by) }}
+	  <h5 class="col">Sort</h5>
+	</div>
+	<div class="row">
+	  {{ render_field(form.order_by, label=False) }}
+	</div>
+
+	{# Include #}
+	<div class="row">
+	  <h5 class="col">Include</h5>
+	</div>
+	<div class="row">
+	  {{ render_field(form.included_fandom) }}
+	</div>
+	<div class="row">
+	  {{ render_field(form.included_tags) }}
+	</div>
+	
+	{# Exclude #}
+	<div class="row">
+	  <h5 class="col">Exclude</h5>
+	</div>
+	<div class="row">
+	  {{ render_field(form.excluded_tags) }}
 	</div>
 	<div class="row pt-2">
 	  <div class="form-group col-lg-12">

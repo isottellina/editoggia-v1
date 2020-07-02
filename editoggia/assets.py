@@ -3,7 +3,7 @@
 # Filename: assets.py
 # Author: Louise <louise>
 # Created: Sat May  2 05:38:44 2020 (+0200)
-# Last-Updated: Thu Jul  2 10:19:38 2020 (+0200)
+# Last-Updated: Thu Jul  2 19:51:09 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -34,6 +34,12 @@ js_story = Bundle(
     output='js/output/story.js'
 )
 
+js_search = Bundle(
+    'node_modules/select2/dist/js/select2.full.min.js',
+    'js/search.js',
+    output='js/output/search.js'
+)
+
 js_post_edit_story = Bundle(
     'node_modules/select2/dist/js/select2.full.min.js',
     'js/post_edit_story.js',
@@ -44,4 +50,5 @@ assets = Environment()
 assets.register('css_all', css)
 assets.register('js_all', js)
 assets.register('js_story', js_story)
+assets.register('js_search', js_search)
 assets.register('js_post_edit_story', js_post_edit_story)

@@ -37,3 +37,10 @@
     </div>
   </section>
 {% endblock %}
+
+{% block javascript %}
+  {{ super() }}
+  {% assets 'js_search' %}
+  <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% endblock %}
