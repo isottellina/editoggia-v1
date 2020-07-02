@@ -3,7 +3,7 @@
 # Filename: fields.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:49:03 2020 (+0200)
-# Last-Updated: Thu Jun 11 13:04:07 2020 (+0200)
+# Last-Updated: Thu Jul  2 11:45:05 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -24,17 +24,16 @@ class Select2Field(fields.SelectField):
     """
     widget = Select2Widget()
 
-class Select2MultipleTagsField(Select2MultipleField):
+class Select2MultipleAutocompleteField(Select2MultipleField):
     """
     Select2MultipleField, but doesn't check its data.
-    That allows to create the tags (or fandoms necessary).
+    This allows filling the data with autocomplete.
     """
     widget = Select2Widget(multiple=True)
-    tags = True
 
     def __init__(self, *args, model_name=None, **kwargs):
         self.model_name = model_name
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, validate_choice=False, **kwargs)
     
     def pre_validate(self, form):
         pass

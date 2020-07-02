@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Sat Jun 27 18:19:48 2020 (+0200)
+# Last-Updated: Thu Jul  2 11:45:16 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -13,7 +13,7 @@ from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
 
 from editoggia.models import Story, Chapter
-from editoggia.forms.fields import Select2Field, Select2MultipleTagsField 
+from editoggia.forms.fields import Select2Field, Select2MultipleAutocompleteField 
 
 #
 # Story and chapter forms.
@@ -56,8 +56,8 @@ class StoryForm(FlaskForm):
     
     total_chapters = StringField(gettext("Total chapters"), default='?')
 
-    fandom = Select2MultipleTagsField(gettext("Fandoms"), model_name='Fandom', validate_choice=False)
-    tags = Select2MultipleTagsField(gettext("Tags"), model_name='Tag', validate_choice=False)
+    fandom = Select2MultipleAutocompleteField(gettext("Fandoms"), model_name='Fandom')
+    tags = Select2MultipleAutocompleteField(gettext("Tags"), model_name='Tag')
 
     def __init__(self, *args, **kwargs):
         """
@@ -121,9 +121,6 @@ class EditStoryForm(StoryForm):
 class ChapterForm(FlaskForm):
     title = StringField(
         gettext("Title"), validators=[
-            DataRequired(
-                message=gettext("Title can't be empty.")
-            ),
             Length(
                 max=255,
                 message=gettext("Title must be less than 255 characters.")
