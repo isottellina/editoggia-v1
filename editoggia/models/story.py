@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Mon Jun 22 21:50:23 2020 (+0200)
+# Last-Updated: Thu Jul  2 12:19:58 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -78,6 +78,14 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         if current_user != self.author:
             self.stats.hits += 1
             db.session.commit()
+
+    def keywords(self):
+        """
+        Returns fandoms and tags as a string, comma-separated.
+        """
+        return ", ".join(
+            map(lambda obj: obj.name, self.fandom + self.tags)
+        )
 
     def __setattr__(self, attr, value):
         """

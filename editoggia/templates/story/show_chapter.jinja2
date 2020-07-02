@@ -10,6 +10,12 @@
   {% endif %}
 {% endblock %}
 
+{% block meta %}
+  <meta name="author" content="{{ story.author }}" />
+  <meta name="description" content="{{ story.summary }}" />
+  <meta name="keywords" content="{{ story.keywords() }}" />
+{% endblock %}
+
 {% block content %}
   <section class="container">
     <div class="row justify-content-center">
