@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Fri Jul  3 13:25:36 2020 (+0200)
+# Last-Updated: Fri Jul  3 14:22:05 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template, request, flash, abort
@@ -36,19 +36,29 @@ class CollectionView(View):
     search, so the code is centralized here.
     """
     def dispatch_request(self, name):
-        decoded_name = self.MODEL.decode_name(name)
-        
         form = SearchForm(request.args)
         if not form.validate():
             abort(400)
         
-        collection = db.session.query(self.MODEL) \
-                               .filter(self.MODEL.name == decoded_name) \
-                               .first_or_404()
-        
+        collection = self.MODEL.get_by_encoded_name_or_404(name)
         b_query = db.session.query(Story) \
                             .filter(getattr(Story, self.STORY_FIELD).contains(collection))
 
+        # Include fandoms in query
+        for fandom_name in form.data['included_fandom']:
+            fandom = Fandom.get_by_name_or_404(fandom_name)
+            b_query = b_query.filter(Story.fandom.contains(fandom))
+
+        # Include tags in query
+        for tag_name in form.data['included_tags']:
+            tag = Tag.get_by_name_or_404(tag_name)
+            b_query = b_query.filter(Story.tags.contains(tag))
+
+        # Exclude tags from query
+        for tag_name in form.data['excluded_tags']:
+            tag = Tag.get_by_name_or_404(tag_name)
+            b_query = b_query.filter(~Story.tags.contains(tag))
+        
         # Apply different ordering methods
         if form.data['order_by'] == 'title':
             b_query = b_query.order_by(Story.title)

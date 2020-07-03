@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Fri Jun 26 17:15:36 2020 (+0200)
+# Last-Updated: Fri Jul  3 14:18:59 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -59,6 +59,28 @@ class NameMixin(object):
     
     name = db.Column(db.String(255), unique=True, nullable=False)
 
+    @classmethod
+    def get_by_name(cls, name):
+        """
+        Returns an object by its name.
+        """
+        return cls.query.filter(cls.name == name).first()
+    
+    @classmethod
+    def get_by_name_or_404(cls, name):
+        """
+        Same as get_by_name, but issues a 404 error if None.
+        """
+        return cls.query.filter(cls.name == name).first_or_404()
+
+    @classmethod
+    def get_by_encoded_name_or_404(cls, encoded_name):
+        """
+        Same as get_by_name_or_404, but uses the URL-encoded name.
+        """
+        name = cls.decode_name(encoded_name)
+        return cls.get_by_name_or_404(name)
+    
     def encode_name(self):
         """
         Replace URL-sensitive characters.
@@ -88,22 +110,12 @@ class ModeratedMixin(NameMixin):
         If the object exists, return it. If
         it doesn't exist, create it, set it
         to be moderated, and return the created one.
-
-        Indexing is done by `name`, and this column must exist.
-        If it does not, it will abort with a 500 error.
         """
-        if getattr(cls, 'name') is None:
-            abort(500)
-        obj = cls.query.filter(cls.name == name).first()
-        
-        if obj:
-            return obj
-        else:
-            return cls.create(
-                name=name,
-                waiting_mod=True,
-                **kwargs
-            )
+        return cls.get_by_name(name) or cls.create(
+            name=name,
+            waiting_mod=True,
+            **kwargs
+        )
     
 class DatesMixin(object):
     """
