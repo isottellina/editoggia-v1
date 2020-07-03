@@ -3,19 +3,19 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Sat May 30 15:59:43 2020 (+0200)
+# Last-Updated: Fri Jul  3 16:59:45 2020 (+0200)
 #           By: Louise <louise>
 #
+from flask import current_app
 from flask_wtf import FlaskForm
-from flask_babel import gettext
+from flask_babel import gettext, Locale
 
 from wtforms.fields import StringField, TextAreaField, PasswordField
 from wtforms.fields import SelectField
-from wtforms.fields.html5 import DateField
-
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
 from editoggia.models import User
+from editoggia.forms.fields import DateField
 
 class UserForm(FlaskForm):
     username = StringField(
@@ -126,6 +126,20 @@ class EditUserForm(UserForm):
         coerce=lambda x: None if x=="None" else x
     )
 
+    language = SelectField(
+        gettext("Language")
+    )
+
     location = StringField()
     birthdate = DateField()
     bio = TextAreaField()
+
+    def populate_language(self):
+        """
+        Populate the language choices, we have to do it
+        here since we need the app context.
+        """
+        self.language.choices = [
+            (lang, Locale.parse(lang).get_display_name(lang))
+            for lang in current_app.config["ACCEPTED_LANGUAGES"]
+        ]

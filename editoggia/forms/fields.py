@@ -3,13 +3,15 @@
 # Filename: fields.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:49:03 2020 (+0200)
-# Last-Updated: Fri Jul  3 13:48:57 2020 (+0200)
+# Last-Updated: Fri Jul  3 17:15:53 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 Fields to use in the forms in the blueprints.
 """
 from wtforms import fields
+from wtforms.fields.html5 import DateField as WtformsDateField
+
 from editoggia.forms.widgets import Select2Widget
 
 class Select2MultipleField(fields.SelectMultipleField):
@@ -49,3 +51,20 @@ class Select2MultipleAutocompleteField(Select2MultipleField):
         """
         self.choices = [(data_sgl, data_sgl) for data_sgl in data]
         Select2MultipleField.process_formdata(self, data)
+
+
+class DateField(WtformsDateField):
+    """
+    Same as the default DateField, but with a slightly different behaviour
+    in process_formdata to accept an empty value.
+    """
+    def process_formdata(self, valuelist):
+        import datetime
+        
+        date_str = " ".join(valuelist)
+        if date_str:
+            try:
+                self.data = datetime.datetime.strptime(date_str, self.format).date()
+            except ValueError:
+                self.data = None
+                raise ValueError(self.gettext("Not a valid date value."))
