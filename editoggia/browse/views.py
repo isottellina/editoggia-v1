@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Thu Jul  2 19:50:05 2020 (+0200)
+# Last-Updated: Fri Jul  3 13:25:36 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask import render_template, request, flash, abort
@@ -39,8 +39,6 @@ class CollectionView(View):
         decoded_name = self.MODEL.decode_name(name)
         
         form = SearchForm(request.args)
-        form.populate_select2()
-        
         if not form.validate():
             abort(400)
         

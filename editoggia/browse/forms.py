@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Sat Jun 20 14:55:00 2020 (+0200)
-# Last-Updated: Thu Jul  2 19:50:19 2020 (+0200)
+# Last-Updated: Fri Jul  3 13:25:43 2020 (+0200)
 #           By: Louise <louise>
 # 
 from flask_babel import gettext
@@ -35,12 +35,4 @@ class SearchForm(Form):
     included_fandom = Select2MultipleAutocompleteField(gettext("Included fandom"), model_name='Fandom')
     included_tags = Select2MultipleAutocompleteField(gettext("Included tags"), model_name='Tag')
     excluded_tags = Select2MultipleAutocompleteField(gettext("Excluded tags"), model_name='Tag')
-
-    def populate_select2(self):
-        """
-        Populate the select fields, so they can be used.
-        """
-        self.included_fandom.choices = []
-        self.included_tags.choices = []
-        self.excluded_tags.choices = []
         
