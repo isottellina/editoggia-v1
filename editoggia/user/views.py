@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Fri Jul  3 16:53:09 2020 (+0200)
+# Last-Updated: Sun Jul  5 18:10:21 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, datetime, timedelta, timezone
@@ -93,7 +93,6 @@ def edit_profile():
     Edit a user profile.
     """
     form = EditUserForm(obj=current_user)
-    print(request.form)
     form.populate_language()
     
     if form.validate_on_submit():

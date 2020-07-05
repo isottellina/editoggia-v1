@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:41:06 2020 (+0200)
-# Last-Updated: Mon Jun  8 16:22:14 2020 (+0200)
+# Last-Updated: Sun Jul  5 18:25:47 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -62,26 +62,55 @@ class TestUser(EditoggiaTestCase):
         self.assertIn(b'<form', rv.data)
         self.assertIn(f'value="{self.user.name}"'.encode(), rv.data)
 
+    def generic_test_edit_post(self, data={}):
+        """
+        Generic test for edit_post view.
+        """
+        base_data = {
+            "name": self.faker.name(),
+            "email": self.faker.email(),
+            "location": "Amsterdam, Netherlands",
+            "gender": "Woman",
+            "language": self.app.config["ACCEPTED_LANGUAGES"][0]
+        }
+        base_data.update(data)
+        
+        self.login(self.user.username, self.password)
+        rv = self.client.post('/user/edit', data=base_data)
+
+        self.assertRedirects(rv, f'/user/{self.user.username}')
+        self.assertEqual(self.user.name, base_data['name'])
+        self.assertEqual(self.user.email, base_data['email'])
+        self.assertEqual(self.user.location, base_data['location'])
+        self.assertEqual(self.user.gender, base_data['gender'])
+        self.assertEqual(self.user.bio, "")
+        
     def test_edit_post(self):
         """
         Tests that we can modify the user.
         """
-        name = self.faker.name()
-        email = self.faker.email()
-        location = "Amsterdam, Netherlands"
-        gender = "Woman"
-        
-        self.login(self.user.username, self.password)
-        rv = self.client.post('/user/edit', data={
-            "name": name,
-            "email": email,
-            "location": location,
-            "gender": gender
+        self.generic_test_edit_post({
+            "birthdate": "1970-01-01"
         })
 
-        self.assertRedirects(rv, f'/user/{self.user.username}')
-        self.assertEqual(self.user.name, name)
-        self.assertEqual(self.user.email, email)
-        self.assertEqual(self.user.location, location)
-        self.assertEqual(self.user.gender, gender)
-        self.assertEqual(self.user.bio, "")
+    def test_edit_post_no_birthdate(self):
+        """
+        Tests that the birthdate can be empty.
+        """
+        self.generic_test_edit_post()
+
+    def test_edit_post_no_birthdate(self):
+        """
+        Tests that a bad birthdate is not accepted
+        """
+        self.login(self.user.username, self.password)
+        rv = self.client.post('/user/edit', data={
+            "name": self.faker.name(),
+            "email": self.faker.email(),
+            "location": "Amsterdam, Netherlands",
+            "gender": "Woman",
+            "birthdate": "badone",
+            "language": self.app.config["ACCEPTED_LANGUAGES"][0]
+        })
+
+        self.assert200(rv)

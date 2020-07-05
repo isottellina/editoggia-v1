@@ -3,7 +3,7 @@
 # Filename: extensions.py
 # Author: Louise <louise>
 # Created: Sat May  2 06:11:47 2020 (+0200)
-# Last-Updated: Fri Jul  3 17:15:34 2020 (+0200)
+# Last-Updated: Sun Jul  5 18:08:49 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -29,7 +29,7 @@ def get_locale():
     from flask_login import current_user
     
     # if a user is logged in, use the locale from the user settings
-    if current_user.is_authenticated:
+    if current_user.is_authenticated and current_user.language:
         return current_user.language
     
     # otherwise try to guess the language from the user accept
