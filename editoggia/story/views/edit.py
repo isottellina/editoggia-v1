@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:11:35 2020 (+0200)
+# Last-Updated: Tue Jul  7 21:43:33 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
@@ -59,9 +59,9 @@ def edit_chapter(story_id, chapter_id):
     form = ChapterForm(obj=chapter, chapter=chapter, story=chapter.story)
     
     if form.validate_on_submit():
-        form.data['content'] = current_app.bleacher.clean(form.data['content'])
-        form.data['summary'] = current_app.bleacher.clean(form.data['summary'])
-        
+        form.content.process_data(current_app.bleacher.clean(form.data['content']))
+        form.summary.process_data(current_app.bleacher.clean(form.data['summary']))
+
         form.populate_obj(chapter)
         chapter.update()
         

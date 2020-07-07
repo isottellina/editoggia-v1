@@ -3,12 +3,11 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:12:32 2020 (+0200)
+# Last-Updated: Tue Jul  7 21:17:46 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
 import arrow
-import bleach
 
 from flask import Flask, render_template
 from .config import config
@@ -30,6 +29,9 @@ from editoggia.story import story
 from editoggia.browse import browse
 from editoggia.ajax import ajax
 
+# Import misc
+from editoggia.bleach import Bleacher
+
 def create_app(config_name="default"):
     """
     The app factory. The point where everything
@@ -40,9 +42,7 @@ def create_app(config_name="default"):
     config[config_name].init_app(app)
 
     # Create bleacher
-    app.bleacher = bleach.sanitizer.Cleaner(
-        tags=bleach.sanitizer.ALLOWED_TAGS + ['p']
-    )
+    app.bleacher = Bleacher()
 
     register_commands(app)
     register_jinja_env(app)
