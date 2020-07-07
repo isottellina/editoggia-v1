@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
-# Last-Updated: Sat Jun 20 15:11:58 2020 (+0200)
+# Last-Updated: Tue Jul  7 19:05:42 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -58,7 +58,7 @@ def login():
         # set tracking info
         form.user.update(
             last_login_at=datetime.utcnow(),
-            last_login_ip = request.remote_addr
+            last_login_ip=request.remote_addr
         )
         
         flash(

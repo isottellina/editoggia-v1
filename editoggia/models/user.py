@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue Jul  7 16:03:52 2020 (+0200)
+# Last-Updated: Tue Jul  7 19:06:20 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -153,8 +153,10 @@ class User(CRUDMixin, UserMixin, db.Model):
         existing = self.get_from_history(story)
         
         if existing:
-            existing.date = datetime.utcnow()
-            existing.chapter_nb = chapter_nb
+            existing.update(
+                date=datetime.utcnow(),
+                chapter_nb=chapter_nb
+            )
         else:
             # Add a hit to the story
             story.hit()
@@ -163,8 +165,6 @@ class User(CRUDMixin, UserMixin, db.Model):
                 story=story,
                 chapter_nb=chapter_nb
             )
-
-        db.session.commit()
 
 class UserLikes(db.Model):
     __tablename__ = 'user_likes'

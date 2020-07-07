@@ -3,7 +3,7 @@
 # Filename: test_models.py
 # Author: Louise <louise>
 # Created: Mon Jun 22 21:35:44 2020 (+0200)
-# Last-Updated: Tue Jul  7 18:05:39 2020 (+0200)
+# Last-Updated: Tue Jul  7 18:45:48 2020 (+0200)
 #           By: Louise <louise>
 #
 from helpers import EditoggiaTestCase
@@ -22,7 +22,7 @@ class TestModel(EditoggiaTestCase):
         fandoms and tags that don't exist and have
         them created.
         """
-        story = self.create_stories(1)[0]
+        story = self.create_story()
 
         story.fandom = ["Original Work", "Fandom2"]
         story.tags = ["Tag1", "Tag2"]
