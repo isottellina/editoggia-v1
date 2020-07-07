@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue Jul  7 14:17:22 2020 (+0200)
+# Last-Updated: Tue Jul  7 16:03:52 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -182,13 +182,14 @@ class AnonymousUser(AnonymousUserMixin):
     """
     def has_permission(self, permission):
         return False
-    def get_to_history(self, story):
+    
+    def get_from_history(self, story):
         """
         Because an anonymous user has no history, return None.
         """
         return None
     
-    def add_to_history(self, story):
+    def add_to_history(self, story, chapter_nb=1):
         """
         Add a hit to the story, an anonymous user has no history.
         """

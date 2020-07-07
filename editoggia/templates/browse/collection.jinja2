@@ -3,7 +3,7 @@
 {% from 'components/pagination.jinja2' import render_pagination %}
 {% extends 'base.jinja2' %}
 
-{% block title %}{{  _("%(collection) - Stories", collection=collection.name) }}{% endblock %}
+{% block title %}{{  _("%(collection)s - Stories", collection=collection.name) }}{% endblock %}
 
 {% block content %}
   <section class="section">
@@ -11,7 +11,7 @@
       {# Calculate limit here because the expressions are long #}
       {% set begin_range = (stories_page.page - 1) * stories_page.per_page + 1 if stories_page.total > 0 else 0 %}
       {% set end_range = stories_page.page * stories_page.per_page if stories_page.page * stories_page.per_page < stories_page.total else stories_page.total %}
-      <h2> {{  _("%(begin_range) - %(end_range) of %(total_stories) stories in '%(collection)'", begin_range=begin_range, end_range=end_range, total_stories=stories_page.total, collection=collection.name) }} </h2>
+      <h2> {{  _("%(begin_range)s - %(end_range)s of %(total_stories)s stories in '%(collection)s'", begin_range=begin_range, end_range=end_range, total_stories=stories_page.total, collection=collection.name) }} </h2>
       
       {# Pagination control top #}
       <div class="row justify-content-center">

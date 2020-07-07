@@ -40,9 +40,9 @@
 	    {% for chapter in story.chapters %}
 	      <a class="list-group-item list-group-item-action" href="{{ url_for('story.edit_chapter', story_id=story.id, chapter_id=chapter.id) }}">
 		{% if chapter.title %}
-		  {{ _("Chapter %(chapter_nb): %(chapter_title)", chapter_nb=chapter.nb, chapter_title=chapter.title) }}
+		  {{ _("Chapter %(chapter_nb)s: %(chapter_title)s", chapter_nb=chapter.nb, chapter_title=chapter.title) }}
 		{% else %}
-		  {{ _("Chapter %(chapter_n)", chapter_nb=chapter.nb) }}
+		  {{ _("Chapter %(chapter_n)s", chapter_nb=chapter.nb) }}
 		{% endif %}
 	      </a>
 	    {% endfor %}
