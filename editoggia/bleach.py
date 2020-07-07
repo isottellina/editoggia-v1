@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:42:25 2020 (+0200)
+# Last-Updated: Tue Jul  7 22:52:51 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -15,8 +15,8 @@ class Bleacher():
     A wrapper class of Cleaner to do slightly more stuff, like
     collapsing whitespace.
     """
-    NEWLINES_RE = re.compile('\n+\w*\n+')
-    SPACES_RE = re.compile('[ ]+')
+    NEWLINES_RE = re.compile(r'\n+\s*\n+')
+    SPACES_RE = re.compile(r'[ ]+')
     
     def __init__(self):
         """
