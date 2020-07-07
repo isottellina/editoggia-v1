@@ -3,7 +3,7 @@
 # Filename: test_models.py
 # Author: Louise <louise>
 # Created: Mon Jun 22 21:35:44 2020 (+0200)
-# Last-Updated: Fri Jun 26 17:16:16 2020 (+0200)
+# Last-Updated: Tue Jul  7 18:05:39 2020 (+0200)
 #           By: Louise <louise>
 #
 from helpers import EditoggiaTestCase
@@ -31,7 +31,9 @@ class TestModel(EditoggiaTestCase):
         tags = db.session.query(Tag).all()
 
         self.assertEqual(story.fandom, fandoms)
+        self.assertEqual(len(fandoms), 2)
         self.assertEqual(story.tags, tags)
+        self.assertEqual(len(tags), 2)
 
     def test_crudmixin_get_by_id(self):
         """
