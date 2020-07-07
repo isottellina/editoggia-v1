@@ -23,13 +23,13 @@
 	</div>
 
 	{# Bio #}
-	<p>
+	<p id="bio">
 	  {{ user.bio }}
 	</p>
 	
 	{# Location #}
 	{% if user.location %}
-	  <div>
+	  <div id="location">
 	    <i class="fas fa-fw fa-compass"></i>
 	    {{ user.location }}
 	  </div>
@@ -37,7 +37,7 @@
 
 	{# Age #}
 	{% if age %}
-	  <div>
+	  <div id="age">
 	    <i class="fas fa-fw fa-birthday-cake"></i>
 	    {{ age }} {{ _("years old") }}
 	  </div>

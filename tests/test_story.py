@@ -3,7 +3,7 @@
 # Filename: test_story.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 16:06:35 2020 (+0200)
-# Last-Updated: Sat Jun 27 16:26:22 2020 (+0200)
+# Last-Updated: Tue Jul  7 16:54:10 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -79,10 +79,24 @@ class TestStory(EditoggiaTestCase):
         rv = self.client.get(f'/story/{story.id}')
 
         self.assertRedirects(rv, f'/story/{story.id}/chapter/{story.chapters[0].id}')
+        
+    def test_show_story_redirect_restore(self):
+        """
+        Tests that a story with multiple chapters will
+        redirect, to the last chapter read.
+        """
+        self.login()
+        
+        story = self.create_story(2)
+        self.hit(story, 2)
+        
+        rv = self.client.get(f'/story/{story.id}')
+
+        self.assertRedirects(rv, f'/story/{story.id}/chapter/{story.chapters[1].id}')
 
     def test_show_chapter(self):
         """
-        Tests that we can just show a chapter.
+        Tests that we can just show a chapter, without history.
         """
         story = self.create_story(2)
         rv = self.client.get(f'/story/{story.id}/chapter/{story.chapters[0].id}')

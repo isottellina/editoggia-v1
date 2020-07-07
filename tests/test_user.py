@@ -3,7 +3,7 @@
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:41:06 2020 (+0200)
-# Last-Updated: Sun Jul  5 18:25:47 2020 (+0200)
+# Last-Updated: Tue Jul  7 16:50:11 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -46,6 +46,49 @@ class TestUser(EditoggiaTestCase):
         self.assert200(rv)
         self.assertIn(b"Paris, France", rv.data)
         self.assertIn(str(age).encode(), rv.data)
+        
+    def test_view_profile_normal_wo_birthdate(self):
+        """
+        Tests we can access a profile that exist, without birthdate.
+        """
+        # We put a little info in the profile
+        self.user.location = "Paris, France"
+        
+        # We get the URL to do the actual request
+        url = f'/user/{self.user.username}'
+        rv = self.client.get(url)
+
+        self.assert200(rv)
+        self.assertIn(b"Paris, France", rv.data)
+        self.assertNotIn(b'id="age"', rv.data)
+        
+    def test_view_profile_likes(self):
+        """
+        Tests we can access a profile's likes.
+        """
+        story = self.create_story()
+        self.like(story)
+        
+        # We get the URL to do the actual request
+        url = f'/user/{self.user.username}/liked'
+        rv = self.client.get(url)
+
+        self.assert200(rv)
+        self.assertIn(story.title.encode(), rv.data)
+
+    def test_view_profile_history(self):
+        """
+        Tests we can access a profile's history.
+        """
+        story = self.create_story()
+        self.hit(story)
+        
+        # We get the URL to do the actual request
+        url = f'/user/{self.user.username}/history'
+        rv = self.client.get(url)
+
+        self.assert200(rv)
+        self.assertIn(story.title.encode(), rv.data)
 
     """
     Test edit profile.
