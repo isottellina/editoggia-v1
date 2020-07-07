@@ -3,7 +3,7 @@
 # Filename: extensions.py
 # Author: Louise <louise>
 # Created: Sat May  2 06:11:47 2020 (+0200)
-# Last-Updated: Sun Jul  5 18:08:49 2020 (+0200)
+# Last-Updated: Tue Jul  7 14:04:55 2020 (+0200)
 #           By: Louise <louise>
 # 
 """
@@ -27,6 +27,11 @@ def get_locale():
     """
     from flask import request, current_app
     from flask_login import current_user
+
+    # If there is no current_user, even anonymous, that means
+    # we are outside of request context
+    if not current_user:
+        return "en"
     
     # if a user is logged in, use the locale from the user settings
     if current_user.is_authenticated and current_user.language:

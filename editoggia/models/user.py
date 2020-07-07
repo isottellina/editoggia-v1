@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sun Jun 14 16:38:38 2020 (+0200)
+# Last-Updated: Tue Jul  7 14:17:22 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -130,7 +130,19 @@ class User(CRUDMixin, UserMixin, db.Model):
         
         return result is not None
 
-    def add_to_history(self, story):
+    def get_from_history(self, story):
+        """
+        If user has story in its inventory, return the HistoryView
+        object. If not, return None.
+        """
+        from editoggia.models import HistoryView
+        
+        return db.session.query(HistoryView) \
+                             .filter(HistoryView.user_id == self.id) \
+                             .filter(HistoryView.story_id == story.id) \
+                             .first()
+
+    def add_to_history(self, story, chapter_nb=1):
         """
         A user has loaded a story. Update view time, or
         add to history.
@@ -138,19 +150,21 @@ class User(CRUDMixin, UserMixin, db.Model):
         from datetime import datetime
         from editoggia.models import HistoryView
 
-        existing = db.session.query(HistoryView) \
-                             .filter(HistoryView.user_id == self.id) \
-                             .filter(HistoryView.story_id == story.id) \
-                             .first()
+        existing = self.get_from_history(story)
+        
         if existing:
             existing.date = datetime.utcnow()
+            existing.chapter_nb = chapter_nb
         else:
             # Add a hit to the story
             story.hit()
             HistoryView.create(
                 user_id=self.id,
-                story=story
+                story=story,
+                chapter_nb=chapter_nb
             )
+
+        db.session.commit()
 
 class UserLikes(db.Model):
     __tablename__ = 'user_likes'
@@ -168,6 +182,12 @@ class AnonymousUser(AnonymousUserMixin):
     """
     def has_permission(self, permission):
         return False
+    def get_to_history(self, story):
+        """
+        Because an anonymous user has no history, return None.
+        """
+        return None
+    
     def add_to_history(self, story):
         """
         Add a hit to the story, an anonymous user has no history.

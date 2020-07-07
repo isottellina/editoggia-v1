@@ -3,7 +3,7 @@
 # Filename: history.py
 # Author: Louise <louise>
 # Created: Tue Jun  9 16:12:19 2020 (+0200)
-# Last-Updated: Sun Jun 14 14:07:20 2020 (+0200)
+# Last-Updated: Tue Jul  7 13:49:33 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -23,6 +23,7 @@ class HistoryView(db.Model, CRUDMixin):
         db.UniqueConstraint('user_id', 'story_id', name="unique_history"),
     )
 
+    chapter_nb = db.Column(db.Integer(), nullable=False, default=1)
     date = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
     
     user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)

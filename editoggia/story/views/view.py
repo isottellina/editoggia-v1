@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Sat Jun 27 14:27:46 2020 (+0200)
+# Last-Updated: Tue Jul  7 14:16:48 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, redirect, url_for
@@ -36,10 +36,22 @@ def show_story(story_id):
     story = Story.get_by_id_or_404(story_id)
     
     if len(story.chapters) > 1:
-        return redirect(url_for('story.show_chapter',
-                                story_id=story_id,
-                                chapter_id=story.chapters[0].id)
-        )
+        """
+        If story has multiple chapters, restore the progression of the
+        user.
+        """
+        history = current_user.get_from_history(story)
+
+        if history is None:
+            return redirect(url_for('story.show_chapter',
+                                    story_id=story_id,
+                                    chapter_id=story.chapters[0].id)
+            )
+        else:
+            return redirect(url_for('story.show_chapter',
+                                    story_id=story_id,
+                                    chapter_id=story.chapters[history.chapter_nb - 1].id)
+            )
     else:
         like_form = LikeForm()
         comment_form = CommentForm()
@@ -63,7 +75,7 @@ def show_chapter(story_id, chapter_id):
     like_form = LikeForm()
     comment_form = CommentForm()
     
-    current_user.add_to_history(story)
+    current_user.add_to_history(story, chapter.nb)
     
     return render_template('story/show_chapter.jinja2',
                            like_form=like_form,

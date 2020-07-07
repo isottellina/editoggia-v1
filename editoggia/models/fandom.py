@@ -3,7 +3,7 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Fri Jun 26 17:17:38 2020 (+0200)
+# Last-Updated: Tue Jul  7 13:59:27 2020 (+0200)
 #           By: Louise <louise>
 # 
 from editoggia.database import db
@@ -33,8 +33,6 @@ class Fandom(db.Model, CRUDMixin, ModeratedMixin):
     stories = db.relationship('Story',
                                secondary='fandom_stories',
                                back_populates='fandom')
-    tags = db.relationship('Tag', secondary='tags_fandoms',
-                           back_populates='fandoms')
     
     def __repr__(self):
         return "<Fandom '{}'>".format(self.name)
