@@ -3,11 +3,12 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sat Jun 20 16:53:34 2020 (+0200)
+# Last-Updated: Tue Jul  7 21:12:32 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
 import arrow
+import bleach
 
 from flask import Flask, render_template
 from .config import config
@@ -37,6 +38,11 @@ def create_app(config_name="default"):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
+
+    # Create bleacher
+    app.bleacher = bleach.sanitizer.Cleaner(
+        tags=bleach.sanitizer.ALLOWED_TAGS + ['p']
+    )
 
     register_commands(app)
     register_jinja_env(app)

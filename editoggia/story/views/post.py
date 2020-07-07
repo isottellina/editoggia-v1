@@ -3,12 +3,12 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Sat Jun 27 14:00:44 2020 (+0200)
+# Last-Updated: Tue Jul  7 21:11:58 2020 (+0200)
 #           By: Louise <louise>
 #
 import bleach
 
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, current_app
 from flask_login import current_user, login_required
 
 from editoggia.database import db
@@ -27,8 +27,8 @@ def post_story():
     
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
-        summary = bleach.clean(form.data['summary'])
-        content = bleach.clean(form.data['content'])
+        summary = current_app.bleacher.clean(form.data['summary'])
+        content = current_app.bleacher.clean(form.data['content'])
         
         # We have to create the story before the chapter
         story = Story.create(

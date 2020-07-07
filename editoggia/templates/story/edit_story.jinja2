@@ -42,7 +42,7 @@
 		{% if chapter.title %}
 		  {{ _("Chapter %(chapter_nb)s: %(chapter_title)s", chapter_nb=chapter.nb, chapter_title=chapter.title) }}
 		{% else %}
-		  {{ _("Chapter %(chapter_n)s", chapter_nb=chapter.nb) }}
+		  {{ _("Chapter %(chapter_nb)s", chapter_nb=chapter.nb) }}
 		{% endif %}
 	      </a>
 	    {% endfor %}
