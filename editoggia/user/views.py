@@ -1,5 +1,5 @@
-# views.py --- 
-# 
+# views.py ---
+#
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
@@ -51,7 +51,7 @@ def profile_stories(username):
     tab opened.
     """
     user, editable, age = get_profile_info(username)
-    
+
     return render_template('user/profile.jinja2',
                            user=user,
                            age=age,
@@ -65,7 +65,7 @@ def profile_liked(username):
     stories tab opened.
     """
     user, editable, age = get_profile_info(username)
-    
+
     return render_template('user/profile.jinja2',
                            user=user,
                            age=age,
@@ -79,7 +79,7 @@ def profile_history(username):
     tab opened.
     """
     user, editable, age = get_profile_info(username)
-    
+
     return render_template('user/profile.jinja2',
                            user=user,
                            age=age,
@@ -94,11 +94,11 @@ def edit_profile():
     """
     form = EditUserForm(obj=current_user)
     form.populate_language()
-    
+
     if form.validate_on_submit():
         form.populate_obj(current_user)
         current_user.update()
-        
+
         flash(
             gettext("Profile edited with success"),
             "success"

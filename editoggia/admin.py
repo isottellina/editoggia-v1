@@ -1,11 +1,11 @@
-# admin.py --- 
-# 
+# admin.py ---
+#
 # Filename: admin.py
 # Author: Louise <louise>
 # Created: Sat May  9 19:25:47 2020 (+0200)
 # Last-Updated: Tue May 12 21:20:32 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 """
 Creates the Admin blueprint, and helpers for
 views within the Admin interface.

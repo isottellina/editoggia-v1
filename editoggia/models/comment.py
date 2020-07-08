@@ -1,5 +1,5 @@
-# comments.py --- 
-# 
+# comments.py ---
+#
 # Filename: comments.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:16:18 2020 (+0200)
@@ -11,7 +11,7 @@ from editoggia.models.mixins import CRUDMixin, DatesMixin
 
 class Comment(db.Model, CRUDMixin, DatesMixin):
     content = db.Column(db.Text, nullable=False)
-    
+
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'))
     author = db.relationship('User', back_populates='comments')
 

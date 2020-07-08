@@ -1,5 +1,5 @@
-# edit_views.py --- 
-# 
+# edit_views.py ---
+#
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
@@ -28,17 +28,17 @@ def edit_story(story_id):
     story = Story.get_by_id_or_404(story_id)
     if story.author != current_user:
         abort(403)
-        
+
     form = EditStoryForm(obj=story)
-    
+
     if form.validate_on_submit():
         # Bleach summary
         form.data['summary'] = current_app.bleacher.clean(form.data['summary'])
-        
+
         # We update the story
         form.populate_obj(story)
         story.update()
-        
+
         return redirect(url_for('home.index'))
     else:
         form.populate_select2(story.fandom, story.tags)
@@ -55,16 +55,16 @@ def edit_chapter(story_id, chapter_id):
     chapter = Chapter.get_by_id_or_404(chapter_id)
     if chapter.story.author != current_user:
         abort(403)
-        
+
     form = ChapterForm(obj=chapter, chapter=chapter, story=chapter.story)
-    
+
     if form.validate_on_submit():
         form.content.process_data(current_app.bleacher.clean(form.data['content']))
         form.summary.process_data(current_app.bleacher.clean(form.data['summary']))
 
         form.populate_obj(chapter)
         chapter.update()
-        
+
         return redirect(url_for('home.index'))
     else:
         return render_template('story/edit_chapter.jinja2', form=form, chapter=chapter)

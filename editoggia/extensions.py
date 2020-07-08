@@ -1,11 +1,11 @@
-# extensions.py --- 
-# 
+# extensions.py ---
+#
 # Filename: extensions.py
 # Author: Louise <louise>
 # Created: Sat May  2 06:11:47 2020 (+0200)
 # Last-Updated: Tue Jul  7 14:04:55 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 """
 Create all extension objects. They are then initialized
 with the app in the app factory.
@@ -32,11 +32,11 @@ def get_locale():
     # we are outside of request context
     if not current_user:
         return "en"
-    
+
     # if a user is logged in, use the locale from the user settings
     if current_user.is_authenticated and current_user.language:
         return current_user.language
-    
+
     # otherwise try to guess the language from the user accept
     # header the browser transmits.
     return request.accept_languages.best_match(

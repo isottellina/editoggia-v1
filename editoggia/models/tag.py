@@ -1,5 +1,5 @@
-# tag.py --- 
-# 
+# tag.py ---
+#
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
@@ -15,10 +15,10 @@ class Tag(db.Model, CRUDMixin, ModeratedMixin):
     A tag. I really don't know how else to describe it.
     """
     __tablename__ = "tag"
-    
+
     stories = db.relationship('Story', secondary='story_tags',
                               back_populates='tags')
-    
+
 class StoryTags(db.Model):
     """
     Association table between Story and Tags.
@@ -28,6 +28,6 @@ class StoryTags(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'))
     tag_id = db.Column(db.Integer(), db.ForeignKey('tag.id'))
-    
+
 from editoggia.models.story import Story
 from editoggia.models.fandom import Fandom

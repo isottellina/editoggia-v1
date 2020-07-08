@@ -1,5 +1,5 @@
-# fields.py --- 
-# 
+# fields.py ---
+#
 # Filename: fields.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:49:03 2020 (+0200)
@@ -37,7 +37,7 @@ class Select2MultipleAutocompleteField(Select2MultipleField):
         self.model_name = model_name
         self.choices = []
         super().__init__(*args, **kwargs)
-    
+
     def pre_validate(self, form):
         """
         We don't validate the data because the choices don't exist.
@@ -60,7 +60,7 @@ class DateField(WtformsDateField):
     """
     def process_formdata(self, valuelist):
         import datetime
-        
+
         date_str = " ".join(valuelist)
         if date_str:
             try:

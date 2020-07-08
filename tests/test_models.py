@@ -1,5 +1,5 @@
-# test_models.py --- 
-# 
+# test_models.py ---
+#
 # Filename: test_models.py
 # Author: Louise <louise>
 # Created: Mon Jun 22 21:35:44 2020 (+0200)
@@ -66,7 +66,7 @@ class TestModel(EditoggiaTestCase):
         Tries to delete a fandom.
         """
         self.assertNotEqual(Fandom.get_by_id(1), None)
-        
+
         fandom = Fandom.get_by_id(1)
         fandom.delete()
 

@@ -1,5 +1,5 @@
-# models.py --- 
-# 
+# models.py ---
+#
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
@@ -17,14 +17,14 @@ from editoggia.models.mixins import CRUDMixin
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
-    
+
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
     role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
 
 class Role(db.Model, CRUDMixin):
     __tablename__ = 'role'
-    
+
     name = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
 
@@ -35,14 +35,14 @@ class Role(db.Model, CRUDMixin):
 
 class PermissionsRoles(db.Model):
     __tablename__ = 'permissions_roles'
-    
+
     id = db.Column(db.Integer(), primary_key=True)
     role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
     perm_id = db.Column('perm_id', db.Integer(), db.ForeignKey('permission.id'), nullable=False)
 
 class Permission(db.Model, CRUDMixin):
     __tablename__ = 'permission'
-    
+
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
 
@@ -85,23 +85,23 @@ class User(CRUDMixin, UserMixin, db.Model):
     )
     comments = db.relationship('Comment', back_populates='author')
     history = db.relationship('HistoryView', order_by='desc(HistoryView.date)')
-    
+
     # Tracking info
     last_active_at = db.Column(db.DateTime())
     last_active_ip = db.Column(db.String(100))
     last_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
     login_count = db.Column(db.Integer, default=0)
-    
+
     active = db.Column(db.Boolean())
     confirmed_at = db.Column(db.DateTime(),
                              default=datetime.utcnow())
-    
+
     roles = db.relationship(
         'Role',
         secondary='roles_users', lazy='dynamic',
         back_populates='users'
-    )                  
+    )
 
     def __init__(self, password, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -109,7 +109,7 @@ class User(CRUDMixin, UserMixin, db.Model):
 
     def __str__(self):
         return self.name if self.name else self.username
-        
+
     def __repr__(self):
         return '<User #%s:%r>' % (self.id, self.username)
 
@@ -127,7 +127,7 @@ class User(CRUDMixin, UserMixin, db.Model):
         result = self.roles.filter(
             Role.permissions.any(Permission.name == permission)
         ).first()
-        
+
         return result is not None
 
     def get_from_history(self, story):
@@ -136,7 +136,7 @@ class User(CRUDMixin, UserMixin, db.Model):
         object. If not, return None.
         """
         from editoggia.models import HistoryView
-        
+
         return db.session.query(HistoryView) \
                              .filter(HistoryView.user_id == self.id) \
                              .filter(HistoryView.story_id == story.id) \
@@ -151,7 +151,7 @@ class User(CRUDMixin, UserMixin, db.Model):
         from editoggia.models import HistoryView
 
         existing = self.get_from_history(story)
-        
+
         if existing:
             existing.update(
                 date=datetime.utcnow(),
@@ -168,11 +168,11 @@ class User(CRUDMixin, UserMixin, db.Model):
 
 class UserLikes(db.Model):
     __tablename__ = 'user_likes'
-    
+
     id = db.Column(db.Integer(), primary_key=True)
     user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
     story_id = db.Column('story_id', db.Integer(), db.ForeignKey('story.id'), nullable=False)
-    
+
 class AnonymousUser(AnonymousUserMixin):
     """
     This defines the anonymous user.
@@ -182,13 +182,13 @@ class AnonymousUser(AnonymousUserMixin):
     """
     def has_permission(self, permission):
         return False
-    
+
     def get_from_history(self, story):
         """
         Because an anonymous user has no history, return None.
         """
         return None
-    
+
     def add_to_history(self, story, chapter_nb=1):
         """
         Add a hit to the story, an anonymous user has no history.

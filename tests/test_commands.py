@@ -1,11 +1,11 @@
-# test_commands.py --- 
-# 
+# test_commands.py ---
+#
 # Filename: test_commands.py
 # Author: Louise <louise>
 # Created: Sun Jun 21 19:37:24 2020 (+0200)
 # Last-Updated: Wed Jun 24 11:30:34 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask_testing import TestCase
 
 from editoggia import create_app
@@ -57,7 +57,7 @@ class TestCommands(TestCase):
 
         roles = db.session.query(Role).all()
         perms = db.session.query(Permission).all()
-        
+
         self.assertEqual(len(roles), 2)
         self.assertEqual(roles[0].name, "Administrator")
         self.assertEqual(roles[1].name, "Moderator")
@@ -103,7 +103,7 @@ class TestCommands(TestCase):
         self.assertEqual(len(users), 5)
         self.assertEqual(len(stories), 5)
         self.assertEqual(len(stories[0].chapters), 3)
-        
+
     def test_set_admin(self):
         """
         Tests the set_admin command.
@@ -115,7 +115,7 @@ class TestCommands(TestCase):
                                .filter(Role.name == "Administrator") \
                                .first()
         user = db.session.query(User).first()
-        
+
         set_admin(user.username)
 
         self.assertIn(admin_role, user.roles)

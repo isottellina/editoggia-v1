@@ -1,11 +1,11 @@
-# assets.py --- 
-# 
+# assets.py ---
+#
 # Filename: assets.py
 # Author: Louise <louise>
 # Created: Sat May  2 05:38:44 2020 (+0200)
 # Last-Updated: Thu Jul  2 19:51:09 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 """
 Inits all Bundle for flask-assets.
 """

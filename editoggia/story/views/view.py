@@ -1,5 +1,5 @@
-# views.py --- 
-# 
+# views.py ---
+#
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
@@ -24,9 +24,9 @@ def index():
                         .order_by(Story.updated_on.desc()) \
                         .limit(20) \
                         .all()
-    
+
     return render_template("story/index.jinja2", stories=stories)
-    
+
 @story.route('/<int:story_id>')
 def show_story(story_id):
     """
@@ -34,7 +34,7 @@ def show_story(story_id):
     is multiple, and else render the only chapter.
     """
     story = Story.get_by_id_or_404(story_id)
-    
+
     if len(story.chapters) > 1:
         """
         If story has multiple chapters, restore the progression of the
@@ -55,9 +55,9 @@ def show_story(story_id):
     else:
         like_form = LikeForm()
         comment_form = CommentForm()
-        
+
         current_user.add_to_history(story)
-        
+
         return render_template('story/show_chapter.jinja2',
                                like_form=like_form,
                                comment_form=comment_form,
@@ -74,9 +74,9 @@ def show_chapter(story_id, chapter_id):
 
     like_form = LikeForm()
     comment_form = CommentForm()
-    
+
     current_user.add_to_history(story, chapter.nb)
-    
+
     return render_template('story/show_chapter.jinja2',
                            like_form=like_form,
                            comment_form=comment_form,

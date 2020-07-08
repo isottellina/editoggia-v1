@@ -1,5 +1,5 @@
-# test_user.py --- 
-# 
+# test_user.py ---
+#
 # Filename: test_user.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:30:10 2020 (+0200)
@@ -44,7 +44,7 @@ class TestAuth(EditoggiaTestCase):
         username = self.faker.user_name()
         email = self.faker.email()
         password = self.faker.password()
-        
+
         rv = self.register(username, email, password)
 
         self.assert200(rv)
@@ -85,7 +85,7 @@ class TestAuth(EditoggiaTestCase):
 
         # Check the user does not exist in the database
         self.assertFalse(self.user_exists(username))
-        
+
     def test_signup_bad_email(self):
         """
         Tests that a bad email is refused.
@@ -169,7 +169,7 @@ class TestAuth(EditoggiaTestCase):
         password = self.faker.password()
 
         rv = self.register(self.user.username, email, password)
-        
+
         self.assert200(rv)
         self.assertIn(b"Username already registered.", rv.data)
 
@@ -182,7 +182,7 @@ class TestAuth(EditoggiaTestCase):
         password = self.faker.password()
 
         rv = self.register(username, self.user.email, password)
-        
+
         self.assert200(rv)
         self.assertIn(b"Email already registered.", rv.data)
 
@@ -192,7 +192,7 @@ class TestAuth(EditoggiaTestCase):
     #
     # Login tests
     #
-    
+
     def test_login_normal(self):
         """
         Tests that we can log in with the user.

@@ -1,5 +1,5 @@
-# models.py --- 
-# 
+# models.py ---
+#
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
@@ -37,7 +37,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     stats_id = db.Column(db.Integer(), db.ForeignKey('storystats.id'),
                          nullable=False)
     stats = db.relationship('StoryStats', back_populates='story')
-    
+
     author_id = db.Column(db.Integer(), db.ForeignKey('user.id'),
                           nullable=False)
     author = db.relationship('User', back_populates='stories')
@@ -66,7 +66,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         )
 
         return story.save()
-    
+
     def hit(self):
         """
         If user is not the author, increment hit.
@@ -74,7 +74,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         user.
         """
         from flask_login import current_user
-        
+
         if current_user != self.author:
             self.stats.hits += 1
             db.session.commit()
@@ -105,18 +105,18 @@ class Story(db.Model, CRUDMixin, DatesMixin):
             value = [Fandom.get_or_create(fandom) for fandom in value]
         if attr == "tags" and type(next(iter(value), 0)) == str:
             value = [Tag.get_or_create(tag) for tag in value]
-            
+
         db.Model.__setattr__(self, attr, value)
-    
+
     def __repr__(self):
         return "<Story '{}', by '{}'>".format(self.title, self.author)
 
 class StoryStats(db.Model, PKMixin):
     __tablename__ = "storystats"
-    
+
     hits = db.Column(db.Integer(), nullable=False, default=0)
     story = db.relationship('Story', back_populates='stats')
-    
+
 class Chapter(db.Model, CRUDMixin, DatesMixin):
     """
     A chapter. Simple as that.
@@ -139,7 +139,7 @@ class Chapter(db.Model, CRUDMixin, DatesMixin):
     story_id = db.Column(db.Integer(), db.ForeignKey('story.id'),
                          nullable=False)
     story = db.relationship('Story', back_populates='chapters')
-    
+
     def __repr__(self):
         return "<Chapter {} of story '{}', by '{}'>".format(
             self.nb,

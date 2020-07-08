@@ -1,11 +1,11 @@
-# admin.py --- 
-# 
+# admin.py ---
+#
 # Filename: admin.py
 # Author: Louise <louise>
 # Created: Thu May 14 20:03:35 2020 (+0200)
 # Last-Updated: Thu Jun 11 16:41:22 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from editoggia.admin import EditoggiaModelView, admin
 from editoggia.database import db
 from editoggia.models import Fandom, Story, Chapter, Tag, Comment

@@ -1,11 +1,11 @@
-# test_ajax.py --- 
-# 
+# test_ajax.py ---
+#
 # Filename: test_ajax.py
 # Author: Louise <louise>
 # Created: Sun Jul  5 18:01:51 2020 (+0200)
 # Last-Updated: Sun Jul  5 18:15:33 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from helpers import EditoggiaTestCase
 
 from editoggia.database import db
@@ -49,7 +49,7 @@ class TestAjax(EditoggiaTestCase):
         self.assertEqual(rv.json, dict(
             results=[]
         ))
-        
+
     def test_autocomplete_tag(self):
         """
         Test that the autocomplete empty returns

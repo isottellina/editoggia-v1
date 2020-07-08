@@ -1,5 +1,5 @@
-# views.py --- 
-# 
+# views.py ---
+#
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:30 2020 (+0200)
@@ -60,7 +60,7 @@ def login():
             last_login_at=datetime.utcnow(),
             last_login_ip=request.remote_addr
         )
-        
+
         flash(
             gettext(
                 'You were logged in as {username}'.format(

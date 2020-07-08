@@ -1,5 +1,5 @@
-# views.py --- 
-# 
+# views.py ---
+#
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 00:22:56 2020 (+0200)
@@ -17,7 +17,7 @@ def index():
     categories = db.session.query(FandomCategory).all()
     stories = db.session.query(Story) \
                         .order_by(Story.updated_on.desc())[:3]
-    
+
     return render_template('home/index.jinja2',
                            categories=categories,
                            stories=stories)

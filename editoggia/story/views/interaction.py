@@ -1,11 +1,11 @@
-# interaction.py --- 
-# 
+# interaction.py ---
+#
 # Filename: interaction.py
 # Author: Louise <louise>
 # Created: Sat Jun 27 13:58:01 2020 (+0200)
 # Last-Updated: Sat Jun 27 15:54:08 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 """
 This file defines views for interaction, such as like, or comment.
 """
@@ -53,7 +53,7 @@ def comment(story_id, chapter_id):
 
     if form.validate_on_submit():
         content = bleach.clean(form.data['comment'])
-        
+
         Comment.create(
             content=content,
             author=current_user,

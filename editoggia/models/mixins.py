@@ -1,5 +1,5 @@
-# mixins.py --- 
-# 
+# mixins.py ---
+#
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
@@ -14,7 +14,7 @@ from editoggia.database import db
 class PKMixin(object):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
-    
+
 class CRUDMixin(PKMixin):
     @classmethod
     def get_by_id(cls, id):
@@ -56,7 +56,7 @@ class NameMixin(object):
     in the URL.
     """
     __table_args__ = {'extend_existing': True}
-    
+
     name = db.Column(db.String(255), unique=True, nullable=False)
 
     @classmethod
@@ -65,7 +65,7 @@ class NameMixin(object):
         Returns an object by its name.
         """
         return cls.query.filter(cls.name == name).first()
-    
+
     @classmethod
     def get_by_name_or_404(cls, name):
         """
@@ -80,7 +80,7 @@ class NameMixin(object):
         """
         name = cls.decode_name(encoded_name)
         return cls.get_by_name_or_404(name)
-    
+
     def encode_name(self):
         """
         Replace URL-sensitive characters.
@@ -103,7 +103,7 @@ class ModeratedMixin(NameMixin):
     to be waiting for moderation. Implies name mixin.
     """
     waiting_mod = db.Column(db.Boolean(), nullable=False, default=True)
-    
+
     @classmethod
     def get_or_create(cls, name, **kwargs):
         """
@@ -116,7 +116,7 @@ class ModeratedMixin(NameMixin):
             waiting_mod=True,
             **kwargs
         )
-    
+
 class DatesMixin(object):
     """
     Mixins to add a created_on and updated_on fields

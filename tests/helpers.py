@@ -1,11 +1,11 @@
-# helpers.py --- 
-# 
+# helpers.py ---
+#
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
 # Last-Updated: Tue Jul  7 16:52:08 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask_testing import TestCase
 from faker import Faker
 
@@ -16,17 +16,17 @@ from editoggia.models import Fandom, FandomCategory, Story, Chapter, User
 class EditoggiaTestCase(TestCase):
     def create_app(self):
         return create_app("testing")
-    
+
     def setUp(self):
         # Create all tables
         db.create_all()
 
         # Create a faker to help with tests
         self.faker = Faker()
-        
+
         # Register a user to test
         self.password = self.faker.password()
-        
+
         self.user = User.create(
             username=self.faker.user_name(),
             name=self.faker.name(),
@@ -52,7 +52,7 @@ class EditoggiaTestCase(TestCase):
         """
         username = username if username is not None else self.user.username
         password = password if password is not None else self.password
-        
+
         return self.client.post('/login', data={
             "username": username,
             "password": password
@@ -64,7 +64,7 @@ class EditoggiaTestCase(TestCase):
         """
         username = username if username is not None else self.faker.user_name()
         password = self.faker.password()
-        
+
         user = User.create(
             username=username,
             name=self.faker.name(),
@@ -76,7 +76,7 @@ class EditoggiaTestCase(TestCase):
 
     def create_story(self, nb_chapters=1, author=None, fandom=None):
         return self.create_stories(1, nb_chapters, author, fandom)[0]
-    
+
     def create_stories(self, nb_stories, nb_chapters=1,
                        author=None, fandom=None):
         """
@@ -86,7 +86,7 @@ class EditoggiaTestCase(TestCase):
         author = author if author else self.user
         fandom = fandom if fandom else self.fandom
         stories = []
-        
+
         for _ in range(nb_stories):
             story = Story.create(
                 title=self.faker.sentence(),
@@ -118,7 +118,7 @@ class EditoggiaTestCase(TestCase):
         """
         user = user if user is not None else self.user
         user.add_to_history(story, chapter_nb)
-    
+
     def like(self, story, user=None):
         """
         Add story to stories liked by user user.

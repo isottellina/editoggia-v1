@@ -1,11 +1,11 @@
-# autocomplete.py --- 
-# 
+# autocomplete.py ---
+#
 # Filename: autocomplete.py
 # Author: Louise <louise>
 # Created: Fri Jun  5 11:35:08 2020 (+0200)
 # Last-Updated: Sun Jul  5 18:10:08 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask import request, jsonify, abort
 from flask_login import current_user
 

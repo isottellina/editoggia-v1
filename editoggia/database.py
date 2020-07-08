@@ -1,5 +1,5 @@
-# database.py --- 
-# 
+# database.py ---
+#
 # Filename: database.py
 # Author: Louise <louise>
 # Created: Sat May  9 00:22:37 2020 (+0200)

@@ -1,5 +1,5 @@
-# forms.py --- 
-# 
+# forms.py ---
+#
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
@@ -45,7 +45,7 @@ class UserForm(FlaskForm):
             )
         ]
     )
-    
+
     name = StringField(
         gettext('Display name'), validators=[
             Length(
@@ -99,7 +99,7 @@ class SignupUserForm(UserForm):
         # return this after because we might have to add the aforementioned error
         if not rv:
             return False
-        
+
         user = User.query.filter_by(username=self.username.data).first()
         if user:
             self.username.errors.append(gettext('Username already registered.'))

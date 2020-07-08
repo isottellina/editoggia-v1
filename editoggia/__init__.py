@@ -1,5 +1,5 @@
-# __init__.py --- 
-# 
+# __init__.py ---
+#
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
@@ -49,7 +49,7 @@ def create_app(config_name="default"):
     register_errorhandlers(app)
     register_extensions(app)
     register_blueprints(app)
-    
+
     return app
 
 def register_errorhandlers(app):
@@ -58,7 +58,7 @@ def register_errorhandlers(app):
     """
     def render_error(e):
         return render_template('errors/%s.jinja2' % e.code), e.code
-    
+
     for e in [
             requests.codes.BAD_REQUEST,
             requests.codes.NOT_FOUND,
@@ -66,7 +66,7 @@ def register_errorhandlers(app):
             requests.codes.FORBIDDEN
     ]:
         app.errorhandler(e)(render_error)
-        
+
 def register_extensions(app):
     """
     Register all extensions.
@@ -95,7 +95,7 @@ def register_jinja_env(app):
     Register functions and modules in Jinja env.
     """
     app.jinja_options['extensions'].append('jinja2.ext.do')
-    
+
     app.jinja_env.globals.update({
         'arrow': arrow
     })

@@ -1,11 +1,11 @@
-# test_story.py --- 
-# 
+# test_story.py ---
+#
 # Filename: test_story.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 16:06:35 2020 (+0200)
 # Last-Updated: Tue Jul  7 16:54:10 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 """
 These tests test the story blueprint.
 """
@@ -24,7 +24,7 @@ class TestStory(EditoggiaTestCase):
     #
     # Views that are defined in view.py
     #
-    
+
     def test_index(self):
         """
         Tests the index.
@@ -55,7 +55,7 @@ class TestStory(EditoggiaTestCase):
         """
         story = self.create_story()
         self.login()
-        
+
         rv = self.client.get(f'/story/{story.id}')
 
         self.assert200(rv)
@@ -69,7 +69,7 @@ class TestStory(EditoggiaTestCase):
         rv = self.client.get(f'/story/2')
 
         self.assert404(rv)
-        
+
     def test_show_story_redirect(self):
         """
         Tests that a story with multiple chapters will
@@ -79,17 +79,17 @@ class TestStory(EditoggiaTestCase):
         rv = self.client.get(f'/story/{story.id}')
 
         self.assertRedirects(rv, f'/story/{story.id}/chapter/{story.chapters[0].id}')
-        
+
     def test_show_story_redirect_restore(self):
         """
         Tests that a story with multiple chapters will
         redirect, to the last chapter read.
         """
         self.login()
-        
+
         story = self.create_story(2)
         self.hit(story, 2)
-        
+
         rv = self.client.get(f'/story/{story.id}')
 
         self.assertRedirects(rv, f'/story/{story.id}/chapter/{story.chapters[1].id}')
@@ -118,7 +118,7 @@ class TestStory(EditoggiaTestCase):
     #
     # Views that are defined in post.py
     #
-    
+
     def test_post_story_get(self):
         """
         Tests the GET route for post_story
@@ -192,10 +192,10 @@ class TestStory(EditoggiaTestCase):
         story = db.session.query(Story) \
                           .filter(Story.title == 'Story test') \
                           .first()
-        
+
         # story wasn't created
         self.assertEqual(story, None)
-        
+
     def test_post_chapter_get(self):
         """
         Tests the GET route for post_chapter
@@ -213,7 +213,7 @@ class TestStory(EditoggiaTestCase):
         """
         self.login()
         story = self.create_story()
-        
+
         rv = self.client.post(f'/story/post/{story.id}/chapter', data={
             'title': 'Second chapter',
             'nb': 2,
@@ -230,7 +230,7 @@ class TestStory(EditoggiaTestCase):
         """
         self.login()
         story = self.create_story()
-        
+
         rv = self.client.post(f'/story/post/{story.id}/chapter', data={
             'title': 'Second chapter',
             'nb': 1,
@@ -245,7 +245,7 @@ class TestStory(EditoggiaTestCase):
     #
     def test_edit_story_bad_user(self):
         """
-        Tests the edit_story view with a user 
+        Tests the edit_story view with a user
         that is not the user who wrote the story.
         """
         story = self.create_story()
@@ -255,7 +255,7 @@ class TestStory(EditoggiaTestCase):
 
         rv = self.client.get(f'/story/edit/{story.id}')
         self.assert403(rv)
-        
+
     def test_edit_story_get(self):
         """
         Tests the GET route for edit_story
@@ -296,13 +296,13 @@ class TestStory(EditoggiaTestCase):
             'fandom': ['Original Work'],
             'tag': ['Tag 1']
         })
-        
+
         self.assertStatus(rv, 302)
         self.assertEqual(story.title, 'New title')
 
     def test_edit_chapter_bad_user(self):
         """
-        Tests the edit_chapter view with a user 
+        Tests the edit_chapter view with a user
         that is not the user who wrote the story.
         """
         story = self.create_story()
@@ -313,7 +313,7 @@ class TestStory(EditoggiaTestCase):
 
         rv = self.client.get(f'/story/edit/{story.id}/chapter/{chapter.id}')
         self.assert403(rv)
-        
+
     def test_edit_chapter_get(self):
         """
         Tests the GET route for edit_chapter
@@ -342,7 +342,7 @@ class TestStory(EditoggiaTestCase):
             'summary': chapter.summary,
             'content': chapter.content
         })
-        
+
         self.assertStatus(rv, 302)
 
     def test_edit_chapter_post_change_nb(self):
@@ -361,7 +361,7 @@ class TestStory(EditoggiaTestCase):
             'summary': chapter.summary,
             'content': chapter.content
         })
-        
+
         self.assertStatus(rv, 302)
         self.assertEqual(chapter.nb, 3)
 
@@ -381,7 +381,7 @@ class TestStory(EditoggiaTestCase):
             'summary': chapter.summary,
             'content': chapter.content
         })
-        
+
         self.assert200(rv)
         self.assertNotEqual(chapter.nb, 2)
 

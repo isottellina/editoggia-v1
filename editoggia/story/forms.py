@@ -1,5 +1,5 @@
-# forms.py --- 
-# 
+# forms.py ---
+#
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
@@ -13,7 +13,7 @@ from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
 
 from editoggia.models import Story, Chapter
-from editoggia.forms.fields import Select2Field, Select2MultipleAutocompleteField 
+from editoggia.forms.fields import Select2Field, Select2MultipleAutocompleteField
 
 #
 # Story and chapter forms.
@@ -31,7 +31,7 @@ class StoryForm(FlaskForm):
             )
         ]
     )
-    
+
     rating = Select2Field(
         gettext("Rating"),
         choices=[
@@ -53,7 +53,7 @@ class StoryForm(FlaskForm):
             )
         ]
     )
-    
+
     total_chapters = StringField(gettext("Total chapters"), default='?')
 
     fandom = Select2MultipleAutocompleteField(gettext("Fandoms"), model_name='Fandom')
@@ -68,7 +68,7 @@ class StoryForm(FlaskForm):
         FlaskForm.__init__(self, *args, **kwargs)
         if self.total_chapters.data == None:
             self.total_chapters.process_data('?')
-    
+
     def validate_total_chapters(form, field):
         """
         Validate the total_chapters field.
@@ -109,7 +109,7 @@ class PostStoryForm(StoryForm):
             )
         ])
     )
-    
+
 class EditStoryForm(StoryForm):
     """
     This form is for story editing. It doesn't
@@ -177,7 +177,7 @@ class ChapterForm(FlaskForm):
             """
             Returns true if the other_chapter has the same number
             as the chapter of the form, but a different ID (because
-            if it has the same ID, it's the same chapter so it's 
+            if it has the same ID, it's the same chapter so it's
             allowed). If the chapter is None, returns True if the
             chapter has the same number.
             """
@@ -186,7 +186,7 @@ class ChapterForm(FlaskForm):
                     and form.chapter.id != other_chapter.id
             else:
                 return field.data == other_chapter.nb
-            
+
         if any(map(is_same_number, form.story.chapters)):
             raise ValidationError(
                 gettext("This chapter number already exists.")
@@ -195,7 +195,7 @@ class ChapterForm(FlaskForm):
 #
 # Interaction forms
 #
-        
+
 class CommentForm(FlaskForm):
     """
     Form to post a comment on a chapter.

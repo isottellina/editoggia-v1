@@ -1,11 +1,11 @@
-# config.py --- 
-# 
+# config.py ---
+#
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
 # Last-Updated: Fri Jul  3 17:10:49 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,7 +24,7 @@ class Config:
 
     # Flask admin
     FLASK_ADMIN_SWATCH = "journal"
-    
+
     @staticmethod
     def init_app(app):
         pass

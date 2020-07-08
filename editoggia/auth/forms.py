@@ -1,11 +1,11 @@
-# forms.py --- 
-# 
+# forms.py ---
+#
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:08:39 2020 (+0200)
 # Last-Updated: Sat May 30 15:20:35 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask_wtf import FlaskForm
 from flask_babel import gettext
 from wtforms import StringField, PasswordField

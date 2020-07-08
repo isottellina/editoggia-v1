@@ -1,11 +1,11 @@
-# views.py --- 
-# 
+# views.py ---
+#
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
 # Last-Updated: Fri Jul  3 14:22:05 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask import render_template, request, flash, abort
 from flask.views import View
 
@@ -39,7 +39,7 @@ class CollectionView(View):
         form = SearchForm(request.args)
         if not form.validate():
             abort(400)
-        
+
         collection = self.MODEL.get_by_encoded_name_or_404(name)
         b_query = db.session.query(Story) \
                             .filter(getattr(Story, self.STORY_FIELD).contains(collection))
@@ -58,7 +58,7 @@ class CollectionView(View):
         for tag_name in form.data['excluded_tags']:
             tag = Tag.get_by_name_or_404(tag_name)
             b_query = b_query.filter(~Story.tags.contains(tag))
-        
+
         # Apply different ordering methods
         if form.data['order_by'] == 'title':
             b_query = b_query.order_by(Story.title)
