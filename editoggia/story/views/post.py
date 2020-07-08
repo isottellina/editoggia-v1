@@ -3,11 +3,9 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:11:58 2020 (+0200)
+# Last-Updated: Wed Jul  8 02:24:28 2020 (+0200)
 #           By: Louise <louise>
 #
-import bleach
-
 from flask import render_template, redirect, url_for, current_app
 from flask_login import current_user, login_required
 
@@ -64,8 +62,8 @@ def post_chapter(story_id):
 
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
-        content = bleach.clean(form.data['content'])
-        summary = bleach.clean(form.data['summary'])
+        content = current_app.bleacher.clean(form.data['content'])
+        summary = current_app.bleacher.clean(form.data['summary'])
 
         Chapter.create(
             story=story,

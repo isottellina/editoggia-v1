@@ -3,11 +3,9 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:43:33 2020 (+0200)
+# Last-Updated: Wed Jul  8 02:24:34 2020 (+0200)
 #           By: Louise <louise>
 #
-import bleach
-
 from flask import render_template, redirect, abort, url_for, current_app
 from flask_login import current_user, login_required
 

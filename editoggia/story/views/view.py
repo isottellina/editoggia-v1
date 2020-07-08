@@ -3,9 +3,12 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Tue Jul  7 14:16:48 2020 (+0200)
+# Last-Updated: Wed Jul  8 02:23:09 2020 (+0200)
 #           By: Louise <louise>
 #
+"""
+Views for viewing stories and chapters.
+"""
 from flask import render_template, redirect, url_for
 from flask_login import current_user
 
@@ -30,39 +33,47 @@ def index():
 @story.route('/<int:story_id>')
 def show_story(story_id):
     """
-    Show a story. In practice, redirect to the first chapter if there
+    Show a story. In practice, redirect to a chapter if there
     is multiple, and else render the only chapter.
     """
     story = Story.get_by_id_or_404(story_id)
 
     if len(story.chapters) > 1:
-        """
-        If story has multiple chapters, restore the progression of the
-        user.
-        """
+        # If story has multiple chapters, restore the progression of the
+        # user.
         history = current_user.get_from_history(story)
 
         if history is None:
-            return redirect(url_for('story.show_chapter',
-                                    story_id=story_id,
-                                    chapter_id=story.chapters[0].id)
+            # If we have no history, redirect to the first chapter.
+            return redirect(
+                url_for(
+                    'story.show_chapter',
+                    story_id=story_id,
+                    chapter_id=story.chapters[0].id
+                )
             )
-        else:
-            return redirect(url_for('story.show_chapter',
-                                    story_id=story_id,
-                                    chapter_id=story.chapters[history.chapter_nb - 1].id)
+
+        return redirect(
+            url_for(
+                'story.show_chapter',
+                story_id=story_id,
+                chapter_id=story.chapters[history.chapter_nb - 1].id
             )
-    else:
-        like_form = LikeForm()
-        comment_form = CommentForm()
+        )
 
-        current_user.add_to_history(story)
+    # If we get to this point, we just load the first chapter since it's a
+    # 1-chapter story.
+    like_form = LikeForm()
+    comment_form = CommentForm()
 
-        return render_template('story/show_chapter.jinja2',
-                               like_form=like_form,
-                               comment_form=comment_form,
-                               story=story,
-                               chapter=story.chapters[0])
+    current_user.add_to_history(story)
+    return render_template(
+        'story/show_chapter.jinja2',
+        like_form=like_form,
+        comment_form=comment_form,
+        story=story,
+        chapter=story.chapters[0]
+    )
 
 @story.route('/<int:story_id>/chapter/<chapter_id>')
 def show_chapter(story_id, chapter_id):
