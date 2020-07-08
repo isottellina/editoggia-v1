@@ -3,13 +3,13 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Tue Jul  7 13:59:27 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:54:18 2020 (+0200)
 #           By: Louise <louise>
 #
 from editoggia.database import db
 from editoggia.models.mixins import CRUDMixin, ModeratedMixin
 
-class FandomCategory(db.Model, CRUDMixin):
+class FandomCategory(db.Model, CRUDMixin, NameMixin):
     """
     Represent a category of fandom, like “Books” and such.
     """
@@ -31,8 +31,8 @@ class Fandom(db.Model, CRUDMixin, ModeratedMixin):
     category = db.relationship('FandomCategory', back_populates='fandoms')
 
     stories = db.relationship('Story',
-                               secondary='fandom_stories',
-                               back_populates='fandom')
+                              secondary='fandom_stories',
+                              back_populates='fandom')
 
     def __repr__(self):
         return "<Fandom '{}'>".format(self.name)

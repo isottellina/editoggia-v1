@@ -3,14 +3,16 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Wed Jul  8 02:24:28 2020 (+0200)
+# Last-Updated: Wed Jul  8 02:45:35 2020 (+0200)
 #           By: Louise <louise>
 #
+"""
+Views for posting new content (stories and chapters)
+"""
 from flask import render_template, redirect, url_for, current_app
 from flask_login import current_user, login_required
 
-from editoggia.database import db
-from editoggia.models import Fandom, Story, Chapter
+from editoggia.models import Story, Chapter
 
 from editoggia.story import story
 from editoggia.story.forms import PostStoryForm, ChapterForm
@@ -40,16 +42,16 @@ def post_story():
         )
 
         # Then we create the first chapter
-        chapter = Chapter.create(
+        Chapter.create(
             nb=1,
             content=content,
             story=story
         )
 
         return redirect(url_for('home.index'))
-    else:
-        form.populate_select2()
-        return render_template('story/post_story.jinja2', form=form)
+
+    form.populate_select2()
+    return render_template('story/post_story.jinja2', form=form)
 
 @story.route('/post/<int:story_id>/chapter', methods=["GET", "POST"])
 @login_required
@@ -74,8 +76,9 @@ def post_chapter(story_id):
         )
 
         return redirect(url_for('home.index'))
-    else:
-        # Set a default chapter number (Last chapter + 1)
-        form.nb.process_data(story.chapters[-1].nb + 1)
 
-        return render_template('story/post_chapter.jinja2', story=story, form=form)
+    # If we get to this point we should return the form
+    # Set a default chapter number (Last chapter + 1)
+    form.nb.process_data(story.chapters[-1].nb + 1)
+
+    return render_template('story/post_chapter.jinja2', story=story, form=form)

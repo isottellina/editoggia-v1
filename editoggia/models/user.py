@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Tue Jul  7 19:06:20 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:53:33 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -13,7 +13,7 @@ from flask_babel import gettext
 
 from editoggia.database import db
 from editoggia.extensions import bcrypt, lm
-from editoggia.models.mixins import CRUDMixin
+from editoggia.models.mixins import CRUDMixin, NameMixin
 
 class RolesUsers(db.Model):
     __tablename__ = 'roles_users'
@@ -22,10 +22,9 @@ class RolesUsers(db.Model):
     user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
     role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
 
-class Role(db.Model, CRUDMixin):
+class Role(db.Model, CRUDMixin, NameMixin):
     __tablename__ = 'role'
-
-    name = db.Column(db.String(80), unique=True, nullable=False)
+    
     description = db.Column(db.String(255), nullable=False)
 
     users = db.relationship('User', secondary='roles_users', lazy='dynamic',

@@ -3,12 +3,12 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Sun Jul  5 18:10:21 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:47:41 2020 (+0200)
 #           By: Louise <louise>
 #
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, timedelta
 
-from flask import abort, render_template, flash, request
+from flask import render_template, flash
 from flask import redirect, url_for
 from flask_login import current_user, login_required
 from flask_babel import gettext

@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Tue May  5 22:09:27 2020 (+0200)
-# Last-Updated: Fri Jul  3 16:59:45 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:49:23 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import current_app
@@ -85,7 +85,7 @@ class SignupUserForm(UserForm):
     )
 
     def __init__(self, *args, **kwargs):
-        FlaskForm.__init__(self, *args, **kwargs)
+        UserForm.__init__(self, *args, **kwargs)
         self.user = None
 
     def validate(self):
@@ -123,7 +123,7 @@ class EditUserForm(UserForm):
             (None, gettext("Doesn't want to say"))
         ],
         # We have to coerce the value to get the None value right
-        coerce=lambda x: None if x=="None" else x
+        coerce=lambda x: None if x == "None" else x
     )
 
     language = SelectField(

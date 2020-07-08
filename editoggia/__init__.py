@@ -3,14 +3,13 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:17:46 2020 (+0200)
+# Last-Updated: Wed Jul  8 03:01:27 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
 import arrow
 
 from flask import Flask, render_template
-from .config import config
 
 # Import commands
 from editoggia.commands import register_commands
@@ -31,6 +30,9 @@ from editoggia.ajax import ajax
 
 # Import misc
 from editoggia.bleach import Bleacher
+
+# Import config
+from .config import config
 
 def create_app(config_name="default"):
     """
@@ -56,16 +58,16 @@ def register_errorhandlers(app):
     """
     Register error handlers page.
     """
-    def render_error(e):
-        return render_template('errors/%s.jinja2' % e.code), e.code
+    def render_error(error):
+        return render_template('errors/%s.jinja2' % error.code), error.code
 
-    for e in [
+    for error in [
             requests.codes.BAD_REQUEST,
             requests.codes.NOT_FOUND,
             requests.codes.UNAUTHORIZED,
             requests.codes.FORBIDDEN
     ]:
-        app.errorhandler(e)(render_error)
+        app.errorhandler(error)(render_error)
 
 def register_extensions(app):
     """

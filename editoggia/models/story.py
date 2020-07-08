@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Tue Jul  7 21:45:09 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:44:11 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -93,10 +93,6 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         for the fandom and tag fields. Hereby, we can set their
         fields with strings and actually set the objects.
         """
-        # We import the models here to ensure that there be no
-        # issues loading the file.
-        from editoggia.models import Fandom, Tag
-
         # The second check checks that the first element in the
         # list exists, and that it's a string. If there is no
         # first element, or if the value is already a model,

@@ -3,10 +3,10 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Fri Jul  3 14:22:05 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:57:57 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import render_template, request, flash, abort
+from flask import render_template, request, abort
 from flask.views import View
 
 from sqlalchemy import func
@@ -73,7 +73,7 @@ class CollectionView(View):
                                         func.count('*').label("likes_count")) \
                                  .group_by(UserLikes.story_id) \
                                  .subquery()
-            b_query = b_query.outerjoin(subquery, Story.id==subquery.c.story_id) \
+            b_query = b_query.outerjoin(subquery, Story.id == subquery.c.story_id) \
                              .order_by(subquery.c.likes_count.desc())
 
         return render_template(

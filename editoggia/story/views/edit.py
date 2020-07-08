@@ -3,14 +3,16 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Wed Jul  8 02:24:34 2020 (+0200)
+# Last-Updated: Wed Jul  8 02:46:50 2020 (+0200)
 #           By: Louise <louise>
 #
+"""
+Views for editing content (stories and chapters)
+"""
 from flask import render_template, redirect, abort, url_for, current_app
 from flask_login import current_user, login_required
 
-from editoggia.database import db
-from editoggia.models import Fandom, Story, Chapter, Tag
+from editoggia.models import Story, Chapter
 
 from editoggia.story import story
 from editoggia.story.forms import EditStoryForm, ChapterForm
@@ -38,9 +40,9 @@ def edit_story(story_id):
         story.update()
 
         return redirect(url_for('home.index'))
-    else:
-        form.populate_select2(story.fandom, story.tags)
-        return render_template('story/edit_story.jinja2', form=form, story=story)
+
+    form.populate_select2(story.fandom, story.tags)
+    return render_template('story/edit_story.jinja2', form=form, story=story)
 
 @story.route('/edit/<int:story_id>/chapter/<int:chapter_id>', methods=["GET", "POST"])
 @login_required
@@ -64,5 +66,5 @@ def edit_chapter(story_id, chapter_id):
         chapter.update()
 
         return redirect(url_for('home.index'))
-    else:
-        return render_template('story/edit_chapter.jinja2', form=form, chapter=chapter)
+
+    return render_template('story/edit_chapter.jinja2', form=form, chapter=chapter)

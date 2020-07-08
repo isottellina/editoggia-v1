@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Tue May  5 02:33:01 2020 (+0200)
-# Last-Updated: Sun Jun 14 14:21:41 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:51:18 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -23,8 +23,8 @@ def register_user_request():
     """
     if not current_user.is_anonymous:
         current_user.update(
-            last_active_at = datetime.utcnow(),
-            last_active_ip = request.remote_addr
+            last_active_at=datetime.utcnow(),
+            last_active_ip=request.remote_addr
         )
 
 import editoggia.auth.views

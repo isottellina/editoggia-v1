@@ -3,16 +3,15 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Thu Jul  2 11:45:16 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:15:21 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
 from flask_babel import gettext
-from wtforms.fields import StringField, TextAreaField, HiddenField
+from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
 
-from editoggia.models import Story, Chapter
 from editoggia.forms.fields import Select2Field, Select2MultipleAutocompleteField
 
 #
@@ -42,7 +41,7 @@ class StoryForm(FlaskForm):
             ("Explicit", gettext("Explicit"))
         ],
         # We have to coerce the value to get the None value right
-        coerce=lambda x: None if x=="None" else x
+        coerce=lambda x: None if x == "None" else x
     )
 
     summary = TextAreaField(
@@ -66,10 +65,10 @@ class StoryForm(FlaskForm):
         Using default parameter in the field is not enough.
         """
         FlaskForm.__init__(self, *args, **kwargs)
-        if self.total_chapters.data == None:
+        if self.total_chapters.data is None:
             self.total_chapters.process_data('?')
 
-    def validate_total_chapters(form, field):
+    def validate_total_chapters(self, field):
         """
         Validate the total_chapters field.
         """
@@ -80,9 +79,11 @@ class StoryForm(FlaskForm):
         else:
             raise ValidationError(gettext("Total chapters must be '?' or a number."))
 
-    def populate_select2(self, fandoms=[], tags=[]):
+    def populate_select2(self, fandoms=[], tags=[]): # pylint: disable=dangerous-default-value
         """
         Populate the fandom and tags fields, so they can be used.
+        We disable dangerous default value lint, since we don't
+        modify the argument.
         """
         def populate_field(field, base):
             """
@@ -116,9 +117,11 @@ class EditStoryForm(StoryForm):
     require any other field, for now. Might in
     the future.
     """
-    pass
 
 class ChapterForm(FlaskForm):
+    """
+    Form to post or edit a chapter.
+    """
     title = StringField(
         gettext("Title"), validators=[
             Length(
@@ -168,7 +171,7 @@ class ChapterForm(FlaskForm):
         self.story = story
         self.chapter = chapter
 
-    def validate_nb(form, field):
+    def validate_nb(self, field):
         """
         Validate the nb field. In practice, we check that the
         chapter number is not already taken by another chapter.
@@ -181,13 +184,12 @@ class ChapterForm(FlaskForm):
             allowed). If the chapter is None, returns True if the
             chapter has the same number.
             """
-            if form.chapter:
+            if self.chapter:
                 return field.data == other_chapter.nb \
-                    and form.chapter.id != other_chapter.id
-            else:
-                return field.data == other_chapter.nb
+                    and self.chapter.id != other_chapter.id
+            return field.data == other_chapter.nb
 
-        if any(map(is_same_number, form.story.chapters)):
+        if any(map(is_same_number, self.story.chapters)):
             raise ValidationError(
                 gettext("This chapter number already exists.")
             )
@@ -211,4 +213,3 @@ class LikeForm(FlaskForm):
     Form to like a story. There are no fields, but we should
     still check for CSRF.
     """
-    pass

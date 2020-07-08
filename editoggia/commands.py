@@ -3,7 +3,7 @@
 # Filename: commands.py
 # Author: Louise <louise>
 # Created: Fri May  8 20:45:27 2020 (+0200)
-# Last-Updated: Sun Jun 21 20:11:17 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:57:04 2020 (+0200)
 #           By: Louise <louise>
 #
 import click
@@ -77,7 +77,7 @@ def populate_db_stories(num_stories, num_chapters):
         for i in range(num_chapters):
             chapter = Chapter.create(
                 title=fake.sentence(),
-                nb = i + 1,
+                nb=i + 1,
                 summary=" ".join(fake.sentences(nb=5)),
                 content=fake.text(max_nb_chars=3000),
                 story=story,
@@ -91,6 +91,9 @@ def populate_db_stories(num_stories, num_chapters):
 @click.option('--num_stories', default=10, help='Number of stories')
 @click.option('--num_chapters', default=1, help='Number of chapters per stories')
 def populate_db(num_users, num_stories, num_chapters):
+    """
+    Populates the DB both with users and stories.
+    """
     populate_db_users(num_users)
     populate_db_stories(num_stories, num_chapters)
 
@@ -102,9 +105,7 @@ def create_db():
     """
     flask_migrate.upgrade()
 
-    admin_role = db.session.query(Role).filter(Role.name=="Administrator") \
-                                       .first()
-    if not admin_role:
+    if not Role.get_by_name("Administrator"):
         # Create permissions
         admin_perm = Permission.create(
             name="admin.ACCESS_ADMIN_INTERFACE",
@@ -116,21 +117,18 @@ def create_db():
         )
 
         # Create roles
-        admin_role = Role.create(
+        Role.create(
             name=gettext("Administrator"),
             description=gettext("Administrator of the website."),
             permissions=[admin_perm, moderation_perm]
         )
-        moderation_role = Role.create(
+        Role.create(
             name=gettext("Moderator"),
             description=gettext("Moderator"),
             permissions=[moderation_perm]
         )
 
-    other_category = db.session.query(FandomCategory) \
-                               .filter(FandomCategory.name == "Other") \
-                               .first()
-    if not other_category:
+    if not FandomCategory.get_by_name("Other"):
         FandomCategory.create(name="Anime")
         FandomCategory.create(name="Books")
         FandomCategory.create(name="Cartoons")
@@ -143,10 +141,9 @@ def create_db():
 # Various helpers
 @click.argument('username')
 def set_admin(username):
-    user = db.session.query(User).filter(User.username==username) \
+    user = db.session.query(User).filter(User.username == username) \
                                  .first()
-    admin_role = db.session.query(Role).filter(Role.name=="Administrator") \
-                                       .first()
+    admin_role = Role.get_by_name("Administrator")
     # If the admin role doesn't exist, we can't add it
     assert admin_role
 

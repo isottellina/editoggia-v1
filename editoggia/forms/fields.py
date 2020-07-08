@@ -3,7 +3,7 @@
 # Filename: fields.py
 # Author: Louise <louise>
 # Created: Sat Jun  6 16:49:03 2020 (+0200)
-# Last-Updated: Fri Jul  3 17:15:53 2020 (+0200)
+# Last-Updated: Wed Jul  8 11:14:44 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -42,7 +42,6 @@ class Select2MultipleAutocompleteField(Select2MultipleField):
         """
         We don't validate the data because the choices don't exist.
         """
-        pass
 
     def process_formdata(self, data):
         """
