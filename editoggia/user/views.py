@@ -11,7 +11,7 @@ from datetime import date, timedelta
 from flask import render_template, flash
 from flask import redirect, url_for
 from flask_login import current_user, login_required
-from flask_babel import gettext
+from flask_babelex import gettext
 
 from editoggia.database import db
 from editoggia.user import user

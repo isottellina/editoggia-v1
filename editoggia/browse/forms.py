@@ -6,7 +6,7 @@
 # Last-Updated: Thu Jul  9 14:23:24 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_babel import gettext
+from flask_babelex import gettext
 
 from wtforms import Form
 from wtforms.fields import SelectField

@@ -8,7 +8,7 @@
 #
 from flask import current_app
 from flask_wtf import FlaskForm
-from flask_babel import gettext, Locale
+from flask_babelex import gettext, Locale
 
 from wtforms.fields import StringField, TextAreaField, PasswordField
 from wtforms.fields import SelectField

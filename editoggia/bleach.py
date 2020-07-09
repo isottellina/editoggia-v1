@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Wed Jul  8 23:43:41 2020 (+0200)
+# Last-Updated: Thu Jul  9 16:41:02 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -29,13 +29,13 @@ class Bleacher():
       - We construct a paragraph as either some text separated from
         the rest by two newlines, or as the very definition of a paragraph
         (some block-level tag enclosing text)
-      - 
+      -
     """
     ALLOWED_TAGS = [
         "a", "abbr", "b", "br", "blockquote", "code",
         "em", "hr", "i", "li", "ol", "p", "strong", "ul"
     ]
-    
+
     BLOCK_LEVEL_TAGS = [
         "ol", "ul", "blockquote", "code", "p"
     ]
@@ -43,7 +43,7 @@ class Bleacher():
     INDEPENDANT_TAG = [
         "hr"
     ]
-    
+
     NEWLINES_RE = re.compile(r'\n+\s*\n+')
     SPACES_RE = re.compile(r'[ ]+')
 
@@ -61,7 +61,7 @@ class Bleacher():
         """
         print(element)
         print("lol")
-        
+
     def clean(self, text):
         """
         Actual function to clean. For now it uses the bleacher
@@ -69,11 +69,9 @@ class Bleacher():
         """
         cleaned_text = self.cleaner.clean(text)
         soup = BeautifulSoup(cleaned_text, features="lxml")
-        text_body = soup.find('body')
+        # If the parser created a body tag, we use that instead.
+        text_body = soup.find('body') if soup.find('body') else soup
 
-        if text_body is None:
-            return cleaned_text
-        
         # Process each element, which are either
         for element in text_body.children:
             print(element)

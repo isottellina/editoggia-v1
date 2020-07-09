@@ -9,7 +9,7 @@
 """
 The models for the story blueprint.
 """
-from flask_babel import gettext
+from flask_babelex import gettext
 from editoggia.database import db
 from editoggia.models.mixins import PKMixin, CRUDMixin, DatesMixin
 

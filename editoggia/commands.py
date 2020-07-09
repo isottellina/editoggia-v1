@@ -9,7 +9,7 @@
 import click
 import flask_migrate
 from sqlalchemy.sql.expression import func
-from flask_babel import gettext
+from flask_babelex import gettext
 from faker import Faker
 
 from editoggia.database import db

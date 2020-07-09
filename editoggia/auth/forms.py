@@ -7,7 +7,7 @@
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
-from flask_babel import gettext
+from flask_babelex import gettext
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
 

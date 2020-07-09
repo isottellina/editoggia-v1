@@ -3,14 +3,14 @@
 # Filename: extensions.py
 # Author: Louise <louise>
 # Created: Sat May  2 06:11:47 2020 (+0200)
-# Last-Updated: Tue Jul  7 14:04:55 2020 (+0200)
+# Last-Updated: Thu Jul  9 16:33:03 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 Create all extension objects. They are then initialized
 with the app in the app factory.
 """
-from flask_babel import Babel
+from flask_babelex import Babel
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
@@ -20,6 +20,16 @@ lm = LoginManager()
 bcrypt = Bcrypt()
 csrf = CSRFProtect()
 
+#
+# This is where the locale selector function should be.
+# If it's not here, it's because apparently for now it
+# triggers an exception in Flask-Admin. Since it's not
+# needed, since the only locale the website is translated
+# in is English, I decided to remove it. I will however
+# keep all other things, like the language selector on
+# the profile, to be able to re-add the locale selector
+# as easily as possible once the issue is resolved.
+#
 @babel.localeselector
 def get_locale():
     """

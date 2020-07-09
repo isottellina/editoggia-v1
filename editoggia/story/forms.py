@@ -7,7 +7,7 @@
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
-from flask_babel import gettext
+from flask_babelex import gettext
 from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
@@ -64,7 +64,7 @@ class StoryForm(FlaskForm):
             )
         ]
     )
-    
+
 
     fandom = Select2MultipleAutocompleteField(gettext("Fandoms"), model_name='Fandom')
     tags = Select2MultipleAutocompleteField(gettext("Tags"), model_name='Tag')

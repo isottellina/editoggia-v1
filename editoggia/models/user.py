@@ -9,7 +9,7 @@
 from datetime import datetime
 
 from flask_login import UserMixin, AnonymousUserMixin
-from flask_babel import gettext
+from flask_babelex import gettext
 
 from editoggia.database import db
 from editoggia.extensions import bcrypt, lm
@@ -24,7 +24,7 @@ class RolesUsers(db.Model):
 
 class Role(db.Model, CRUDMixin, NameMixin):
     __tablename__ = 'role'
-    
+
     description = db.Column(db.String(255), nullable=False)
 
     users = db.relationship('User', secondary='roles_users', lazy='dynamic',

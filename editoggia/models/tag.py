@@ -6,7 +6,7 @@
 # Last-Updated: Tue Jul  7 13:59:14 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_babel import gettext
+from flask_babelex import gettext
 from editoggia.database import db
 from editoggia.models.mixins import CRUDMixin, ModeratedMixin
 

@@ -47,7 +47,7 @@ class CollectionView(View):
         # Options
         if form.data['rating']:
             b_query = b_query.filter(Story.rating == form.data['rating'])
-        
+
         # Include fandoms in query
         for fandom_name in form.data['included_fandom']:
             fandom = Fandom.get_by_name_or_404(fandom_name)
