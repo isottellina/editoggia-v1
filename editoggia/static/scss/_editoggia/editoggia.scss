@@ -3,7 +3,7 @@
 // Filename: editoggia.scss
 // Author: Louise <louise>
 // Created: Sat May 30 16:03:31 2020 (+0200)
-// Last-Updated: Wed Jul  8 23:44:12 2020 (+0200)
+// Last-Updated: Thu Jul  9 14:36:50 2020 (+0200)
 //           By: Louise <louise>
 //
 
@@ -24,7 +24,9 @@ body {
 	flex-grow: 1;
     }
 
-    #comment-form {
+    .editoggia-d-none {
+	// This is a display: none; class without important,
+	// unlike the one in Bootstrap. 
 	display: none;
     }
 }

@@ -15,8 +15,7 @@
 	      {{ render_field(form.title) }}
 	    </div>
 	    <div class="row">
-	      {{ render_field(form.rating, 'col-lg-9') }}
-	      {{ render_field(form.total_chapters, 'col-lg-3')}}
+	      {{ render_field(form.rating) }}
 	    </div>
 	    <div class="row">
 	      {{ render_field(form.summary, rows=5) }}
@@ -26,6 +25,18 @@
 	    </div>
 	    <div class="row">
 	      {{ render_field(form.tags) }}
+	    </div>
+	    <div class="row">
+	      <div class="col">
+		<input type="checkbox" id="multi-chapter">
+		<label for="multi-chapter">{{ _("This story has multiple chapters") }}</label>
+	      </div>
+	    </div>
+	    <div class="editoggia-d-none" id="multi-chapter-reveal">
+	      <div class="row">
+		{{ render_field(form.chapter_title, "col-lg-9") }}
+		{{ render_field(form.total_chapters, "col-lg-3") }}
+	      </div>
 	    </div>
 	    <div class="row">
 	      {{ render_field(form.content, rows=20) }}
@@ -44,7 +55,7 @@
 
 {% block javascript %}
   {{ super() }}
-  {% assets 'js_post_edit_story' %}
+  {% assets 'js_post_story' %}
   <script src="{{ ASSET_URL }}"></script>
 {% endassets %}
 {% endblock %}

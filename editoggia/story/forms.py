@@ -3,7 +3,7 @@
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Fri May 22 18:40:58 2020 (+0200)
-# Last-Updated: Wed Jul  8 11:15:21 2020 (+0200)
+# Last-Updated: Thu Jul  9 14:42:49 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_wtf import FlaskForm
@@ -53,7 +53,18 @@ class StoryForm(FlaskForm):
         ]
     )
 
-    total_chapters = StringField(gettext("Total chapters"), default='?')
+    total_chapters = StringField(gettext("Total chapters"), default='1')
+
+    # This is the name of the chapter that will be posted, if the story has multiple ones.
+    chapter_title = StringField(
+        gettext("Chapter title"), validators=[
+            Length(
+                max=255,
+                message=gettext("Title must be less than 255 characters.")
+            )
+        ]
+    )
+    
 
     fandom = Select2MultipleAutocompleteField(gettext("Fandoms"), model_name='Fandom')
     tags = Select2MultipleAutocompleteField(gettext("Tags"), model_name='Tag')

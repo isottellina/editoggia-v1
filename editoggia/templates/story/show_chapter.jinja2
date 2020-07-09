@@ -93,7 +93,7 @@
 	  </div>
 
 	  {# Comment form. Appears once the link is clicked. #}
-	  <div id="comment-form" class="row mt-2">
+	  <div id="comment-form" class="row mt-2 editoggia-d-none">
 	    <div class="col">
 	      <form action="{{ url_for('story.comment', story_id=story.id, chapter_id=chapter.id) }}" method="POST">
 		{{ comment_form.csrf_token }}
