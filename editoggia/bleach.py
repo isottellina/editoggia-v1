@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Thu Jul  9 16:41:02 2020 (+0200)
+# Last-Updated: Thu Jul  9 20:37:29 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -55,12 +55,11 @@ class Bleacher():
             tags=self.ALLOWED_TAGS
         )
 
-    def process_element(self, element):
+    def traverse_node(out_html, element):
         """
-        Process each root element in the tree created by BeautifulSoup.
+        Traverse every node in the HTML, and
+        produces a new HTML string.
         """
-        print(element)
-        print("lol")
 
     def clean(self, text):
         """

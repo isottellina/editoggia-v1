@@ -3,7 +3,7 @@
 # Filename: extensions.py
 # Author: Louise <louise>
 # Created: Sat May  2 06:11:47 2020 (+0200)
-# Last-Updated: Thu Jul  9 16:33:03 2020 (+0200)
+# Last-Updated: Thu Jul  9 17:54:19 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -41,7 +41,7 @@ def get_locale():
     # If there is no current_user, even anonymous, that means
     # we are outside of request context
     if not current_user:
-        return "en"
+        return current_app.config["BABEL_DEFAULT_LOCALE"]
 
     # if a user is logged in, use the locale from the user settings
     if current_user.is_authenticated and current_user.language:
