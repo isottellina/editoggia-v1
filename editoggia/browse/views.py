@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu Jun  4 16:55:50 2020 (+0200)
-# Last-Updated: Wed Jul  8 11:57:57 2020 (+0200)
+# Last-Updated: Thu Jul  9 14:25:18 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask import render_template, request, abort
@@ -44,6 +44,10 @@ class CollectionView(View):
         b_query = db.session.query(Story) \
                             .filter(getattr(Story, self.STORY_FIELD).contains(collection))
 
+        # Options
+        if form.data['rating']:
+            b_query = b_query.filter(Story.rating == form.data['rating'])
+        
         # Include fandoms in query
         for fandom_name in form.data['included_fandom']:
             fandom = Fandom.get_by_name_or_404(fandom_name)

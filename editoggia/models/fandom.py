@@ -3,11 +3,11 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Wed Jul  8 11:54:18 2020 (+0200)
+# Last-Updated: Wed Jul  8 17:53:46 2020 (+0200)
 #           By: Louise <louise>
 #
 from editoggia.database import db
-from editoggia.models.mixins import CRUDMixin, ModeratedMixin
+from editoggia.models.mixins import CRUDMixin, ModeratedMixin, NameMixin
 
 class FandomCategory(db.Model, CRUDMixin, NameMixin):
     """
