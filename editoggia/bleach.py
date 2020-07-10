@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Sat Jul 11 00:27:30 2020 (+0200)
+# Last-Updated: Sat Jul 11 01:21:01 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -85,8 +85,11 @@ class HTMLProducer():
     CONSERVE_TAGS = ["a", "abbr", "acronym", "address", "br",
                      "dl", "hr", "ol", "p", "pre", "blockquote", "ul"]
 
+    # Tags we don't want breaks before or after
+    NO_BREAK_TAGS = ["blockquote", "br", "dl", "hr", "ol",
+                     "p", "pre", "code", "ul"]
+
     SINGLE_NEWLINE_RE = re.compile(r'\n')
-    DOUBLE_NEWLINES_RE = re.compile(r'\n+\s*\n+')
     
     def __init__(self):
         # The stack of tags
@@ -181,10 +184,22 @@ class HTMLProducer():
 
         # If it's a string just add it (and open a paragraph if we need to)
         if type(element) == NavigableString:
+            text = element.string
+            
+            # If the previous tag is a NO_BREAK_TAG, strip
+            if element.previous_sibling and element.previous_sibling.name in self.NO_BREAK_TAGS:
+                text = text.lstrip()
+            # If the next tag is a NO_BREAK_TAG, strip
+            if element.next_sibling and element.next_sibling.name in self.NO_BREAK_TAGS:
+                text = text.rstrip()
+
             # We only open a paragraph for strings not empty
-            if not self.in_block() and element.string.strip() != "":
+            if not self.in_block() and text != "":
                 self.open_p()
-            self.add_string(element.string)
+
+            # We replace a newline with a break tag.
+            text = self.SINGLE_NEWLINE_RE.sub('<br/>\n', text)
+            self.add_string(text)
 
             return
         
