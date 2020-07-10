@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Wed Jul  8 02:46:50 2020 (+0200)
+# Last-Updated: Sat Jul 11 01:31:23 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -33,7 +33,7 @@ def edit_story(story_id):
 
     if form.validate_on_submit():
         # Bleach summary
-        form.data['summary'] = current_app.bleacher.clean(form.data['summary'])
+        form.summary.process_data(current_app.bleacher.clean(form.data['summary']))
 
         # We update the story
         form.populate_obj(story)

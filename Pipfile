@@ -20,7 +20,6 @@ requests = "*"
 arrow = "*"
 bleach = "*"
 bs4 = "*"
-lxml = "*"
 
 [dev-packages]
 pytest = "*"

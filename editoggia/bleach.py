@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Sat Jul 11 01:21:01 2020 (+0200)
+# Last-Updated: Sat Jul 11 01:48:25 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -24,12 +24,6 @@ class Bleacher():
       - A list is a list tag (ol or ul) enclosing list items (li),
         enclosing itself some characters with inline tags.
       - An inline tag is either a, abbr, b, em, i, or strong.
-
-    Some rules:
-      - We construct a paragraph as either some text separated from
-        the rest by two newlines, or as the very definition of a paragraph
-        (some block-level tag enclosing text)
-      -
     """
     # Only tags that should be conserved.
     ALLOWED_TAGS = [
@@ -51,7 +45,7 @@ class Bleacher():
         Cleaner, and collapses spaces and newlines.
         """
         cleaned_text = self.cleaner.clean(text)
-        soup = BeautifulSoup(cleaned_text, features="lxml")
+        soup = BeautifulSoup(cleaned_text, features="html.parser")
 
         # Treat HTML to create a new document
         new_doc = HTMLProducer()
@@ -90,6 +84,8 @@ class HTMLProducer():
                      "p", "pre", "code", "ul"]
 
     SINGLE_NEWLINE_RE = re.compile(r'\n')
+    MULTIPLE_NEWLINES_RE = re.compile(r'\n+\s*\n+')
+    TAGS_TOGETHER_RE = re.compile(r'><')
     
     def __init__(self):
         # The stack of tags
@@ -148,6 +144,25 @@ class HTMLProducer():
             if item == tag_name:
                 return
 
+    def open_p_str(self):
+        """
+        Same as open_p, but returns a string.
+        """
+        self.stack.append('p')
+        return "<p>"
+
+    def close_block_str(self):
+        """
+        Same as close_block, but returns a string.
+        """
+        out = ""
+        for item in reversed(self.stack):
+            self.stack.pop()
+            out += f"</{item}>"
+
+            if item in self.BLOCK_LEVEL_TAGS:
+                return out
+    
     def in_block(self):
         """
         Are we currently in a block?
@@ -197,10 +212,19 @@ class HTMLProducer():
             if not self.in_block() and text != "":
                 self.open_p()
 
+            # For several newlines, we begin a new paragraph
+            text = self.MULTIPLE_NEWLINES_RE.sub(
+                lambda _: self.close_block_str() + self.open_p_str(),
+                text
+            )
+                
             # We replace a newline with a break tag.
             text = self.SINGLE_NEWLINE_RE.sub('<br/>\n', text)
-            self.add_string(text)
 
+            # After these substitutions, we insert newlines between the tags.
+            text = self.TAGS_TOGETHER_RE.sub('>\n<', text)
+            
+            self.add_string(text)
             return
         
         # Some tags we descend into. This now must be a tag.
