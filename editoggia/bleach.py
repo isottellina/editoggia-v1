@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Sat Jul 11 00:22:23 2020 (+0200)
+# Last-Updated: Sat Jul 11 00:27:30 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -56,10 +56,8 @@ class Bleacher():
         # Treat HTML to create a new document
         new_doc = HTMLProducer()
         new_doc.traverse_node(soup)
-        print("+++++++++++++++++++++++++++++++++++++++++")
-        print(str(new_doc))
 
-        return cleaned_text
+        return str(new_doc)
 
 class HTMLProducer():
     """
@@ -177,7 +175,6 @@ class HTMLProducer():
             elif element.name not in self.BLOCK_LEVEL_TAGS and not self.in_block():
                 self.add_string("<p>" + str(element) + "</p>")
             else:
-                print(str(element))
                 self.add_string(str(element))
 
             return
@@ -193,7 +190,6 @@ class HTMLProducer():
         
         # Some tags we descend into. This now must be a tag.
         if element.name not in self.IGNORE_TAGS:
-            print('<' + element.name + '>')
             # If it's an inline tag and we're not in a block, create a tag.
             if element.name not in self.BLOCK_LEVEL_TAGS and not self.in_block():
                 self.open_p()
