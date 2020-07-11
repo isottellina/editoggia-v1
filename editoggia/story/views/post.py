@@ -3,7 +3,7 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Sat Jul 11 04:01:24 2020 (+0200)
+# Last-Updated: Sun Jul 12 00:23:44 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -75,6 +75,9 @@ def post_chapter(story_id):
             summary=summary,
             content=content
         )
+
+        # Update story to refresh update time
+        story.touch()
 
         return redirect(url_for('home.index'))
 

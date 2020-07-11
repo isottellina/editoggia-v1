@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Fri Jul  3 14:18:59 2020 (+0200)
+# Last-Updated: Sun Jul 12 00:23:36 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -32,21 +32,41 @@ class CRUDMixin(PKMixin):
 
     @classmethod
     def create(cls, commit=True, **kwargs):
+        """
+        Create a new record.
+        """
         instance = cls(**kwargs)
         return instance.save(commit=commit)
 
     def update(self, commit=True, **kwargs):
+        """
+        Update all given fields of a record.
+        """
         for attr, value in kwargs.items():
             setattr(self, attr, value)
         return commit and self.save() or self
 
+    def touch(self):
+        """
+        Touch a record. Triggers all onupdate
+        functions but doesn't update other fields.
+        """
+        stmt = db.update(type(self)).where(type(self).id == self.id)
+        db.engine.execute(stmt)
+
     def save(self, commit=True):
+        """
+        Saves a record to the session.
+        """
         db.session.add(self)
         if commit:
             db.session.commit()
         return self
 
     def delete(self, commit=True):
+        """
+        Delete a record.
+        """
         db.session.delete(self)
         return commit and db.session.commit()
 
