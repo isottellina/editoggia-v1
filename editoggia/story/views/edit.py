@@ -3,7 +3,7 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Sat Jul 11 04:01:51 2020 (+0200)
+# Last-Updated: Sun Jul 12 00:28:27 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -66,6 +66,6 @@ def edit_chapter(story_id, chapter_id):
         form.populate_obj(chapter)
         chapter.update()
 
-        return redirect(url_for('home.index'))
+        return redirect(url_for('story.edit_story', story_id=story_id))
 
     return render_template('story/edit_chapter.jinja2', form=form, chapter=chapter)

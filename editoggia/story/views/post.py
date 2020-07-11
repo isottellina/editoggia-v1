@@ -3,7 +3,7 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Sun Jul 12 00:23:44 2020 (+0200)
+# Last-Updated: Sun Jul 12 00:28:02 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -45,6 +45,7 @@ def post_story():
         # Then we create the first chapter
         Chapter.create(
             nb=1,
+            title=form.data['chapter_title'],
             content=content,
             story=story
         )
@@ -79,7 +80,7 @@ def post_chapter(story_id):
         # Update story to refresh update time
         story.touch()
 
-        return redirect(url_for('home.index'))
+        return redirect(url_for('story.edit_story', story_id=story_id))
 
     # If we get to this point we should return the form
     # Set a default chapter number (Last chapter + 1)
