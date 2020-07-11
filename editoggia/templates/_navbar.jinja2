@@ -59,6 +59,12 @@
 		  {{ _("Administration interface") }}
 		</a>
 	      {% endif %}
+	      {% if current_user.has_permission("mod.ACCESS_TAG_INTERFACE") %}
+		<a class="dropdown-item" href="{{ url_for('moderation.index') }}">
+		  <i class="fas fa-fw fa-tags"></i>
+		  {{ _("Moderation interface") }}
+		</a>
+	      {% endif %}
 	      <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
 		<i class="fas fa-fw fa-sign-out-alt"></i>
 		{{ _("Log out") }}
