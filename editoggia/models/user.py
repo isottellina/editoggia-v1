@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Wed Jul  8 17:53:00 2020 (+0200)
+# Last-Updated: Sat Jul 11 20:52:05 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -63,7 +63,8 @@ class User(CRUDMixin, UserMixin, db.Model):
     gender = db.Column(db.Enum(
         gettext("Woman"),
         gettext("Man"),
-        gettext("Other")
+        gettext("Other"),
+        name="gender_enum"
     ))
     bio = db.Column(db.String(500), nullable=False, default="")
 

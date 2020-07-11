@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: eb9b7a3dae32
-Revises:
-Create Date: 2020-07-07 14:06:51.612975
+Revision ID: 15e1c1a1278e
+Revises: 
+Create Date: 2020-07-11 20:52:33.347245
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'eb9b7a3dae32'
+revision = '15e1c1a1278e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,7 +32,7 @@ def upgrade():
     )
     op.create_table('role',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('name', sa.String(length=80), nullable=False),
+    sa.Column('name', sa.String(length=255), nullable=False),
     sa.Column('description', sa.String(length=255), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
@@ -57,7 +57,7 @@ def upgrade():
     sa.Column('name', sa.String(length=128), nullable=True),
     sa.Column('location', sa.String(length=128), nullable=True),
     sa.Column('birthdate', sa.Date(), nullable=True),
-    sa.Column('gender', sa.Enum('Woman', 'Man', 'Other'), nullable=True),
+    sa.Column('gender', sa.Enum('Woman', 'Man', 'Other', name='gender_enum'), nullable=True),
     sa.Column('bio', sa.String(length=500), nullable=False),
     sa.Column('updated_on', sa.DateTime(), nullable=False),
     sa.Column('language', sa.String(length=10), nullable=False),
@@ -103,7 +103,7 @@ def upgrade():
     sa.Column('title', sa.String(length=255), nullable=False),
     sa.Column('summary', sa.String(length=1000), nullable=False),
     sa.Column('total_chapters', sa.Integer(), nullable=True),
-    sa.Column('rating', sa.Enum('General audiences', 'Teen and up audiences', 'Mature', 'Explicit'), nullable=True),
+    sa.Column('rating', sa.Enum('General audiences', 'Teen and up audiences', 'Mature', 'Explicit', name='enum_rating'), nullable=True),
     sa.Column('stats_id', sa.Integer(), nullable=False),
     sa.Column('author_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['author_id'], ['user.id'], ),

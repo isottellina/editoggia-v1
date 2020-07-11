@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Wed Jul  8 11:44:11 2020 (+0200)
+# Last-Updated: Sat Jul 11 20:52:21 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -27,7 +27,8 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         gettext("General audiences"),
         gettext("Teen and up audiences"),
         gettext("Mature"),
-        gettext("Explicit")
+        gettext("Explicit"),
+        name='enum_rating'
     ))
 
     fandom = db.relationship('Fandom',
