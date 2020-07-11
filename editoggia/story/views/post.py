@@ -3,16 +3,17 @@
 # Filename: post_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:08:41 2020 (+0200)
-# Last-Updated: Wed Jul  8 02:45:35 2020 (+0200)
+# Last-Updated: Sat Jul 11 04:01:24 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 Views for posting new content (stories and chapters)
 """
-from flask import render_template, redirect, url_for, current_app
+from flask import render_template, redirect, url_for
 from flask_login import current_user, login_required
 
 from editoggia.models import Story, Chapter
+from editoggia.bleacher import bleach
 
 from editoggia.story import story
 from editoggia.story.forms import PostStoryForm, ChapterForm
@@ -27,8 +28,8 @@ def post_story():
 
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
-        summary = current_app.bleacher.clean(form.data['summary'])
-        content = current_app.bleacher.clean(form.data['content'])
+        summary = bleach(form.data['summary'])
+        content = bleach(form.data['content'])
 
         # We have to create the story before the chapter
         story = Story.create(
@@ -64,8 +65,8 @@ def post_chapter(story_id):
 
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
-        content = current_app.bleacher.clean(form.data['content'])
-        summary = current_app.bleacher.clean(form.data['summary'])
+        content = bleach(form.data['content'])
+        summary = bleach(form.data['summary'])
 
         Chapter.create(
             story=story,

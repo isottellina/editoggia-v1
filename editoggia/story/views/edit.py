@@ -3,16 +3,17 @@
 # Filename: edit_views.py
 # Author: Louise <louise>
 # Created: Mon Jun  8 15:10:40 2020 (+0200)
-# Last-Updated: Sat Jul 11 01:31:23 2020 (+0200)
+# Last-Updated: Sat Jul 11 04:01:51 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 Views for editing content (stories and chapters)
 """
-from flask import render_template, redirect, abort, url_for, current_app
+from flask import render_template, redirect, abort, url_for
 from flask_login import current_user, login_required
 
 from editoggia.models import Story, Chapter
+from editoggia.bleacher import bleach
 
 from editoggia.story import story
 from editoggia.story.forms import EditStoryForm, ChapterForm
@@ -33,7 +34,7 @@ def edit_story(story_id):
 
     if form.validate_on_submit():
         # Bleach summary
-        form.summary.process_data(current_app.bleacher.clean(form.data['summary']))
+        form.summary.process_data(bleach(form.data['summary']))
 
         # We update the story
         form.populate_obj(story)
@@ -59,8 +60,8 @@ def edit_chapter(story_id, chapter_id):
     form = ChapterForm(obj=chapter, chapter=chapter, story=chapter.story)
 
     if form.validate_on_submit():
-        form.content.process_data(current_app.bleacher.clean(form.data['content']))
-        form.summary.process_data(current_app.bleacher.clean(form.data['summary']))
+        form.content.process_data(bleach(form.data['content']))
+        form.summary.process_data(bleach(form.data['summary']))
 
         form.populate_obj(chapter)
         chapter.update()

@@ -1,57 +1,51 @@
-# bleach.py ---
+# bleacher.py ---
 #
-# Filename: bleach.py
+# Filename: bleacher.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Sat Jul 11 03:29:40 2020 (+0200)
+# Last-Updated: Sat Jul 11 04:03:56 2020 (+0200)
 #           By: Louise <louise>
 #
+"""
+The object intended to clean user input in summary
+and content. Produces safe HTML as a text (see concepts below.)
+
+Some concepts:
+    - A text is a sequence of blocks.
+    - A block is either a paragraph, a list or independant tags (hr).
+    - A paragraph is some characters with inline tags, enclosed
+      by a block-level tag.
+    - A block-level tag is either blockquote, code, or p.
+    - A list is a list tag (ol or ul) enclosing list items (li),
+      enclosing itself some characters with inline tags.
+    - An inline tag is either a, abbr, b, em, i, or strong.
+"""
 import re
 from bleach.sanitizer import Cleaner
 from bs4 import BeautifulSoup, NavigableString, Tag
 
-class Bleacher():
+# Only tags that should be conserved.
+ALLOWED_TAGS = [
+    "a", "abbr", "b", "br", "blockquote", "code",
+    "em", "hr", "i", "li", "ol", "p", "strong", "ul"
+]
+
+def bleach(text):
     """
-    The object intended to clean user input in summary
-    and content. Produces safe HTML as a text (see concepts below.)
-
-    Some concepts:
-      - A text is a sequence of blocks.
-      - A block is either a paragraph, a list or independant tags (hr).
-      - A paragraph is some characters with inline tags, enclosed
-        by a block-level tag.
-      - A block-level tag is either blockquote, code, or p.
-      - A list is a list tag (ol or ul) enclosing list items (li),
-        enclosing itself some characters with inline tags.
-      - An inline tag is either a, abbr, b, em, i, or strong.
+    Actual function to clean.
     """
-    # Only tags that should be conserved.
-    ALLOWED_TAGS = [
-        "a", "abbr", "b", "br", "blockquote", "code",
-        "em", "hr", "i", "li", "ol", "p", "strong", "ul"
-    ]
-
-    def __init__(self):
-        """
-        Creates the object.
-        """
-        self.cleaner = Cleaner(
-            tags=self.ALLOWED_TAGS
-        )
-
-    def clean(self, text):
-        """
-        Actual function to clean. For now it uses the bleacher
-        Cleaner, and collapses spaces and newlines.
-        """
-        cleaned_text = self.cleaner.clean(text)
-        soup = BeautifulSoup(cleaned_text, features="html.parser")
-
-        # Treat HTML to create a new document
-        new_doc = HTMLProducer()
-        new_doc.traverse_node(soup)
-
-        return str(new_doc)
+    cleaner = Cleaner(
+        tags=ALLOWED_TAGS
+    )
+    
+    cleaned_text = cleaner.clean(text)
+    soup = BeautifulSoup(cleaned_text, features="html.parser")
+    
+    # Treat HTML to create a new document
+    new_doc = HTMLProducer()
+    new_doc.traverse_node(soup)
+    
+    return str(new_doc)
 
 class HTMLProducer():
     """

@@ -3,19 +3,18 @@
 # Filename: interaction.py
 # Author: Louise <louise>
 # Created: Sat Jun 27 13:58:01 2020 (+0200)
-# Last-Updated: Wed Jul  8 02:54:27 2020 (+0200)
+# Last-Updated: Sat Jul 11 04:02:29 2020 (+0200)
 #           By: Louise <louise>
 #
 """
 This file defines views for interaction, such as like, or comment.
 """
-import bleach
-
-from flask import redirect, url_for, abort
+from flask import redirect, url_for, abort, current_app
 from flask_login import current_user, login_required
 
 from editoggia.database import db
 from editoggia.models import Story, Chapter, Comment
+from editoggia.bleacher import bleach
 
 from editoggia.story import story
 from editoggia.story.forms import CommentForm, LikeForm
@@ -55,7 +54,7 @@ def comment(story_id, chapter_id): # pylint: disable=inconsistent-return-stateme
     chapter = Chapter.get_by_id_or_404(chapter_id)
 
     if form.validate_on_submit():
-        content = bleach.clean(form.data['comment'])
+        content = bleach(form.data['comment'])
 
         Comment.create(
             content=content,

@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Wed Jul  8 03:01:27 2020 (+0200)
+# Last-Updated: Sat Jul 11 04:02:51 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -28,9 +28,6 @@ from editoggia.story import story
 from editoggia.browse import browse
 from editoggia.ajax import ajax
 
-# Import misc
-from editoggia.bleach import Bleacher
-
 # Import config
 from .config import config
 
@@ -42,9 +39,6 @@ def create_app(config_name="default"):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-
-    # Create bleacher
-    app.bleacher = Bleacher()
 
     register_commands(app)
     register_jinja_env(app)
