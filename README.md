@@ -3,14 +3,13 @@
 ;; Filename: README.md
 ;; Author: Louise <louise>
 ;; Created: Sat May  2 01:12:36 2020 (+0200)
-;; Last-Updated: Sun May 17 22:43:09 2020 (+0200)
+;; Last-Updated: Sat Jul 11 17:55:43 2020 (+0200)
 ;;           By: Louise <louise>
  -->
 # Editoggia
 
 Editoggia is a webapp intended to let people share their writings, whether
-they be original stories, fanfictions, or even essays. It's currently in
-very early stages.
+they be original stories or fanfiction.
 
 ## Installation
 
