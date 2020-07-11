@@ -11,8 +11,9 @@ htmlcov
 # Ignore dev database
 db.sqlite3
 
-# Ignore egg-info
+# Ignore egg-info and python stuff
 editoggia.egg-info
+*.pyc
 
 # Ignore yarn dependencies
 node_modules
