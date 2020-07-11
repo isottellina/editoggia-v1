@@ -3,7 +3,7 @@
 ;; Filename: README.md
 ;; Author: Louise <louise>
 ;; Created: Sat May  2 01:12:36 2020 (+0200)
-;; Last-Updated: Sat Jul 11 17:55:43 2020 (+0200)
+;; Last-Updated: Sat Jul 11 20:38:02 2020 (+0200)
 ;;           By: Louise <louise>
  -->
 # Editoggia
@@ -31,6 +31,9 @@ export FLASK_APP=editoggia
 export FLASK_DEBUG=True
 flask run
 ```
+
+To run it in production, you can run editoggia.wsgi:app with your favourite method
+(I use uWSGI).
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
