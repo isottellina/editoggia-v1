@@ -2,7 +2,7 @@
   <div class="card mb-3">
     <div class="card-body story-card">
       <h5 class="card-title">
-	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author }}</a></small>
+	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author|e }}</a></small>
       </h5>
 
       <div class="card-subtitle mb-2">

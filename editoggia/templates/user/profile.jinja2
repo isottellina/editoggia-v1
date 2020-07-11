@@ -15,10 +15,10 @@
       <div class="col-lg-3">
 	<div class="d-flex align-items-baseline">
 	  {% if user.name %}
-	    <h2 class="border-bottom">{{ user.name }}</h2>
-	    <div class="ml-auto text-muted">@{{ user.username }}</div>
+	    <h2 class="border-bottom">{{ user.name|e }}</h2>
+	    <div class="ml-auto text-muted">@{{ user.username|e }}</div>
 	  {% else %}
-	    <h2 class="border-bottom">@{{ user.username }}</h2>
+	    <h2 class="border-bottom">@{{ user.username|e }}</h2>
 	  {% endif %}
 	</div>
 	
@@ -26,7 +26,7 @@
 	{% if user.location %}
 	  <div id="location">
 	    <i class="fas fa-fw fa-compass"></i>
-	    {{ user.location }}
+	    {{ user.location|e }}
 	  </div>
 	{% endif %}
 
