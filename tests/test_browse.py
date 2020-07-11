@@ -3,7 +3,7 @@
 # Filename: test_browse.py
 # Author: Louise <louise>
 # Created: Fri Jun 26 19:38:42 2020 (+0200)
-# Last-Updated: Fri Jun 26 20:26:55 2020 (+0200)
+# Last-Updated: Sun Jul 12 00:06:25 2020 (+0200)
 #           By: Louise <louise>
 #
 from helpers import EditoggiaTestCase
@@ -87,3 +87,78 @@ class TestBrowse(EditoggiaTestCase):
 
         rv = self.client.get('/browse/fandom/Original Work?order_by=bad')
         self.assert400(rv)
+
+        
+    def test_collection_rating(self):
+        """
+        Tests we only get stories rated as we asked.
+        """
+        stories = self.create_stories(2)
+
+        # Set rating
+        stories[1].update(
+            rating="Explicit"
+        )
+
+        rv = self.client.get('/browse/fandom/Original Work?rating=Explicit')
+
+        self.assert200(rv)
+        self.assertNotIn(stories[0].title.encode(), rv.data)
+        self.assertIn(stories[1].title.encode(), rv.data)
+        
+    def test_collection_included_fandoms(self):
+        """
+        Tests we can include another fandom in the search and only get 
+        twice-tagged stories.
+        """
+        other_fandom = Fandom.create(name="Fandom2")
+        stories = self.create_stories(2)
+
+        # Add fandom to story
+        stories[1].update(
+            fandom=[self.fandom, other_fandom]
+        )
+
+        rv = self.client.get('/browse/fandom/Original Work?included_fandom=Fandom2')
+
+        self.assert200(rv)
+        self.assertNotIn(stories[0].title.encode(), rv.data)
+        self.assertIn(stories[1].title.encode(), rv.data)
+
+    def test_collection_included_tags(self):
+        """
+        Tests we can include a tag in the search and only get stories
+        tagged with it.
+        """
+        other_tag = Tag.create(name="Tag1")
+        stories = self.create_stories(2)
+
+        # Add tag to story
+        stories[1].update(
+            tags=[other_tag]
+        )
+
+        rv = self.client.get('/browse/fandom/Original Work?included_tags=Tag1')
+
+        self.assert200(rv)
+        self.assertNotIn(stories[0].title.encode(), rv.data)
+        self.assertIn(stories[1].title.encode(), rv.data)
+
+    def test_collection_excluded_tags(self):
+        """
+        Tests we can exclude a tag in the search and only get stories
+        that don't have it
+        """
+        other_tag = Tag.create(name="Tag1")
+        stories = self.create_stories(2)
+
+        # Add tag to story
+        stories[1].update(
+            tags=[other_tag]
+        )
+
+        rv = self.client.get('/browse/fandom/Original Work?excluded_tags=Tag1')
+
+        self.assert200(rv)
+        self.assertIn(stories[0].title.encode(), rv.data)
+        self.assertNotIn(stories[1].title.encode(), rv.data)
