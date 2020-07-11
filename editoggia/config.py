@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Sat Jul 11 19:37:34 2020 (+0200)
+# Last-Updated: Sat Jul 11 20:31:35 2020 (+0200)
 #           By: Louise <louise>
 #
 import os
@@ -45,7 +45,7 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
-    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PORT', '5432')
+    POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '5432')
     POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
     POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
     POSTGRES_DB = os.environ.get('POSTGRES_DB', 'editoggia')
