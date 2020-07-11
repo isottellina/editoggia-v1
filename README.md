@@ -3,7 +3,7 @@
 ;; Filename: README.md
 ;; Author: Louise <louise>
 ;; Created: Sat May  2 01:12:36 2020 (+0200)
-;; Last-Updated: Sat Jul 11 20:38:02 2020 (+0200)
+;; Last-Updated: Sat Jul 11 21:10:11 2020 (+0200)
 ;;           By: Louise <louise>
  -->
 # Editoggia
@@ -21,6 +21,20 @@ pipenv install
 yarn install --modules-folder editoggia/static/node_modules
 ```
 
+Before using it, when you have configured the database (using POSTGRES_USER, 
+POSTGRES_PASSWORD, and POSTGRES_DB if you are in production), you need to run:
+
+```bash
+flask create-db
+```
+
+You might also want to set an user as an admin. Once you have created the user,
+run:
+
+```bash
+flask set-admin <username>
+```
+
 ## Usage
 
 You can run the development server by setting the `FLASK_APP` and `FLASK_DEBUG`
@@ -33,7 +47,7 @@ flask run
 ```
 
 To run it in production, you can run editoggia.wsgi:app with your favourite method
-(I use uWSGI).
+(I use uWSGI). Don't forget to set the EDITOGGIA_SECRET_KEY env variable.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

@@ -3,7 +3,7 @@
 # Filename: __init__.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:21:59 2020 (+0200)
-# Last-Updated: Sat Jul 11 04:02:51 2020 (+0200)
+# Last-Updated: Sat Jul 11 22:10:22 2020 (+0200)
 #           By: Louise <louise>
 #
 import requests
@@ -27,6 +27,7 @@ from editoggia.user import user
 from editoggia.story import story
 from editoggia.browse import browse
 from editoggia.ajax import ajax
+from editoggia.moderation import moderation
 
 # Import config
 from .config import config
@@ -59,7 +60,8 @@ def register_errorhandlers(app):
             requests.codes.BAD_REQUEST,
             requests.codes.NOT_FOUND,
             requests.codes.UNAUTHORIZED,
-            requests.codes.FORBIDDEN
+            requests.codes.FORBIDDEN,
+            requests.codes.SERVER_ERROR
     ]:
         app.errorhandler(error)(render_error)
 
@@ -85,6 +87,7 @@ def register_blueprints(app):
     app.register_blueprint(story, url_prefix='/story')
     app.register_blueprint(browse, url_prefix='/browse')
     app.register_blueprint(ajax, url_prefix='/ajax')
+    app.register_blueprint(moderation, url_prefix='/moderation')
 
 def register_jinja_env(app):
     """

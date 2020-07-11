@@ -1,0 +1,29 @@
+{% from 'components/field.jinja2' import render_field %}
+{% extends 'base.jinja2' %}
+
+{% block title %}
+  {{ _("Moderation interface") }}
+{% endblock %}
+
+{% block content %}
+  <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+	<div class="row mb-3">
+	  <div class="col">
+	    <h2 class="mx-5 text-center"> {{ gettext("Moderation interface") }}</h2>
+	    <hr />
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col">
+	    <a href="{{ url_for('moderation.fandoms') }}">{{ _("Moderate fandoms") }}</a>
+	  </div>
+	  <div class="col">
+	    <a href="{{ url_for('moderation.tags') }}">{{ _("Moderate tags") }}</a>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

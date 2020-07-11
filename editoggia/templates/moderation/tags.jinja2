@@ -1,0 +1,54 @@
+{% from 'components/field.jinja2' import render_field %}
+{% extends 'base.jinja2' %}
+
+{% block content %}
+  <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+	<div class="row mb-3">
+	  <div class="col">
+	    <h2 class="mx-5 text-center"> {{ gettext("Moderation interface") }}</h2>
+	    <hr />
+	  </div>
+	</div>
+	<div class="row">
+	  <div class="col">
+	    <h3>{{ _("Tags") }}</h3>
+	  </div>
+	</div>
+	<div class="row mb-2">
+	  {% if form.tags.entries|length > 0 %}
+	    <form method="POST" action="{{ url_for('moderation.tags') }}" class="col">
+	      <table class="table">
+		<tr>
+		  <th>{{ _("Tag name") }}</th>
+		</tr>
+		{{ form.csrf_token }}
+		{% for tag in form.tags.entries %}
+		  <tr>
+		    {{ tag.form.hidden_tag() }}
+		    <td>{{ render_field(tag.form.name, label=False) }}</td>
+		  </tr>
+		{% endfor %}
+	      </table>
+	      <div class="row">
+		<div class="col">
+		  <button type="submit" class="btn btn-block btn-primary">{{ _("Submit") }}</button>
+		</div>
+	      </div>
+	    </form>
+	  {% else %}
+	    <div class="col">
+	      {{ _("There are no entries to be moderated right now.") }}
+	    </div>
+	  {% endif %}
+	</div>
+	<div class="row">
+	  <div class="col">
+	    <a class="btn btn-primary btn-block" href="{{ url_for('moderation.index') }}">{{ _("Return to moderation index.") }}</a>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
