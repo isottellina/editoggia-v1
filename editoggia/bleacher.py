@@ -3,7 +3,7 @@
 # Filename: bleacher.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Sat Jul 11 04:03:56 2020 (+0200)
+# Last-Updated: Sat Jul 11 23:19:25 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -79,7 +79,7 @@ class HTMLProducer():
     NO_BREAK_TAGS = ["blockquote", "br", "dl", "hr", "ol",
                      "p", "pre", "code", "ul"]
 
-    BS4_FORMATTER = "html"
+    BS4_FORMATTER = "minimal"
 
     SINGLE_NEWLINE_RE = re.compile(r'\n')
     MULTIPLE_NEWLINES_RE = re.compile(r'\n+\s*\n+')

@@ -21,11 +21,6 @@
 	    <h2 class="border-bottom">@{{ user.username }}</h2>
 	  {% endif %}
 	</div>
-
-	{# Bio #}
-	<p id="bio">
-	  {{ user.bio }}
-	</p>
 	
 	{# Location #}
 	{% if user.location %}
@@ -65,8 +60,11 @@
       <hr class="mt-0"/>
       <div class="col-lg-9">
 	<nav class="nav profile-nav">
+	  <a class="nav-link {% if mode == 'bio' %}active{% endif %}" href="{{ url_for('user.profile', username=user.username) }}#">
+	    {{ _("Biography") }}
+	  </a>
 	  <a class="nav-link {% if mode == 'stories' %}active{% endif %}" href="{{ url_for('user.profile_stories', username=user.username) }}#">
-	    {{ _("Stories") }}
+	    {{ _("Written stories") }}
 	  </a>
 	  <a class="nav-link {% if mode == 'liked' %}active{% endif %}" href="{{ url_for('user.profile_liked', username=user.username) }}#">
 	    {{ _("Liked stories") }}
@@ -76,6 +74,14 @@
 	  </a>
 	</nav>
 	<div>
+	  {% if mode == 'bio' %}
+	    {% if user.bio %}
+	      {{ user.bio }}
+	    {% else %}
+	      <span class="text-muted">{{ _("This user hasn't said anything here…'") }}</span>
+	    {% endif %}
+	  {% endif %}
+	  
 	  {% if mode == 'stories' %}
 	    {% for story in user.stories %}
 	      {{ render_story_card(story) }}

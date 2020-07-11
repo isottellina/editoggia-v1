@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:59:58 2020 (+0200)
-# Last-Updated: Wed Jul  8 11:47:41 2020 (+0200)
+# Last-Updated: Sat Jul 11 23:18:22 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import date, timedelta
@@ -13,6 +13,7 @@ from flask import redirect, url_for
 from flask_login import current_user, login_required
 from flask_babelex import gettext
 
+from editoggia.bleacher import bleach
 from editoggia.database import db
 from editoggia.user import user
 from editoggia.user.forms import EditUserForm
@@ -42,7 +43,13 @@ def profile(username):
     but has a different URL so the default tab can
     be changed easily.
     """
-    return profile_stories(username)
+    user, editable, age = get_profile_info(username)
+
+    return render_template('user/profile.jinja2',
+                           user=user,
+                           age=age,
+                           mode='bio',
+                           editable=editable)
 
 @user.route('/<username>/stories')
 def profile_stories(username):
@@ -96,6 +103,8 @@ def edit_profile():
     form.populate_language()
 
     if form.validate_on_submit():
+        form.bio.process_data(bleach(form.data['bio']))
+        
         form.populate_obj(current_user)
         current_user.update()
 
