@@ -49,9 +49,9 @@ class ProductionConfig(Config):
     POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
     POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
     POSTGRES_DB = os.environ.get('POSTGRES_DB', 'editoggia')
-    
+
     SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-    
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,

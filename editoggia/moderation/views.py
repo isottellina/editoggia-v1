@@ -1,11 +1,11 @@
-# views.py --- 
-# 
+# views.py ---
+#
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Sat Jul 11 21:13:04 2020 (+0200)
 # Last-Updated: Sat Jul 11 23:01:52 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask import render_template, abort, url_for, redirect
 from flask_login import current_user, login_required
 
@@ -58,7 +58,7 @@ def fandoms():
 
     for fandom in waiting_fandoms:
         form.fandoms.append_entry(fandom)
-        
+
     return render_template("moderation/fandoms.jinja2", form=form)
 
 @moderation.route('/tags', methods=["GET", "POST"])
@@ -87,5 +87,5 @@ def tags():
     # If we only have GET, fill the forms.
     for tag in waiting_tags:
         form.tags.append_entry(tag)
-        
+
     return render_template("moderation/tags.jinja2", form=form)

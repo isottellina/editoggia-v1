@@ -3,7 +3,7 @@
 # Filename: helpers.py
 # Author: Louise <louise>
 # Created: Fri May 15 21:42:56 2020 (+0200)
-# Last-Updated: Tue Jul  7 16:52:08 2020 (+0200)
+# Last-Updated: Sat Jul 11 23:34:06 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_testing import TestCase
@@ -12,6 +12,7 @@ from faker import Faker
 from editoggia import create_app
 from editoggia.database import db
 from editoggia.models import Fandom, FandomCategory, Story, Chapter, User
+from editoggia.models import Role, Permission
 
 class EditoggiaTestCase(TestCase):
     def create_app(self):
@@ -39,6 +40,25 @@ class EditoggiaTestCase(TestCase):
         self.fandom = Fandom.create(name="Original Work",
                                     category=self.category,
                                     waiting_mod=False)
+
+        # Create permissions and roles
+        admin_perm = Permission.create(
+            name="admin.ACCESS_ADMIN_INTERFACE",
+            description="Can access the admin interface."
+        )
+        moderation_perm = Permission.create(
+            name="mod.ACCESS_TAG_INTERFACE",
+            description="Can access the interface to manage tag and fandoms."
+        )
+
+        admin_role = Role.create(
+            name="Administrator",
+            description="Administrator of the website.",
+            permissions=[admin_perm, moderation_perm]
+        )
+
+        # Assign role to the user
+        self.user.roles = [admin_role]
 
     def tearDown(self):
         db.session.remove()

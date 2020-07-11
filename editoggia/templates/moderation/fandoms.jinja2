@@ -16,7 +16,7 @@
 	    <h3>{{ _("Fandoms") }}</h3>
 	  </div>
 	</div>
-	<div class="row">
+	<div class="row mb-2">
 	  {% if form.fandoms.entries|length > 0 %}
 	    <form method="POST" action="{{ url_for('moderation.fandoms') }}" class="col">
 	      <table class="table">

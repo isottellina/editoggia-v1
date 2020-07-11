@@ -1,11 +1,11 @@
-# forms.py --- 
-# 
+# forms.py ---
+#
 # Filename: forms.py
 # Author: Louise <louise>
 # Created: Sat Jul 11 21:13:06 2020 (+0200)
 # Last-Updated: Sat Jul 11 22:58:17 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 from flask_wtf import FlaskForm
 from flask_babelex import gettext
 
@@ -21,7 +21,7 @@ class FandomForm(FlaskForm):
     id = HiddenField("fandom_id", validators=[
         DataRequired()
     ])
-    
+
     name = StringField(gettext("Fandom name"), validators=[
         DataRequired(
             message=gettext("Fandom name can't be empty.")
@@ -54,7 +54,7 @@ class TagForm(FlaskForm):
     id = HiddenField("tag_id", validators=[
         DataRequired()
     ])
-    
+
     name = StringField(gettext("Tag name"), validators=[
         DataRequired(
             message=gettext("Tag name can't be empty.")

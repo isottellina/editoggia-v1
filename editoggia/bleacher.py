@@ -37,14 +37,14 @@ def bleach(text):
     cleaner = Cleaner(
         tags=ALLOWED_TAGS
     )
-    
+
     cleaned_text = cleaner.clean(text)
     soup = BeautifulSoup(cleaned_text, features="html.parser")
-    
+
     # Treat HTML to create a new document
     new_doc = HTMLProducer()
     new_doc.traverse_node(soup)
-    
+
     return str(new_doc)
 
 class HTMLProducer():
@@ -125,7 +125,7 @@ class HTMLProducer():
         """
         self.stack.append('p')
         return "<p>"
-    
+
     def close_block(self):
         """
         If we are creating a paragraph, close it.

@@ -104,7 +104,7 @@ def edit_profile():
 
     if form.validate_on_submit():
         form.bio.process_data(bleach(form.data['bio']))
-        
+
         form.populate_obj(current_user)
         current_user.update()
 

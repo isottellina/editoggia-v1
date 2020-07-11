@@ -1,11 +1,11 @@
-# test_bleach.py --- 
-# 
+# test_bleach.py ---
+#
 # Filename: test_bleach.py
 # Author: Louise <louise>
 # Created: Sat Jul 11 02:09:09 2020 (+0200)
 # Last-Updated: Sat Jul 11 04:03:21 2020 (+0200)
 #           By: Louise <louise>
-# 
+#
 """
 Tests for the bleach function.
 Here we just use the normal TestCase.
@@ -22,7 +22,7 @@ class TestBleach(TestCase):
         result = bleach('<div><img src="lol.png" /><div>')
 
         self.assertEqual(result, '<p>&lt;div&gt;&lt;img src="lol.png" /&gt;&lt;div&gt;</p>')
-        
+
     def test_dont_modify_p_tag(self):
         """
         Tests that a p tag is not modified.
@@ -47,7 +47,7 @@ class TestBleach(TestCase):
         result = bleach("Eh, that's outside\n of a p tag!")
 
         self.assertEqual(result, "<p>Eh, that's outside<br/>\n of a p tag!</p>")
-        
+
     def test_create_p_tag_with_inline(self):
         """
         Same test but with inline tags.
@@ -55,7 +55,7 @@ class TestBleach(TestCase):
         result = bleach("<i>Eh</i>, that's outside\n of a p tag!")
 
         self.assertEqual(result, "<p><i>Eh</i>, that's outside<br/>\n of a p tag!</p>")
-        
+
     def test_create_multiple_p_tags(self):
         """
         Created multiple paragraphs with multiple lines.
@@ -71,7 +71,7 @@ class TestBleach(TestCase):
         result = bleach("<p>First paragraph</p>\nSecond paragraph")
 
         self.assertEqual(result, "<p>First paragraph</p><p>Second paragraph</p>")
-        
+
     def test_no_break_after(self):
         """
         Tests the strip after a string (also closing of paragraph tags)
