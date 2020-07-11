@@ -3,7 +3,7 @@
 # Filename: config.py
 # Author: Louise <louise>
 # Created: Sat May  2 01:05:35 2020 (+0200)
-# Last-Updated: Thu Jul  9 16:30:01 2020 (+0200)
+# Last-Updated: Sat Jul 11 19:37:34 2020 (+0200)
 #           By: Louise <louise>
 #
 import os
@@ -11,7 +11,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     # General config
-    SECRET_KEY = os.environ.get('SECRET_KEY') or \
+    SECRET_KEY = os.environ.get('EDITOGGIA_SECRET_KEY') or \
         'awa3&#-0xm3-g7h*rvw(=@h7@%9xd1vuo&1=&q4kja8hbvg&=j'
 
     # SQLAlchemy config
@@ -43,9 +43,19 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///:memory:'
 
+class ProductionConfig(Config):
+    POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
+    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PORT', '5432')
+    POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+    POSTGRES_USER = os.environ.get('POSTGRES_USER', 'postgres')
+    POSTGRES_DB = os.environ.get('POSTGRES_DB', 'editoggia')
+    
+    SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
+    'production': ProductionConfig,
 
     'default': DevelopmentConfig
 }
