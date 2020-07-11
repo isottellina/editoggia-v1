@@ -3,7 +3,7 @@
 # Filename: bleach.py
 # Author: Louise <louise>
 # Created: Tue Jul  7 21:14:43 2020 (+0200)
-# Last-Updated: Sat Jul 11 01:48:25 2020 (+0200)
+# Last-Updated: Sat Jul 11 03:29:40 2020 (+0200)
 #           By: Louise <louise>
 #
 import re
@@ -57,6 +57,8 @@ class HTMLProducer():
     """
     The object that produces HTML, used by the Bleacher.
     It uses internal state, so it's a separate object.
+
+    I should get a medal for this my brain melted quite a few times.
     """
     # Block-level tags. If something is outside this it will be put
     # in a <p> tag.
@@ -83,10 +85,12 @@ class HTMLProducer():
     NO_BREAK_TAGS = ["blockquote", "br", "dl", "hr", "ol",
                      "p", "pre", "code", "ul"]
 
+    BS4_FORMATTER = "html"
+
     SINGLE_NEWLINE_RE = re.compile(r'\n')
     MULTIPLE_NEWLINES_RE = re.compile(r'\n+\s*\n+')
     TAGS_TOGETHER_RE = re.compile(r'><')
-    
+
     def __init__(self):
         # The stack of tags
         self.stack = []
@@ -121,6 +125,13 @@ class HTMLProducer():
         self.stack.append('p')
         self.out_html += "<p>"
 
+    def open_p_str(self):
+        """
+        Same as open_p, but returns a string.
+        """
+        self.stack.append('p')
+        return "<p>"
+    
     def close_block(self):
         """
         If we are creating a paragraph, close it.
@@ -144,16 +155,10 @@ class HTMLProducer():
             if item == tag_name:
                 return
 
-    def open_p_str(self):
-        """
-        Same as open_p, but returns a string.
-        """
-        self.stack.append('p')
-        return "<p>"
-
     def close_block_str(self):
         """
-        Same as close_block, but returns a string.
+        Closes a block, not in internal, but in
+        another string.
         """
         out = ""
         for item in reversed(self.stack):
@@ -162,7 +167,7 @@ class HTMLProducer():
 
             if item in self.BLOCK_LEVEL_TAGS:
                 return out
-    
+
     def in_block(self):
         """
         Are we currently in a block?
@@ -191,16 +196,16 @@ class HTMLProducer():
                 self.close_block()
                 self.add_string(str(element))
             elif element.name not in self.BLOCK_LEVEL_TAGS and not self.in_block():
-                self.add_string("<p>" + str(element) + "</p>")
+                self.add_string("<p>" + element.decode(formatter=self.BS4_FORMATTER) + "</p>")
             else:
-                self.add_string(str(element))
+                self.add_string(element.decode(formatter=self.BS4_FORMATTER))
 
             return
 
         # If it's a string just add it (and open a paragraph if we need to)
         if type(element) == NavigableString:
-            text = element.string
-            
+            text = element.output_ready(formatter=self.BS4_FORMATTER)
+
             # If the previous tag is a NO_BREAK_TAG, strip
             if element.previous_sibling and element.previous_sibling.name in self.NO_BREAK_TAGS:
                 text = text.lstrip()
@@ -217,16 +222,16 @@ class HTMLProducer():
                 lambda _: self.close_block_str() + self.open_p_str(),
                 text
             )
-                
+
             # We replace a newline with a break tag.
             text = self.SINGLE_NEWLINE_RE.sub('<br/>\n', text)
 
             # After these substitutions, we insert newlines between the tags.
             text = self.TAGS_TOGETHER_RE.sub('>\n<', text)
-            
+
             self.add_string(text)
             return
-        
+
         # Some tags we descend into. This now must be a tag.
         if element.name not in self.IGNORE_TAGS:
             # If it's an inline tag and we're not in a block, create a tag.
@@ -239,17 +244,6 @@ class HTMLProducer():
             self.traverse_node(child)
 
         self.close_until(element.name)
-
-    def process_html(self, html):
-        """
-        Wraps the traverse_node function to ensure that
-        all tags are closed at the end.
-        """
-        self.traverse_node(html)
-
-        for element in reversed(self.stack):
-            self.close_tag(element)
-        self.stack = []
 
     def __str__(self):
         return self.out_html
