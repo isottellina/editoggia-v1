@@ -22,10 +22,10 @@ arrow = "*"
 bleach = "*"
 bs4 = "*"
 psycopg2 = "*"
+faker = "*"
 
 [dev-packages]
 pytest = "*"
 pylint = "*"
 coverage = "*"
-faker = "*"
 flask-testing = "*"
