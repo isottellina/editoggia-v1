@@ -35,6 +35,12 @@
 		  {{ _("Chapter") }} {{ chapter.nb }}
 		{% endif %}
 	      </h4>
+	      {% if chapter.summary %}
+		<hr />
+		<div class="text-center font-italic">{{ _("Summary") }}</div>
+		<div id="summary" class="text-justify">{{ chapter.summary }}</div>
+		<hr />
+	      {% endif %}
 	    {% endif %}
 	    <div id="story-content" class="text-justify">{{ chapter.content }}</div>
 	  </div>
