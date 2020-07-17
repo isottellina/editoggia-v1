@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Mon May  4 01:45:09 2020 (+0200)
-# Last-Updated: Sat Jul 11 20:52:05 2020 (+0200)
+# Last-Updated: Fri Jul 17 03:57:52 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -85,6 +85,7 @@ class User(CRUDMixin, UserMixin, db.Model):
     )
     comments = db.relationship('Comment', back_populates='author')
     history = db.relationship('HistoryView', order_by='desc(HistoryView.date)')
+    shelves = db.relationship('Shelf', back_populates='user')
 
     # Tracking info
     last_active_at = db.Column(db.DateTime())
@@ -198,3 +199,4 @@ class AnonymousUser(AnonymousUserMixin):
 lm.anonymous_user = AnonymousUser
 
 from editoggia.models.story import Story
+from editoggia.models.shelf import Shelf

@@ -3,7 +3,7 @@
 # Filename: models.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:25:31 2020 (+0200)
-# Last-Updated: Sat Jul 11 20:52:21 2020 (+0200)
+# Last-Updated: Fri Jul 17 03:57:24 2020 (+0200)
 #           By: Louise <louise>
 #
 """
@@ -52,6 +52,11 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     user_likes = db.relationship(
         'User', secondary='user_likes',
         back_populates='likes'
+    )
+
+    shelves = db.relationship(
+        'Shelf', secondary='shelves_stories',
+        back_populates='stories'
     )
 
     @classmethod
@@ -148,3 +153,4 @@ from editoggia.models.user import User
 from editoggia.models.fandom import Fandom
 from editoggia.models.comment import Comment
 from editoggia.models.tag import Tag
+from editoggia.models.shelf import Shelf
