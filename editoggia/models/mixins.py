@@ -3,7 +3,7 @@
 # Filename: mixins.py
 # Author: Louise <louise>
 # Created: Tue May 19 18:31:47 2020 (+0200)
-# Last-Updated: Sun Jul 12 00:23:36 2020 (+0200)
+# Last-Updated: Fri Jul 17 17:00:05 2020 (+0200)
 #           By: Louise <louise>
 #
 from datetime import datetime
@@ -116,7 +116,7 @@ class NameMixin(object):
         return name.replace('*a*', '&') \
                    .replace('*s*', '/')
 
-class ModeratedMixin(NameMixin):
+class ModeratedMixin(CRUDMixin, NameMixin):
     """
     A mixin for moderated objects, such as fandoms or tags.
     It allows for objects to be gotten or created, and set
