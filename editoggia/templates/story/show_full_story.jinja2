@@ -1,0 +1,69 @@
+{% from 'components/field.jinja2' import render_field %}
+{% from 'components/comment_card.jinja2' import render_comment_card %}
+{% extends 'base.jinja2' %}
+
+{% block title %}
+    {{ story.title|e }} — Full Story
+{% endblock %}
+
+{% block meta %}
+  <meta name="author" content="{{ story.author }}" />
+  <meta name="description" content="{{ story.summary }}" />
+  <meta name="keywords" content="{{ story.keywords() }}" />
+{% endblock %}
+
+{% block content %}
+  <section class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+	<div class="row mb-3">
+	  <div class="col">
+	    <h2 class="mx-5 text-center"> {{ story.title }}</h2>
+	    <a href="{{ url_for('user.profile', username=story.author.username) }}">
+	      <h4 class="text-center"> {{ story.author }} </h4>
+	    </a>
+	    <hr />
+	    {% for chapter in story.chapters %}
+	      <h4 class="text-center">
+		{% if chapter.title %}
+		  {{ _("Chapter") }} {{ chapter.nb }} — {{ chapter.title|e }}
+		{% else %}
+		  {{ _("Chapter") }} {{ chapter.nb }}
+		{% endif %}
+	      </h4>
+	      {% if chapter.summary %}
+		<hr />
+		<div class="text-center font-italic">{{ _("Summary") }}</div>
+		<div id="summary" class="text-justify">{{ chapter.summary }}</div>
+		<hr />
+	      {% endif %}
+	      <div id="story-content" class="text-justify">{{ chapter.content }}</div>
+
+	      {% if chapter.nb != story.chapters|length %}
+		<hr />
+	      {% endif %}
+	    {% endfor %}
+	  </div>
+	</div>
+
+	{# Chapter navigation #}
+	{% if story.chapters|length > 1 %}
+	  <div class="row">
+	    <div class="col text-center">
+	      <a href="{{ url_for('story.story_index', story_id=story.id) }}">
+		{{ _("Chapter index") }}
+	      </a>
+	    </div>
+	  </div>
+	{% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block javascript %}
+  {{ super() }}
+  {% assets 'js_story' %}
+  <script src="{{ ASSET_URL }}"></script>
+{% endassets %}
+{% endblock %}

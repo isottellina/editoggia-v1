@@ -1,8 +1,13 @@
 {% macro render_story_card(story) %}
   <div class="card mb-3">
     <div class="card-body story-card">
-      <h5 class="card-title">
-	<a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author|e }}</a></small>
+      <h5 class="card-title row">
+	<div class="col-lg-10">
+	  <a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author|e }}</a></small>
+	</div>
+	<div class="col-lg-2 text-right">
+	  <small>{{ arrow.get(story.updated_on).humanize() }}</small>
+	</div>
       </h5>
 
       <div class="card-subtitle mb-2">
@@ -41,9 +46,6 @@
 	    {{ _("Hits:") }} {{ story.stats.hits }}
 	  </div>
 	</div>
-      </div>
-      <div class="story-card-date">
-	{{ arrow.get(story.updated_on).humanize() }}
       </div>
     </div>
   </div>

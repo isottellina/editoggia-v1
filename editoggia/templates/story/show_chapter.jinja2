@@ -63,6 +63,12 @@
 	      </a>
 	    </div>
 	    <div class="col text-center">
+	      <a href="{{ url_for('story.show_full_story', story_id=story.id) }}">
+		<i class="fas fa-book"></i>
+		{{ _("Full story") }}
+	      </a>
+	    </div>
+	    <div class="col text-center">
 	      {% if chapter.nb != story.chapters|length %}
 		<a href="{{ url_for('story.show_chapter', story_id=story.id, chapter_id=story.chapters[chapter.nb].id) }}">
 		  {{ _("Next chapter") }}

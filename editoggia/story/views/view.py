@@ -3,7 +3,7 @@
 # Filename: views.py
 # Author: Louise <louise>
 # Created: Thu May 14 18:26:12 2020 (+0200)
-# Last-Updated: Wed Jul  8 02:23:09 2020 (+0200)
+# Last-Updated: Wed Feb 10 14:09:45 2021 (+0100)
 #           By: Louise <louise>
 #
 """
@@ -75,6 +75,17 @@ def show_story(story_id):
         chapter=story.chapters[0]
     )
 
+@story.route('/<int:story_id>/full')
+def show_full_story(story_id):
+    """
+    Show a full story.
+    """
+    story = Story.get_by_id_or_404(story_id)
+
+    current_user.add_to_history(story)
+    return render_template('story/show_full_story.jinja2',
+                           story=story)
+
 @story.route('/<int:story_id>/chapter/<chapter_id>')
 def show_chapter(story_id, chapter_id):
     """
@@ -87,7 +98,6 @@ def show_chapter(story_id, chapter_id):
     comment_form = CommentForm()
 
     current_user.add_to_history(story, chapter.nb)
-
     return render_template('story/show_chapter.jinja2',
                            like_form=like_form,
                            comment_form=comment_form,

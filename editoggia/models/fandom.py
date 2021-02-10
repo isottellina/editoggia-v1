@@ -3,7 +3,7 @@
 # Filename: fandom.py
 # Author: Louise <louise>
 # Created: Sat May 30 15:14:50 2020 (+0200)
-# Last-Updated: Wed Jul  8 17:53:46 2020 (+0200)
+# Last-Updated: Wed Jul 22 01:50:29 2020 (+0200)
 #           By: Louise <louise>
 #
 from editoggia.database import db
@@ -21,7 +21,7 @@ class FandomCategory(db.Model, CRUDMixin, NameMixin):
     def __repr__(self):
         return "<FandomCategory '{}'>".format(self.name)
 
-class Fandom(db.Model, CRUDMixin, ModeratedMixin):
+class Fandom(db.Model, ModeratedMixin):
     """
     Represent a fandom.
     """

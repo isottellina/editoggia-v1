@@ -3,14 +3,14 @@
 # Filename: tag.py
 # Author: Louise <louise>
 # Created: Sun Jun  7 12:32:42 2020 (+0200)
-# Last-Updated: Tue Jul  7 13:59:14 2020 (+0200)
+# Last-Updated: Wed Jul 22 01:50:46 2020 (+0200)
 #           By: Louise <louise>
 #
 from flask_babelex import gettext
 from editoggia.database import db
 from editoggia.models.mixins import CRUDMixin, ModeratedMixin
 
-class Tag(db.Model, CRUDMixin, ModeratedMixin):
+class Tag(db.Model, ModeratedMixin):
     """
     A tag. I really don't know how else to describe it.
     """
