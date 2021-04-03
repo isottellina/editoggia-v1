@@ -8,7 +8,7 @@
       <div class="col-lg-8">
 	<div class="row mb-3">
 	  <div class="col">
-	    <h2 class="mx-5 text-center"> {{ story.name }}</h2>
+	    <h2 class="mx-5 text-center"> {{ story.title }}</h2>
 	    <a href="{{ url_for('user.profile', username=story.author.username) }}">
 	      <h4 class="text-center"> {{ story.author }} </h4>
 	    </a>
