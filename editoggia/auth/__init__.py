@@ -13,7 +13,8 @@ from flask_login import current_user
 
 from editoggia.database import db
 
-auth = Blueprint('auth', __name__)
+auth = Blueprint("auth", __name__)
+
 
 @auth.before_app_request
 def register_user_request():
@@ -23,8 +24,8 @@ def register_user_request():
     """
     if not current_user.is_anonymous:
         current_user.update(
-            last_active_at=datetime.utcnow(),
-            last_active_ip=request.remote_addr
+            last_active_at=datetime.utcnow(), last_active_ip=request.remote_addr
         )
+
 
 import editoggia.auth.views

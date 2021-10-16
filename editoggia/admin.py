@@ -14,10 +14,8 @@ from flask_login import current_user
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin
 
-admin = Admin(
-    name='Editoggia',
-    template_mode='bootstrap3'
-)
+admin = Admin(name="Editoggia", template_mode="bootstrap3")
+
 
 class EditoggiaModelView(ModelView):
     """
@@ -25,6 +23,7 @@ class EditoggiaModelView(ModelView):
     goal of this class is to only allow logged-in users who have
     the permission to access it.
     """
+
     def is_accessible(self):
         """
         TODO: Return a real value here, admins should be able to

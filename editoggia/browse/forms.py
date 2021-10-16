@@ -13,6 +13,7 @@ from wtforms.fields import SelectField
 
 from editoggia.forms.fields import Select2MultipleAutocompleteField
 
+
 class SearchForm(Form):
     """
     A form for searching. We inherit from WTForm and not Flask-WTF
@@ -20,6 +21,7 @@ class SearchForm(Form):
     is GET, it would prevent bookmarking and sharing of links.
     It would also clog up the URL for nothing.
     """
+
     order_by = SelectField(
         gettext("Order by"),
         choices=[
@@ -27,9 +29,9 @@ class SearchForm(Form):
             ("author", gettext("Author")),
             ("date_updated", gettext("Date updated")),
             ("hits", gettext("Hits")),
-            ("likes", gettext("Likes"))
+            ("likes", gettext("Likes")),
         ],
-        default="date_updated"
+        default="date_updated",
     )
 
     rating = SelectField(
@@ -39,13 +41,18 @@ class SearchForm(Form):
             ("General audiences", gettext("General audiences")),
             ("Teen and up audiences", gettext("Teen and up audiences")),
             ("Mature", gettext("Mature")),
-            ("Explicit", gettext("Explicit"))
+            ("Explicit", gettext("Explicit")),
         ],
         # We have to coerce the value to get the None value right
-        coerce=lambda x: None if x == "None" else x
+        coerce=lambda x: None if x == "None" else x,
     )
 
-    included_fandom = Select2MultipleAutocompleteField(gettext("Included fandom"), model_name='Fandom')
-    included_tags = Select2MultipleAutocompleteField(gettext("Included tags"), model_name='Tag')
-    excluded_tags = Select2MultipleAutocompleteField(gettext("Excluded tags"), model_name='Tag')
-
+    included_fandom = Select2MultipleAutocompleteField(
+        gettext("Included fandom"), model_name="Fandom"
+    )
+    included_tags = Select2MultipleAutocompleteField(
+        gettext("Included tags"), model_name="Tag"
+    )
+    excluded_tags = Select2MultipleAutocompleteField(
+        gettext("Excluded tags"), model_name="Tag"
+    )

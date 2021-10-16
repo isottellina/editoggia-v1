@@ -14,19 +14,18 @@ from wtforms.validators import DataRequired
 
 from editoggia.forms.fields import Select2Field
 
+
 class FandomForm(FlaskForm):
     """
     A form representing only one fandom in moderation.
     """
-    id = HiddenField("fandom_id", validators=[
-        DataRequired()
-    ])
 
-    name = StringField(gettext("Fandom name"), validators=[
-        DataRequired(
-            message=gettext("Fandom name can't be empty.")
-        )
-    ])
+    id = HiddenField("fandom_id", validators=[DataRequired()])
+
+    name = StringField(
+        gettext("Fandom name"),
+        validators=[DataRequired(message=gettext("Fandom name can't be empty."))],
+    )
 
     category = Select2Field(
         gettext("Fandom category"),
@@ -37,32 +36,35 @@ class FandomForm(FlaskForm):
             ("Movies", gettext("Movies")),
             ("TV Shows", gettext("TV Shows")),
             ("Video games", gettext("Video games")),
-            ("Other", gettext("Other"))
-        ]
+            ("Other", gettext("Other")),
+        ],
     )
+
 
 class FandomsForm(FlaskForm):
     """
     A form representing several fandoms.
     """
+
     fandoms = FieldList(FormField(FandomForm))
+
 
 class TagForm(FlaskForm):
     """
     A form representing only one tag in moderation.
     """
-    id = HiddenField("tag_id", validators=[
-        DataRequired()
-    ])
 
-    name = StringField(gettext("Tag name"), validators=[
-        DataRequired(
-            message=gettext("Tag name can't be empty.")
-        )
-    ])
+    id = HiddenField("tag_id", validators=[DataRequired()])
+
+    name = StringField(
+        gettext("Tag name"),
+        validators=[DataRequired(message=gettext("Tag name can't be empty."))],
+    )
+
 
 class TagsForm(FlaskForm):
     """
     A form representing several tags.
     """
+
     tags = FieldList(FormField(TagForm))

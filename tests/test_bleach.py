@@ -14,6 +14,7 @@ from unittest import TestCase
 
 from editoggia.bleacher import bleach
 
+
 class TestBleach(TestCase):
     def test_cant_have_forbidden_tags(self):
         """
@@ -21,7 +22,9 @@ class TestBleach(TestCase):
         """
         result = bleach('<div><img src="lol.png" /><div>')
 
-        self.assertEqual(result, '<p>&lt;div&gt;&lt;img src="lol.png" /&gt;&lt;div&gt;</p>')
+        self.assertEqual(
+            result, '<p>&lt;div&gt;&lt;img src="lol.png" /&gt;&lt;div&gt;</p>'
+        )
 
     def test_dont_modify_p_tag(self):
         """

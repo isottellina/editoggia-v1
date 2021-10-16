@@ -13,50 +13,50 @@ from flask_babelex import gettext
 from editoggia.database import db
 from editoggia.models.mixins import PKMixin, CRUDMixin, DatesMixin
 
+
 class Story(db.Model, CRUDMixin, DatesMixin):
     """
     A story, written on the site.
     """
+
     __tablename__ = "story"
 
     title = db.Column(db.String(255), nullable=False, index=True)
     summary = db.Column(db.String(1000), nullable=False, default="")
     total_chapters = db.Column(db.Integer())
 
-    rating = db.Column(db.Enum(
-        gettext("General audiences"),
-        gettext("Teen and up audiences"),
-        gettext("Mature"),
-        gettext("Explicit"),
-        name='enum_rating'
-    ))
-
-    fandom = db.relationship('Fandom',
-                             secondary='fandom_stories',
-                             back_populates='stories')
-
-    stats_id = db.Column(db.Integer(), db.ForeignKey('storystats.id'),
-                         nullable=False)
-    stats = db.relationship('StoryStats', back_populates='story')
-
-    author_id = db.Column(db.Integer(), db.ForeignKey('user.id'),
-                          nullable=False)
-    author = db.relationship('User', back_populates='stories')
-
-    chapters = db.relationship('Chapter', back_populates='story',
-                               cascade='all, delete, delete-orphan',
-                               order_by='Chapter.nb')
-    tags = db.relationship('Tag', secondary='story_tags',
-                           back_populates='stories')
-
-    user_likes = db.relationship(
-        'User', secondary='user_likes',
-        back_populates='likes'
+    rating = db.Column(
+        db.Enum(
+            gettext("General audiences"),
+            gettext("Teen and up audiences"),
+            gettext("Mature"),
+            gettext("Explicit"),
+            name="enum_rating",
+        )
     )
 
+    fandom = db.relationship(
+        "Fandom", secondary="fandom_stories", back_populates="stories"
+    )
+
+    stats_id = db.Column(db.Integer(), db.ForeignKey("storystats.id"), nullable=False)
+    stats = db.relationship("StoryStats", back_populates="story")
+
+    author_id = db.Column(db.Integer(), db.ForeignKey("user.id"), nullable=False)
+    author = db.relationship("User", back_populates="stories")
+
+    chapters = db.relationship(
+        "Chapter",
+        back_populates="story",
+        cascade="all, delete, delete-orphan",
+        order_by="Chapter.nb",
+    )
+    tags = db.relationship("Tag", secondary="story_tags", back_populates="stories")
+
+    user_likes = db.relationship("User", secondary="user_likes", back_populates="likes")
+
     shelves = db.relationship(
-        'Shelf', secondary='shelves_stories',
-        back_populates='stories'
+        "Shelf", secondary="shelves_stories", back_populates="stories"
     )
 
     @classmethod
@@ -66,10 +66,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         the Story and the StoryStats object.
         """
         stats = StoryStats()
-        story = Story(
-            stats=stats,
-            **kwargs
-        )
+        story = Story(stats=stats, **kwargs)
 
         return story.save()
 
@@ -89,9 +86,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         """
         Returns fandoms and tags as a string, comma-separated.
         """
-        return ", ".join(
-            map(lambda obj: obj.name, self.fandom + self.tags)
-        )
+        return ", ".join(map(lambda obj: obj.name, self.fandom + self.tags))
 
     def __setattr__(self, attr, value):
         """
@@ -113,21 +108,24 @@ class Story(db.Model, CRUDMixin, DatesMixin):
     def __repr__(self):
         return "<Story '{}', by '{}'>".format(self.title, self.author)
 
+
 class StoryStats(db.Model, PKMixin):
     __tablename__ = "storystats"
 
     hits = db.Column(db.Integer(), nullable=False, default=0)
-    story = db.relationship('Story', back_populates='stats')
+    story = db.relationship("Story", back_populates="stats")
+
 
 class Chapter(db.Model, CRUDMixin, DatesMixin):
     """
     A chapter. Simple as that.
     """
+
     __tablename__ = "chapter"
     __table_args__ = (
         # There can only be one chapter with a certain number by
         # story ID.
-        db.UniqueConstraint('nb', 'story_id', name="unique_chapter_nb"),
+        db.UniqueConstraint("nb", "story_id", name="unique_chapter_nb"),
     )
 
     nb = db.Column(db.Integer(), nullable=False, index=True)
@@ -136,18 +134,16 @@ class Chapter(db.Model, CRUDMixin, DatesMixin):
     summary = db.Column(db.Text())
     content = db.Column(db.Text(), nullable=False)
 
-    comments = db.relationship('Comment', back_populates='chapter')
+    comments = db.relationship("Comment", back_populates="chapter")
 
-    story_id = db.Column(db.Integer(), db.ForeignKey('story.id'),
-                         nullable=False)
-    story = db.relationship('Story', back_populates='chapters')
+    story_id = db.Column(db.Integer(), db.ForeignKey("story.id"), nullable=False)
+    story = db.relationship("Story", back_populates="chapters")
 
     def __repr__(self):
         return "<Chapter {} of story '{}', by '{}'>".format(
-            self.nb,
-            self.story.title,
-            self.story.author
+            self.nb, self.story.title, self.story.author
         )
+
 
 from editoggia.models.user import User
 from editoggia.models.fandom import Fandom

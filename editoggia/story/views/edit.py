@@ -18,7 +18,8 @@ from editoggia.bleacher import bleach
 from editoggia.story import story
 from editoggia.story.forms import EditStoryForm, ChapterForm
 
-@story.route('/edit/<int:story_id>', methods=["GET", "POST"])
+
+@story.route("/edit/<int:story_id>", methods=["GET", "POST"])
 @login_required
 def edit_story(story_id):
     """
@@ -34,18 +35,19 @@ def edit_story(story_id):
 
     if form.validate_on_submit():
         # Bleach summary
-        form.summary.process_data(bleach(form.data['summary']))
+        form.summary.process_data(bleach(form.data["summary"]))
 
         # We update the story
         form.populate_obj(story)
         story.update()
 
-        return redirect(url_for('home.index'))
+        return redirect(url_for("home.index"))
 
     form.populate_select2(story.fandom, story.tags)
-    return render_template('story/edit_story.jinja2', form=form, story=story)
+    return render_template("story/edit_story.jinja2", form=form, story=story)
 
-@story.route('/edit/<int:story_id>/chapter/<int:chapter_id>', methods=["GET", "POST"])
+
+@story.route("/edit/<int:story_id>/chapter/<int:chapter_id>", methods=["GET", "POST"])
 @login_required
 def edit_chapter(story_id, chapter_id):
     """
@@ -60,12 +62,12 @@ def edit_chapter(story_id, chapter_id):
     form = ChapterForm(obj=chapter, chapter=chapter, story=chapter.story)
 
     if form.validate_on_submit():
-        form.content.process_data(bleach(form.data['content']))
-        form.summary.process_data(bleach(form.data['summary']))
+        form.content.process_data(bleach(form.data["content"]))
+        form.summary.process_data(bleach(form.data["summary"]))
 
         form.populate_obj(chapter)
         chapter.update()
 
-        return redirect(url_for('story.edit_story', story_id=story_id))
+        return redirect(url_for("story.edit_story", story_id=story_id))
 
-    return render_template('story/edit_chapter.jinja2', form=form, chapter=chapter)
+    return render_template("story/edit_chapter.jinja2", form=form, chapter=chapter)

@@ -8,6 +8,6 @@
 #
 from flask import Blueprint
 
-ajax = Blueprint('ajax', __name__)
+ajax = Blueprint("ajax", __name__)
 
 import editoggia.ajax.autocomplete

@@ -15,6 +15,7 @@ from editoggia.models import Fandom, FandomCategory, Tag
 from editoggia.moderation.forms import FandomsForm, TagsForm
 from editoggia.moderation import moderation
 
+
 @moderation.before_request
 def check_permission():
     """
@@ -25,34 +26,32 @@ def check_permission():
     if not current_user.has_permission("mod.ACCESS_TAG_INTERFACE"):
         abort(403)
 
-@moderation.route('/')
-def index():
-    return render_template('moderation/index.jinja2')
 
-@moderation.route('/fandoms', methods=["GET", "POST"])
+@moderation.route("/")
+def index():
+    return render_template("moderation/index.jinja2")
+
+
+@moderation.route("/fandoms", methods=["GET", "POST"])
 def fandoms():
     """
     The interface to edit fandoms who are waiting for moderations.
     """
     # Get all fandoms who need moderation
-    waiting_fandoms = db.session.query(Fandom) \
-                                .filter(Fandom.waiting_mod == True) \
-                                .all()
+    waiting_fandoms = db.session.query(Fandom).filter(Fandom.waiting_mod == True).all()
 
     # Create the form and validate it
     form = FandomsForm()
     if form.validate_on_submit():
         # Now we just have to set the data on all fandoms
         for fandom_form in form.fandoms.entries:
-            fandom = Fandom.get_by_id_or_404(fandom_form.data['id'])
-            category = FandomCategory.get_by_name_or_404(fandom_form.data['category'])
+            fandom = Fandom.get_by_id_or_404(fandom_form.data["id"])
+            category = FandomCategory.get_by_name_or_404(fandom_form.data["category"])
 
             fandom.update(
-                name=fandom_form.data['name'],
-                category=category,
-                waiting_mod=False
+                name=fandom_form.data["name"], category=category, waiting_mod=False
             )
-        return redirect(url_for('moderation.index'))
+        return redirect(url_for("moderation.index"))
 
     # If we only have GET, fill the forms.
 
@@ -61,28 +60,24 @@ def fandoms():
 
     return render_template("moderation/fandoms.jinja2", form=form)
 
-@moderation.route('/tags', methods=["GET", "POST"])
+
+@moderation.route("/tags", methods=["GET", "POST"])
 def tags():
     """
     The interface to edit tags who are waiting for moderations.
     """
     # Get all fandoms who need moderation
-    waiting_tags = db.session.query(Tag) \
-                                .filter(Tag.waiting_mod == True) \
-                                .all()
+    waiting_tags = db.session.query(Tag).filter(Tag.waiting_mod == True).all()
 
     # Create the form and validate it
     form = TagsForm()
     if form.validate_on_submit():
         # Now we just have to set the data on all tags
         for tag_form in form.tags.entries:
-            tag = Tag.get_by_id_or_404(tag_form.data['id'])
+            tag = Tag.get_by_id_or_404(tag_form.data["id"])
 
-            tag.update(
-                name=tag_form.data['name'],
-                waiting_mod=False
-            )
-        return redirect(url_for('moderation.index'))
+            tag.update(name=tag_form.data["name"], waiting_mod=False)
+        return redirect(url_for("moderation.index"))
 
     # If we only have GET, fill the forms.
     for tag in waiting_tags:

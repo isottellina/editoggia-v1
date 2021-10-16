@@ -15,41 +15,57 @@ from editoggia.database import db
 from editoggia.extensions import bcrypt, lm
 from editoggia.models.mixins import CRUDMixin, NameMixin
 
+
 class RolesUsers(db.Model):
-    __tablename__ = 'roles_users'
+    __tablename__ = "roles_users"
 
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
+    user_id = db.Column(
+        "user_id", db.Integer(), db.ForeignKey("user.id"), nullable=False
+    )
+    role_id = db.Column(
+        "role_id", db.Integer(), db.ForeignKey("role.id"), nullable=False
+    )
+
 
 class Role(db.Model, CRUDMixin, NameMixin):
-    __tablename__ = 'role'
+    __tablename__ = "role"
 
     description = db.Column(db.String(255), nullable=False)
 
-    users = db.relationship('User', secondary='roles_users', lazy='dynamic',
-                            back_populates='roles')
-    permissions = db.relationship('Permission', secondary='permissions_roles',
-                                  back_populates='roles')
+    users = db.relationship(
+        "User", secondary="roles_users", lazy="dynamic", back_populates="roles"
+    )
+    permissions = db.relationship(
+        "Permission", secondary="permissions_roles", back_populates="roles"
+    )
+
 
 class PermissionsRoles(db.Model):
-    __tablename__ = 'permissions_roles'
+    __tablename__ = "permissions_roles"
 
     id = db.Column(db.Integer(), primary_key=True)
-    role_id = db.Column('role_id', db.Integer(), db.ForeignKey('role.id'), nullable=False)
-    perm_id = db.Column('perm_id', db.Integer(), db.ForeignKey('permission.id'), nullable=False)
+    role_id = db.Column(
+        "role_id", db.Integer(), db.ForeignKey("role.id"), nullable=False
+    )
+    perm_id = db.Column(
+        "perm_id", db.Integer(), db.ForeignKey("permission.id"), nullable=False
+    )
+
 
 class Permission(db.Model, CRUDMixin):
-    __tablename__ = 'permission'
+    __tablename__ = "permission"
 
     name = db.Column(db.String(120), unique=True, nullable=False)
     description = db.Column(db.String(255), nullable=False)
 
-    roles = db.relationship('Role', secondary='permissions_roles',
-                            back_populates='permissions')
+    roles = db.relationship(
+        "Role", secondary="permissions_roles", back_populates="permissions"
+    )
+
 
 class User(CRUDMixin, UserMixin, db.Model):
-    __tablename__ = 'user'
+    __tablename__ = "user"
 
     # Basic info
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -60,32 +76,27 @@ class User(CRUDMixin, UserMixin, db.Model):
     name = db.Column(db.String(128))
     location = db.Column(db.String(128))
     birthdate = db.Column(db.Date())
-    gender = db.Column(db.Enum(
-        gettext("Woman"),
-        gettext("Man"),
-        gettext("Other"),
-        name="gender_enum"
-    ))
+    gender = db.Column(
+        db.Enum(gettext("Woman"), gettext("Man"), gettext("Other"), name="gender_enum")
+    )
     bio = db.Column(db.String(500), nullable=False, default="")
 
     # More profile info
-    updated_on = db.Column(db.DateTime(),
-                           nullable=False,
-                           default=datetime.utcnow,
-                           onupdate=datetime.utcnow)
+    updated_on = db.Column(
+        db.DateTime(), nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow
+    )
 
     # Settings
     language = db.Column(db.String(10), nullable=False, default="")
 
     # Stories and such
-    stories = db.relationship('Story', back_populates='author')
+    stories = db.relationship("Story", back_populates="author")
     likes = db.relationship(
-        'Story', secondary='user_likes',
-        back_populates='user_likes'
+        "Story", secondary="user_likes", back_populates="user_likes"
     )
-    comments = db.relationship('Comment', back_populates='author')
-    history = db.relationship('HistoryView', order_by='desc(HistoryView.date)')
-    shelves = db.relationship('Shelf', back_populates='user')
+    comments = db.relationship("Comment", back_populates="author")
+    history = db.relationship("HistoryView", order_by="desc(HistoryView.date)")
+    shelves = db.relationship("Shelf", back_populates="user")
 
     # Tracking info
     last_active_at = db.Column(db.DateTime())
@@ -95,13 +106,10 @@ class User(CRUDMixin, UserMixin, db.Model):
     login_count = db.Column(db.Integer, default=0)
 
     active = db.Column(db.Boolean())
-    confirmed_at = db.Column(db.DateTime(),
-                             default=datetime.utcnow())
+    confirmed_at = db.Column(db.DateTime(), default=datetime.utcnow())
 
     roles = db.relationship(
-        'Role',
-        secondary='roles_users', lazy='dynamic',
-        back_populates='users'
+        "Role", secondary="roles_users", lazy="dynamic", back_populates="users"
     )
 
     def __init__(self, password, **kwargs):
@@ -112,10 +120,10 @@ class User(CRUDMixin, UserMixin, db.Model):
         return self.name if self.name else self.username
 
     def __repr__(self):
-        return '<User #%s:%r>' % (self.id, self.username)
+        return "<User #%s:%r>" % (self.id, self.username)
 
     def set_password(self, password):
-        hash_ = bcrypt.generate_password_hash(password, 10).decode('utf-8')
+        hash_ = bcrypt.generate_password_hash(password, 10).decode("utf-8")
         self.pw_hash = hash_
 
     def check_password(self, password):
@@ -138,10 +146,12 @@ class User(CRUDMixin, UserMixin, db.Model):
         """
         from editoggia.models import HistoryView
 
-        return db.session.query(HistoryView) \
-                             .filter(HistoryView.user_id == self.id) \
-                             .filter(HistoryView.story_id == story.id) \
-                             .first()
+        return (
+            db.session.query(HistoryView)
+            .filter(HistoryView.user_id == self.id)
+            .filter(HistoryView.story_id == story.id)
+            .first()
+        )
 
     def add_to_history(self, story, chapter_nb=1):
         """
@@ -154,25 +164,24 @@ class User(CRUDMixin, UserMixin, db.Model):
         existing = self.get_from_history(story)
 
         if existing:
-            existing.update(
-                date=datetime.utcnow(),
-                chapter_nb=chapter_nb
-            )
+            existing.update(date=datetime.utcnow(), chapter_nb=chapter_nb)
         else:
             # Add a hit to the story
             story.hit()
-            HistoryView.create(
-                user_id=self.id,
-                story=story,
-                chapter_nb=chapter_nb
-            )
+            HistoryView.create(user_id=self.id, story=story, chapter_nb=chapter_nb)
+
 
 class UserLikes(db.Model):
-    __tablename__ = 'user_likes'
+    __tablename__ = "user_likes"
 
     id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column('user_id', db.Integer(), db.ForeignKey('user.id'), nullable=False)
-    story_id = db.Column('story_id', db.Integer(), db.ForeignKey('story.id'), nullable=False)
+    user_id = db.Column(
+        "user_id", db.Integer(), db.ForeignKey("user.id"), nullable=False
+    )
+    story_id = db.Column(
+        "story_id", db.Integer(), db.ForeignKey("story.id"), nullable=False
+    )
+
 
 class AnonymousUser(AnonymousUserMixin):
     """
@@ -181,6 +190,7 @@ class AnonymousUser(AnonymousUserMixin):
     functions everywhere for the permission
     system, and the history.
     """
+
     def has_permission(self, permission):
         return False
 
@@ -195,6 +205,7 @@ class AnonymousUser(AnonymousUserMixin):
         Add a hit to the story, an anonymous user has no history.
         """
         story.hit()
+
 
 lm.anonymous_user = AnonymousUser
 

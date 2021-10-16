@@ -16,6 +16,7 @@ from editoggia.models import Story, Chapter
 
 from helpers import EditoggiaTestCase
 
+
 class TestStory(EditoggiaTestCase):
     """
     Test story views.
@@ -30,7 +31,7 @@ class TestStory(EditoggiaTestCase):
         Tests the index.
         """
         story = self.create_story()
-        rv = self.client.get('/story/')
+        rv = self.client.get("/story/")
 
         self.assert200(rv)
         self.assertIn(story.title.encode(), rv.data)
@@ -41,7 +42,7 @@ class TestStory(EditoggiaTestCase):
         without redirects.
         """
         story = self.create_story()
-        rv = self.client.get(f'/story/{story.id}')
+        rv = self.client.get(f"/story/{story.id}")
 
         # If we have a 200 code, that means no redirects
         # have occured.
@@ -56,7 +57,7 @@ class TestStory(EditoggiaTestCase):
         story = self.create_story()
         self.login()
 
-        rv = self.client.get(f'/story/{story.id}')
+        rv = self.client.get(f"/story/{story.id}")
 
         self.assert200(rv)
         self.assertIn(story.title.encode(), rv.data)
@@ -66,7 +67,7 @@ class TestStory(EditoggiaTestCase):
         """
         Should return 404.
         """
-        rv = self.client.get(f'/story/2')
+        rv = self.client.get(f"/story/2")
 
         self.assert404(rv)
 
@@ -76,9 +77,9 @@ class TestStory(EditoggiaTestCase):
         redirect.
         """
         story = self.create_story(2)
-        rv = self.client.get(f'/story/{story.id}')
+        rv = self.client.get(f"/story/{story.id}")
 
-        self.assertRedirects(rv, f'/story/{story.id}/chapter/{story.chapters[0].id}')
+        self.assertRedirects(rv, f"/story/{story.id}/chapter/{story.chapters[0].id}")
 
     def test_show_story_redirect_restore(self):
         """
@@ -90,16 +91,16 @@ class TestStory(EditoggiaTestCase):
         story = self.create_story(2)
         self.hit(story, 2)
 
-        rv = self.client.get(f'/story/{story.id}')
+        rv = self.client.get(f"/story/{story.id}")
 
-        self.assertRedirects(rv, f'/story/{story.id}/chapter/{story.chapters[1].id}')
+        self.assertRedirects(rv, f"/story/{story.id}/chapter/{story.chapters[1].id}")
 
     def test_show_chapter(self):
         """
         Tests that we can just show a chapter, without history.
         """
         story = self.create_story(2)
-        rv = self.client.get(f'/story/{story.id}/chapter/{story.chapters[0].id}')
+        rv = self.client.get(f"/story/{story.id}/chapter/{story.chapters[0].id}")
 
         self.assert200(rv)
         self.assertIn(story.chapters[0].title.encode(), rv.data)
@@ -109,7 +110,7 @@ class TestStory(EditoggiaTestCase):
         Tests that we can see the index of a particular story.
         """
         story = self.create_story(2)
-        rv = self.client.get(f'/story/{story.id}/index')
+        rv = self.client.get(f"/story/{story.id}/index")
 
         self.assert200(rv)
         self.assertIn(story.chapters[0].title.encode(), rv.data)
@@ -124,7 +125,7 @@ class TestStory(EditoggiaTestCase):
         Tests the GET route for post_story
         """
         self.login()
-        rv = self.client.get('/story/post')
+        rv = self.client.get("/story/post")
 
         self.assert200(rv)
 
@@ -135,19 +136,20 @@ class TestStory(EditoggiaTestCase):
         processed correctly.
         """
         self.login()
-        rv = self.client.post('/story/post', data={
-            'title': 'Story test',
-            'summary': 'Summary test',
-            'fandom': 'Original Work,Fandom1',
-            'tags': 'Tag1',
-            'total_chapters': '6',
-            'content': 'Content test.'
-        })
+        rv = self.client.post(
+            "/story/post",
+            data={
+                "title": "Story test",
+                "summary": "Summary test",
+                "fandom": "Original Work,Fandom1",
+                "tags": "Tag1",
+                "total_chapters": "6",
+                "content": "Content test.",
+            },
+        )
 
         self.assertStatus(rv, 302)
-        story = db.session.query(Story) \
-                          .filter(Story.title == 'Story test') \
-                          .first()
+        story = db.session.query(Story).filter(Story.title == "Story test").first()
         self.assertNotEqual(story, None)
         self.assertEqual(story.total_chapters, 6)
 
@@ -156,19 +158,20 @@ class TestStory(EditoggiaTestCase):
         Tests an unknown total_chapters value.
         """
         self.login()
-        rv = self.client.post('/story/post', data={
-            'title': 'Story test',
-            'summary': 'Summary test',
-            'fandom': 'Original Work',
-            'tags': '',
-            'total_chapters': '?',
-            'content': 'Content test.'
-        })
+        rv = self.client.post(
+            "/story/post",
+            data={
+                "title": "Story test",
+                "summary": "Summary test",
+                "fandom": "Original Work",
+                "tags": "",
+                "total_chapters": "?",
+                "content": "Content test.",
+            },
+        )
 
         self.assertStatus(rv, 302)
-        story = db.session.query(Story) \
-                          .filter(Story.title == 'Story test') \
-                          .first()
+        story = db.session.query(Story).filter(Story.title == "Story test").first()
         self.assertNotEqual(story, None)
         self.assertEqual(story.total_chapters, None)
 
@@ -179,19 +182,20 @@ class TestStory(EditoggiaTestCase):
         which indicates that the form has only been reshown to us.
         """
         self.login()
-        rv = self.client.post('/story/post', data={
-            'title': 'Story test',
-            'summary': 'Summary test',
-            'fandom': 'Original Work',
-            'tags': '',
-            'total_chapters': 'bad_value',
-            'content': 'Content test.'
-        })
+        rv = self.client.post(
+            "/story/post",
+            data={
+                "title": "Story test",
+                "summary": "Summary test",
+                "fandom": "Original Work",
+                "tags": "",
+                "total_chapters": "bad_value",
+                "content": "Content test.",
+            },
+        )
 
         self.assert200(rv)
-        story = db.session.query(Story) \
-                          .filter(Story.title == 'Story test') \
-                          .first()
+        story = db.session.query(Story).filter(Story.title == "Story test").first()
 
         # story wasn't created
         self.assertEqual(story, None)
@@ -203,7 +207,7 @@ class TestStory(EditoggiaTestCase):
         self.login()
         story = self.create_story()
 
-        rv = self.client.get(f'/story/post/{story.id}/chapter')
+        rv = self.client.get(f"/story/post/{story.id}/chapter")
 
         self.assert200(rv)
 
@@ -214,15 +218,18 @@ class TestStory(EditoggiaTestCase):
         self.login()
         story = self.create_story()
 
-        rv = self.client.post(f'/story/post/{story.id}/chapter', data={
-            'title': 'Second chapter',
-            'nb': 2,
-            'content': 'This is the content of the second chapter'
-        })
+        rv = self.client.post(
+            f"/story/post/{story.id}/chapter",
+            data={
+                "title": "Second chapter",
+                "nb": 2,
+                "content": "This is the content of the second chapter",
+            },
+        )
 
         self.assertStatus(rv, 302)
         self.assertEqual(len(story.chapters), 2)
-        self.assertEqual(story.chapters[1].title, 'Second chapter')
+        self.assertEqual(story.chapters[1].title, "Second chapter")
 
     def test_post_chapter_conflicting(self):
         """
@@ -231,11 +238,14 @@ class TestStory(EditoggiaTestCase):
         self.login()
         story = self.create_story()
 
-        rv = self.client.post(f'/story/post/{story.id}/chapter', data={
-            'title': 'Second chapter',
-            'nb': 1,
-            'content': 'This is the content of the second chapter'
-        })
+        rv = self.client.post(
+            f"/story/post/{story.id}/chapter",
+            data={
+                "title": "Second chapter",
+                "nb": 1,
+                "content": "This is the content of the second chapter",
+            },
+        )
 
         self.assert200(rv)
         self.assertEqual(len(story.chapters), 1)
@@ -253,7 +263,7 @@ class TestStory(EditoggiaTestCase):
         new_user, new_password = self.create_user()
         self.login(new_user.username, new_password)
 
-        rv = self.client.get(f'/story/edit/{story.id}')
+        rv = self.client.get(f"/story/edit/{story.id}")
         self.assert403(rv)
 
     def test_edit_story_get(self):
@@ -264,7 +274,7 @@ class TestStory(EditoggiaTestCase):
 
         self.login()
 
-        rv = self.client.get(f'/story/edit/{story.id}')
+        rv = self.client.get(f"/story/edit/{story.id}")
         self.assert200(rv)
 
     def test_edit_story_get_unknown_chapters(self):
@@ -277,7 +287,7 @@ class TestStory(EditoggiaTestCase):
 
         self.login()
 
-        rv = self.client.get(f'/story/edit/{story.id}')
+        rv = self.client.get(f"/story/edit/{story.id}")
         self.assert200(rv)
         self.assertIn(b'value="?"', rv.data)
 
@@ -288,17 +298,20 @@ class TestStory(EditoggiaTestCase):
         story = self.create_story()
         self.login()
 
-        rv = self.client.post(f'/story/edit/{story.id}', data={
-            'title': 'New title',
-            'rating': story.rating,
-            'summary': story.summary,
-            'total_chapters': story.total_chapters,
-            'fandom': ['Original Work'],
-            'tag': ['Tag 1']
-        })
+        rv = self.client.post(
+            f"/story/edit/{story.id}",
+            data={
+                "title": "New title",
+                "rating": story.rating,
+                "summary": story.summary,
+                "total_chapters": story.total_chapters,
+                "fandom": ["Original Work"],
+                "tag": ["Tag 1"],
+            },
+        )
 
         self.assertStatus(rv, 302)
-        self.assertEqual(story.title, 'New title')
+        self.assertEqual(story.title, "New title")
 
     def test_edit_chapter_bad_user(self):
         """
@@ -311,7 +324,7 @@ class TestStory(EditoggiaTestCase):
         new_user, new_password = self.create_user()
         self.login(new_user.username, new_password)
 
-        rv = self.client.get(f'/story/edit/{story.id}/chapter/{chapter.id}')
+        rv = self.client.get(f"/story/edit/{story.id}/chapter/{chapter.id}")
         self.assert403(rv)
 
     def test_edit_chapter_get(self):
@@ -323,7 +336,7 @@ class TestStory(EditoggiaTestCase):
 
         self.login()
 
-        rv = self.client.get(f'/story/edit/{story.id}/chapter/{chapter.id}')
+        rv = self.client.get(f"/story/edit/{story.id}/chapter/{chapter.id}")
         self.assert200(rv)
 
     def test_edit_chapter_post(self):
@@ -336,12 +349,15 @@ class TestStory(EditoggiaTestCase):
 
         self.login()
 
-        rv = self.client.post(f'/story/edit/{story.id}/chapter/{chapter.id}', data={
-            'title': 'New title',
-            'nb': chapter.nb,
-            'summary': chapter.summary,
-            'content': chapter.content
-        })
+        rv = self.client.post(
+            f"/story/edit/{story.id}/chapter/{chapter.id}",
+            data={
+                "title": "New title",
+                "nb": chapter.nb,
+                "summary": chapter.summary,
+                "content": chapter.content,
+            },
+        )
 
         self.assertStatus(rv, 302)
 
@@ -355,12 +371,15 @@ class TestStory(EditoggiaTestCase):
 
         self.login()
 
-        rv = self.client.post(f'/story/edit/{story.id}/chapter/{chapter.id}', data={
-            'title': 'New title',
-            'nb': 3,
-            'summary': chapter.summary,
-            'content': chapter.content
-        })
+        rv = self.client.post(
+            f"/story/edit/{story.id}/chapter/{chapter.id}",
+            data={
+                "title": "New title",
+                "nb": 3,
+                "summary": chapter.summary,
+                "content": chapter.content,
+            },
+        )
 
         self.assertStatus(rv, 302)
         self.assertEqual(chapter.nb, 3)
@@ -375,12 +394,15 @@ class TestStory(EditoggiaTestCase):
 
         self.login()
 
-        rv = self.client.post(f'/story/edit/{story.id}/chapter/{chapter.id}', data={
-            'title': 'New title',
-            'nb': 2,
-            'summary': chapter.summary,
-            'content': chapter.content
-        })
+        rv = self.client.post(
+            f"/story/edit/{story.id}/chapter/{chapter.id}",
+            data={
+                "title": "New title",
+                "nb": 2,
+                "summary": chapter.summary,
+                "content": chapter.content,
+            },
+        )
 
         self.assert200(rv)
         self.assertNotEqual(chapter.nb, 2)
@@ -395,7 +417,7 @@ class TestStory(EditoggiaTestCase):
         self.login()
 
         story = self.create_story()
-        rv = self.client.post(f'/story/{story.id}/like')
+        rv = self.client.post(f"/story/{story.id}/like")
 
         self.assert200(rv)
         self.assertIn(story, self.user.likes)
@@ -408,7 +430,7 @@ class TestStory(EditoggiaTestCase):
 
         story = self.create_story()
         self.user.likes.append(story)
-        rv = self.client.post(f'/story/{story.id}/like')
+        rv = self.client.post(f"/story/{story.id}/like")
 
         self.assert200(rv)
         self.assertNotIn(story, self.user.likes)
@@ -421,9 +443,10 @@ class TestStory(EditoggiaTestCase):
 
         story = self.create_story()
         chapter = story.chapters[0]
-        rv = self.client.post(f'/story/{story.id}/chapter/{chapter.id}/comment', data={
-            "comment": "Test comment."
-        })
+        rv = self.client.post(
+            f"/story/{story.id}/chapter/{chapter.id}/comment",
+            data={"comment": "Test comment."},
+        )
 
         self.assertStatus(rv, 302)
         self.assertEqual(len(chapter.comments), 1)

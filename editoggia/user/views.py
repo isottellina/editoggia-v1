@@ -20,9 +20,9 @@ from editoggia.user.forms import EditUserForm
 
 from editoggia.models import User
 
+
 def get_profile_info(username):
-    user = db.session.query(User).filter(User.username == username) \
-                                 .first_or_404()
+    user = db.session.query(User).filter(User.username == username).first_or_404()
 
     # If user is the logged-in one, profile is editable
     editable = user == current_user
@@ -35,7 +35,8 @@ def get_profile_info(username):
 
     return user, editable, age
 
-@user.route('/<username>')
+
+@user.route("/<username>")
 def profile(username):
     """
     Prints the profile of someone.
@@ -45,13 +46,12 @@ def profile(username):
     """
     user, editable, age = get_profile_info(username)
 
-    return render_template('user/profile.jinja2',
-                           user=user,
-                           age=age,
-                           mode='bio',
-                           editable=editable)
+    return render_template(
+        "user/profile.jinja2", user=user, age=age, mode="bio", editable=editable
+    )
 
-@user.route('/<username>/stories')
+
+@user.route("/<username>/stories")
 def profile_stories(username):
     """
     Prints the profile of someone, with the stories
@@ -59,13 +59,12 @@ def profile_stories(username):
     """
     user, editable, age = get_profile_info(username)
 
-    return render_template('user/profile.jinja2',
-                           user=user,
-                           age=age,
-                           mode='stories',
-                           editable=editable)
+    return render_template(
+        "user/profile.jinja2", user=user, age=age, mode="stories", editable=editable
+    )
 
-@user.route('/<username>/liked')
+
+@user.route("/<username>/liked")
 def profile_liked(username):
     """
     Prints the profile of someone, with the liked
@@ -73,13 +72,12 @@ def profile_liked(username):
     """
     user, editable, age = get_profile_info(username)
 
-    return render_template('user/profile.jinja2',
-                           user=user,
-                           age=age,
-                           mode='liked',
-                           editable=editable)
+    return render_template(
+        "user/profile.jinja2", user=user, age=age, mode="liked", editable=editable
+    )
 
-@user.route('/<username>/history')
+
+@user.route("/<username>/history")
 def profile_history(username):
     """
     Prints the profile of someone, with the history
@@ -87,13 +85,12 @@ def profile_history(username):
     """
     user, editable, age = get_profile_info(username)
 
-    return render_template('user/profile.jinja2',
-                           user=user,
-                           age=age,
-                           mode='history',
-                           editable=editable)
+    return render_template(
+        "user/profile.jinja2", user=user, age=age, mode="history", editable=editable
+    )
 
-@user.route('/edit', methods=["GET", "POST"])
+
+@user.route("/edit", methods=["GET", "POST"])
 @login_required
 def edit_profile():
     """
@@ -103,16 +100,11 @@ def edit_profile():
     form.populate_language()
 
     if form.validate_on_submit():
-        form.bio.process_data(bleach(form.data['bio']))
+        form.bio.process_data(bleach(form.data["bio"]))
 
         form.populate_obj(current_user)
         current_user.update()
 
-        flash(
-            gettext("Profile edited with success"),
-            "success"
-        )
-        return redirect(url_for('user.profile',
-                                username=current_user.username))
-    return render_template('user/edit_profile.jinja2',
-                           form=form)
+        flash(gettext("Profile edited with success"), "success")
+        return redirect(url_for("user.profile", username=current_user.username))
+    return render_template("user/edit_profile.jinja2", form=form)

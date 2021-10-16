@@ -11,15 +11,18 @@ from datetime import datetime
 from flask import abort
 from editoggia.database import db
 
+
 class PKMixin(object):
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = {"extend_existing": True}
     id = db.Column(db.Integer, primary_key=True)
+
 
 class CRUDMixin(PKMixin):
     @classmethod
     def get_by_id(cls, id):
-        if any((isinstance(id, str) and id.isdigit(),
-                isinstance(id, (int, float))),):
+        if any(
+            (isinstance(id, str) and id.isdigit(), isinstance(id, (int, float))),
+        ):
             return cls.query.get(int(id))
         return None
 
@@ -70,12 +73,14 @@ class CRUDMixin(PKMixin):
         db.session.delete(self)
         return commit and db.session.commit()
 
+
 class NameMixin(object):
     """
     A mixin for models that have a name, and can be encoded to be
     in the URL.
     """
-    __table_args__ = {'extend_existing': True}
+
+    __table_args__ = {"extend_existing": True}
 
     name = db.Column(db.String(255), unique=True, nullable=False)
 
@@ -105,16 +110,15 @@ class NameMixin(object):
         """
         Replace URL-sensitive characters.
         """
-        return self.name.replace('&', '*a*') \
-                        .replace('/', '*s*')
+        return self.name.replace("&", "*a*").replace("/", "*s*")
 
     @staticmethod
     def decode_name(name):
         """
         Does the inverse operation.
         """
-        return name.replace('*a*', '&') \
-                   .replace('*s*', '/')
+        return name.replace("*a*", "&").replace("*s*", "/")
+
 
 class ModeratedMixin(CRUDMixin, NameMixin):
     """
@@ -122,6 +126,7 @@ class ModeratedMixin(CRUDMixin, NameMixin):
     It allows for objects to be gotten or created, and set
     to be waiting for moderation. Implies name mixin.
     """
+
     waiting_mod = db.Column(db.Boolean(), nullable=False, default=True)
 
     @classmethod
@@ -132,18 +137,17 @@ class ModeratedMixin(CRUDMixin, NameMixin):
         to be moderated, and return the created one.
         """
         return cls.get_by_name(name) or cls.create(
-            name=name,
-            waiting_mod=True,
-            **kwargs
+            name=name, waiting_mod=True, **kwargs
         )
+
 
 class DatesMixin(object):
     """
     Mixins to add a created_on and updated_on fields
     to a model, automatically set.
     """
-    created_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow)
-    updated_on = db.Column(db.DateTime(), nullable=False,
-                           default=datetime.utcnow,
-                           onupdate=datetime.utcnow)
+
+    created_on = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+    updated_on = db.Column(
+        db.DateTime(), nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow
+    )

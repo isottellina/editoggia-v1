@@ -8,6 +8,7 @@
 #
 from helpers import EditoggiaTestCase
 
+
 class TestHome(EditoggiaTestCase):
     def test_home(self):
         """
@@ -17,7 +18,4 @@ class TestHome(EditoggiaTestCase):
         rv = self.client.get("/")
 
         self.assert200(rv)
-        self.assertEqual(
-            rv.headers["Content-Type"],
-            "text/html; charset=utf-8"
-        )
+        self.assertEqual(rv.headers["Content-Type"], "text/html; charset=utf-8")

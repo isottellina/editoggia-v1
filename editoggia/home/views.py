@@ -12,12 +12,10 @@ from editoggia.home import home
 from editoggia.database import db
 from editoggia.models import FandomCategory, Story
 
-@home.route('/')
+
+@home.route("/")
 def index():
     categories = db.session.query(FandomCategory).all()
-    stories = db.session.query(Story) \
-                        .order_by(Story.updated_on.desc())[:3]
+    stories = db.session.query(Story).order_by(Story.updated_on.desc())[:3]
 
-    return render_template('home/index.jinja2',
-                           categories=categories,
-                           stories=stories)
+    return render_template("home/index.jinja2", categories=categories, stories=stories)

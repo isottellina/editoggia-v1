@@ -18,7 +18,8 @@ from editoggia.bleacher import bleach
 from editoggia.story import story
 from editoggia.story.forms import PostStoryForm, ChapterForm
 
-@story.route('/post', methods=["GET", "POST"])
+
+@story.route("/post", methods=["GET", "POST"])
 @login_required
 def post_story():
     """
@@ -28,34 +29,32 @@ def post_story():
 
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
-        summary = bleach(form.data['summary'])
-        content = bleach(form.data['content'])
+        summary = bleach(form.data["summary"])
+        content = bleach(form.data["content"])
 
         # We have to create the story before the chapter
         story = Story.create(
-            title=form.data['title'],
-            rating=form.data['rating'],
+            title=form.data["title"],
+            rating=form.data["rating"],
             author=current_user,
             summary=summary,
-            fandom=form.data['fandom'],
-            tags=form.data['tags'],
-            total_chapters=form.data['total_chapters']
+            fandom=form.data["fandom"],
+            tags=form.data["tags"],
+            total_chapters=form.data["total_chapters"],
         )
 
         # Then we create the first chapter
         Chapter.create(
-            nb=1,
-            title=form.data['chapter_title'],
-            content=content,
-            story=story
+            nb=1, title=form.data["chapter_title"], content=content, story=story
         )
 
-        return redirect(url_for('home.index'))
+        return redirect(url_for("home.index"))
 
     form.populate_select2()
-    return render_template('story/post_story.jinja2', form=form)
+    return render_template("story/post_story.jinja2", form=form)
 
-@story.route('/post/<int:story_id>/chapter', methods=["GET", "POST"])
+
+@story.route("/post/<int:story_id>/chapter", methods=["GET", "POST"])
 @login_required
 def post_chapter(story_id):
     """
@@ -66,24 +65,24 @@ def post_chapter(story_id):
 
     if form.validate_on_submit():
         # First we have to bleach the HTML content we got
-        content = bleach(form.data['content'])
-        summary = bleach(form.data['summary'])
+        content = bleach(form.data["content"])
+        summary = bleach(form.data["summary"])
 
         Chapter.create(
             story=story,
-            title=form.data['title'],
-            nb=form.data['nb'],
+            title=form.data["title"],
+            nb=form.data["nb"],
             summary=summary,
-            content=content
+            content=content,
         )
 
         # Update story to refresh update time
         story.touch()
 
-        return redirect(url_for('story.edit_story', story_id=story_id))
+        return redirect(url_for("story.edit_story", story_id=story_id))
 
     # If we get to this point we should return the form
     # Set a default chapter number (Last chapter + 1)
     form.nb.process_data(story.chapters[-1].nb + 1)
 
-    return render_template('story/post_chapter.jinja2', story=story, form=form)
+    return render_template("story/post_chapter.jinja2", story=story, form=form)

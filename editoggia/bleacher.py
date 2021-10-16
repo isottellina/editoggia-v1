@@ -26,17 +26,28 @@ from bs4 import BeautifulSoup, NavigableString, Tag
 
 # Only tags that should be conserved.
 ALLOWED_TAGS = [
-    "a", "abbr", "b", "br", "blockquote", "code",
-    "em", "hr", "i", "li", "ol", "p", "strong", "ul"
+    "a",
+    "abbr",
+    "b",
+    "br",
+    "blockquote",
+    "code",
+    "em",
+    "hr",
+    "i",
+    "li",
+    "ol",
+    "p",
+    "strong",
+    "ul",
 ]
+
 
 def bleach(text):
     """
     Actual function to clean.
     """
-    cleaner = Cleaner(
-        tags=ALLOWED_TAGS
-    )
+    cleaner = Cleaner(tags=ALLOWED_TAGS)
 
     cleaned_text = cleaner.clean(text)
     soup = BeautifulSoup(cleaned_text, features="html.parser")
@@ -47,43 +58,50 @@ def bleach(text):
 
     return str(new_doc)
 
-class HTMLProducer():
+
+class HTMLProducer:
     """
     The object that produces HTML, used by the Bleacher.
     It uses internal state, so it's a separate object.
 
     I should get a medal for this my brain melted quite a few times.
     """
+
     # Block-level tags. If something is outside this it will be put
     # in a <p> tag.
-    BLOCK_LEVEL_TAGS = [
-        "ol", "ul", "blockquote", "code", "p", "hr"
-    ]
+    BLOCK_LEVEL_TAGS = ["ol", "ul", "blockquote", "code", "p", "hr"]
 
     # Tags that are independant and can happen outside a block-level.
-    INDEPENDANT_TAGS = [
-        "hr"
-    ]
+    INDEPENDANT_TAGS = ["hr"]
 
     # Tags that should just be ignored and only their content treated.
     # They're top level tags.
-    IGNORE_TAGS = [
-        "[document]", "html", "body"
-    ]
+    IGNORE_TAGS = ["[document]", "html", "body"]
 
     # Tags that should be conserved as-is
-    CONSERVE_TAGS = ["a", "abbr", "acronym", "address", "br",
-                     "dl", "hr", "ol", "p", "pre", "blockquote", "ul"]
+    CONSERVE_TAGS = [
+        "a",
+        "abbr",
+        "acronym",
+        "address",
+        "br",
+        "dl",
+        "hr",
+        "ol",
+        "p",
+        "pre",
+        "blockquote",
+        "ul",
+    ]
 
     # Tags we don't want breaks before or after
-    NO_BREAK_TAGS = ["blockquote", "br", "dl", "hr", "ol",
-                     "p", "pre", "code", "ul"]
+    NO_BREAK_TAGS = ["blockquote", "br", "dl", "hr", "ol", "p", "pre", "code", "ul"]
 
     BS4_FORMATTER = "minimal"
 
-    SINGLE_NEWLINE_RE = re.compile(r'\n')
-    MULTIPLE_NEWLINES_RE = re.compile(r'\n+\s*\n+')
-    TAGS_TOGETHER_RE = re.compile(r'><')
+    SINGLE_NEWLINE_RE = re.compile(r"\n")
+    MULTIPLE_NEWLINES_RE = re.compile(r"\n+\s*\n+")
+    TAGS_TOGETHER_RE = re.compile(r"><")
 
     def __init__(self):
         # The stack of tags
@@ -100,9 +118,9 @@ class HTMLProducer():
         """
         self.out_html += "<{tag}{attrs}>".format(
             tag=element.name,
-            attrs="".join([
-                f' {attr}="{element.attrs[attr]}"' for attr in element.attrs
-            ])
+            attrs="".join(
+                [f' {attr}="{element.attrs[attr]}"' for attr in element.attrs]
+            ),
         )
 
     def close_tag(self, tag_name):
@@ -110,20 +128,20 @@ class HTMLProducer():
         Adds a closing tag to the out_html string.
         Returns the string.
         """
-        self.out_html += f'</{tag_name}>'
+        self.out_html += f"</{tag_name}>"
 
     def open_p(self):
         """
         Create a paragraph.
         """
-        self.stack.append('p')
+        self.stack.append("p")
         self.out_html += "<p>"
 
     def open_p_str(self):
         """
         Same as open_p, but returns a string.
         """
-        self.stack.append('p')
+        self.stack.append("p")
         return "<p>"
 
     def close_block(self):
@@ -190,7 +208,9 @@ class HTMLProducer():
                 self.close_block()
                 self.add_string(str(element))
             elif element.name not in self.BLOCK_LEVEL_TAGS and not self.in_block():
-                self.add_string("<p>" + element.decode(formatter=self.BS4_FORMATTER) + "</p>")
+                self.add_string(
+                    "<p>" + element.decode(formatter=self.BS4_FORMATTER) + "</p>"
+                )
             else:
                 self.add_string(element.decode(formatter=self.BS4_FORMATTER))
 
@@ -201,7 +221,10 @@ class HTMLProducer():
             text = element.output_ready(formatter=self.BS4_FORMATTER)
 
             # If the previous tag is a NO_BREAK_TAG, strip
-            if element.previous_sibling and element.previous_sibling.name in self.NO_BREAK_TAGS:
+            if (
+                element.previous_sibling
+                and element.previous_sibling.name in self.NO_BREAK_TAGS
+            ):
                 text = text.lstrip()
             # If the next tag is a NO_BREAK_TAG, strip
             if element.next_sibling and element.next_sibling.name in self.NO_BREAK_TAGS:
@@ -213,15 +236,14 @@ class HTMLProducer():
 
             # For several newlines, we begin a new paragraph
             text = self.MULTIPLE_NEWLINES_RE.sub(
-                lambda _: self.close_block_str() + self.open_p_str(),
-                text
+                lambda _: self.close_block_str() + self.open_p_str(), text
             )
 
             # We replace a newline with a break tag.
-            text = self.SINGLE_NEWLINE_RE.sub('<br/>\n', text)
+            text = self.SINGLE_NEWLINE_RE.sub("<br/>\n", text)
 
             # After these substitutions, we insert newlines between the tags.
-            text = self.TAGS_TOGETHER_RE.sub('>\n<', text)
+            text = self.TAGS_TOGETHER_RE.sub(">\n<", text)
 
             self.add_string(text)
             return

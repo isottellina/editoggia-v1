@@ -8,7 +8,7 @@
 #
 from flask import Blueprint
 
-user = Blueprint('user', __name__)
+user = Blueprint("user", __name__)
 
 import editoggia.user.views
 import editoggia.user.admin

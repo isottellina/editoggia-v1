@@ -11,10 +11,12 @@ from helpers import EditoggiaTestCase
 from editoggia.database import db
 from editoggia.models import Story, Fandom, Tag
 
+
 class TestModel(EditoggiaTestCase):
     """
     Tests functions overloaded in models.
     """
+
     def test_story_setattr(self):
         """
         Test the setattr overloading of the Story
@@ -55,7 +57,7 @@ class TestModel(EditoggiaTestCase):
         """
         Tries to create a Fandom.
         """
-        fandom = Fandom.create(name = "Fandom1")
+        fandom = Fandom.create(name="Fandom1")
 
         db.session.query(Fandom).filter(Fandom.name == "Fandom1").first()
 
@@ -76,12 +78,12 @@ class TestModel(EditoggiaTestCase):
         """
         Tries to encode a name.
         """
-        fandom = Fandom.create(name='Test/Test2&Test3')
+        fandom = Fandom.create(name="Test/Test2&Test3")
 
-        self.assertEqual(fandom.encode_name(), 'Test*s*Test2*a*Test3')
+        self.assertEqual(fandom.encode_name(), "Test*s*Test2*a*Test3")
 
     def test_namemixin_decode(self):
         """
         Tries to decode the same name.
         """
-        self.assertEqual(Fandom.decode_name('Test*s*Test2*a*Test3'), 'Test/Test2&Test3')
+        self.assertEqual(Fandom.decode_name("Test*s*Test2*a*Test3"), "Test/Test2&Test3")

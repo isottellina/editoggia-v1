@@ -14,6 +14,7 @@ from editoggia.models import User
 
 from helpers import EditoggiaTestCase
 
+
 class TestAuth(EditoggiaTestCase):
     #
     # Register tests
@@ -22,12 +23,16 @@ class TestAuth(EditoggiaTestCase):
         """
         Helper function to register an user.
         """
-        return self.client.post('/signup', data={
-            "username": username,
-            "email": email,
-            "password": password,
-            "confirm": password
-        }, follow_redirects=True)
+        return self.client.post(
+            "/signup",
+            data={
+                "username": username,
+                "email": email,
+                "password": password,
+                "confirm": password,
+            },
+            follow_redirects=True,
+        )
 
     def user_exists(self, username):
         """
@@ -57,7 +62,7 @@ class TestAuth(EditoggiaTestCase):
         """
         Tests that a 1-character username is refused.
         """
-        username = 'a'
+        username = "a"
         email = self.faker.email()
         password = self.faker.password()
 
@@ -74,7 +79,7 @@ class TestAuth(EditoggiaTestCase):
         Tests that an username containing non-alphanumerical
         characters is refused.
         """
-        username = 'user/mountain'
+        username = "user/mountain"
         email = self.faker.email()
         password = self.faker.password()
 
@@ -123,7 +128,7 @@ class TestAuth(EditoggiaTestCase):
         Tests that an email longer than 128 is refused.
         """
         username = self.faker.user_name()
-        email = "{}@gmail.com".format('a' * 128)
+        email = "{}@gmail.com".format("a" * 128)
         password = self.faker.password()
 
         rv = self.register(username, email, password)
@@ -147,12 +152,16 @@ class TestAuth(EditoggiaTestCase):
         # We have to do this request ourselves since
         # the helper functions abstracts the confirm
         # password field for us.
-        rv = self.client.post('/signup', data={
-            "username": username,
-            "email": email,
-            "password": password,
-            "confirm": password[:len(password) // 2]
-        }, follow_redirects=True)
+        rv = self.client.post(
+            "/signup",
+            data={
+                "username": username,
+                "email": email,
+                "password": password,
+                "confirm": password[: len(password) // 2],
+            },
+            follow_redirects=True,
+        )
 
         self.assert200(rv)
         self.assertIn(b"Passwords must match.", rv.data)
@@ -201,7 +210,7 @@ class TestAuth(EditoggiaTestCase):
 
         self.assert200(rv)
         self.assertIn(b"You were logged in as", rv.data)
-        self.assertIn(self.user.name.encode('utf8'), rv.data)
+        self.assertIn(self.user.name.encode("utf8"), rv.data)
 
     def test_login_missing_data(self):
         """
@@ -227,8 +236,7 @@ class TestAuth(EditoggiaTestCase):
         """
         Tests that we cannot log in with a bad password
         """
-        rv = self.login(self.user.username,
-                        self.password[:len(self.password) // 2])
+        rv = self.login(self.user.username, self.password[: len(self.password) // 2])
 
         self.assert200(rv)
         self.assertNotIn(b"You were logged in as", rv.data)
@@ -242,7 +250,7 @@ class TestAuth(EditoggiaTestCase):
         Tests that we can log out
         """
         self.login(self.user.username, self.password)
-        rv = self.client.get('/logout', follow_redirects=True)
+        rv = self.client.get("/logout", follow_redirects=True)
 
         self.assert200(rv)
         self.assertIn(b"You were logged out", rv.data)

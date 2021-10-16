@@ -32,6 +32,7 @@ from editoggia.moderation import moderation
 # Import config
 from .config import config
 
+
 def create_app(config_name="default"):
     """
     The app factory. The point where everything
@@ -49,21 +50,24 @@ def create_app(config_name="default"):
 
     return app
 
+
 def register_errorhandlers(app):
     """
     Register error handlers page.
     """
+
     def render_error(error):
-        return render_template('errors/%s.jinja2' % error.code), error.code
+        return render_template("errors/%s.jinja2" % error.code), error.code
 
     for error in [
-            requests.codes.BAD_REQUEST,
-            requests.codes.NOT_FOUND,
-            requests.codes.UNAUTHORIZED,
-            requests.codes.FORBIDDEN,
-            requests.codes.SERVER_ERROR
+        requests.codes.BAD_REQUEST,
+        requests.codes.NOT_FOUND,
+        requests.codes.UNAUTHORIZED,
+        requests.codes.FORBIDDEN,
+        requests.codes.SERVER_ERROR,
     ]:
         app.errorhandler(error)(render_error)
+
 
 def register_extensions(app):
     """
@@ -77,24 +81,24 @@ def register_extensions(app):
     lm.init_app(app)
     csrf.init_app(app)
 
+
 def register_blueprints(app):
     """
     Register all blueprints.
     """
-    app.register_blueprint(home, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
-    app.register_blueprint(user, url_prefix='/user')
-    app.register_blueprint(story, url_prefix='/story')
-    app.register_blueprint(browse, url_prefix='/browse')
-    app.register_blueprint(ajax, url_prefix='/ajax')
-    app.register_blueprint(moderation, url_prefix='/moderation')
+    app.register_blueprint(home, url_prefix="/")
+    app.register_blueprint(auth, url_prefix="/")
+    app.register_blueprint(user, url_prefix="/user")
+    app.register_blueprint(story, url_prefix="/story")
+    app.register_blueprint(browse, url_prefix="/browse")
+    app.register_blueprint(ajax, url_prefix="/ajax")
+    app.register_blueprint(moderation, url_prefix="/moderation")
+
 
 def register_jinja_env(app):
     """
     Register functions and modules in Jinja env.
     """
-    app.jinja_options['extensions'].append('jinja2.ext.do')
+    app.jinja_options["extensions"].append("jinja2.ext.do")
 
-    app.jinja_env.globals.update({
-        'arrow': arrow
-    })
+    app.jinja_env.globals.update({"arrow": arrow})

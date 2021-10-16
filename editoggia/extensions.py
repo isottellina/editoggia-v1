@@ -49,6 +49,4 @@ def get_locale():
 
     # otherwise try to guess the language from the user accept
     # header the browser transmits.
-    return request.accept_languages.best_match(
-        current_app.config["ACCEPTED_LANGUAGES"]
-    )
+    return request.accept_languages.best_match(current_app.config["ACCEPTED_LANGUAGES"])

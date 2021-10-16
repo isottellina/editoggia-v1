@@ -16,7 +16,8 @@ from editoggia.database import db
 from editoggia.models import User, Role, Permission
 from editoggia.models import FandomCategory, Fandom, Story, Chapter
 
-@click.option('--num_users', default=5, help='Number of users.')
+
+@click.option("--num_users", default=5, help="Number of users.")
 def populate_db_users(num_users):
     """
     Populates the database with fake data from faker
@@ -24,22 +25,19 @@ def populate_db_users(num_users):
     fake = Faker()
 
     for _ in range(num_users):
-        profile = fake.profile([
-            "username", "name", "sex", "mail", "birthdate"
-        ])
+        profile = fake.profile(["username", "name", "sex", "mail", "birthdate"])
         sex = "Woman" if profile["sex"] == "F" else "Man"
         created = fake.date_this_year()
 
         User(
-            username=profile['username'],
-            name=profile['name'],
-            email=profile['mail'],
+            username=profile["username"],
+            name=profile["name"],
+            email=profile["mail"],
             password=fake.password(),
-            birthdate=profile['birthdate'],
+            birthdate=profile["birthdate"],
             location=fake.city(),
             bio=fake.text(),
             gender=sex,
-
             confirmed_at=created,
             updated_on=fake.date_between(start_date=created),
             last_login_at=fake.date_between(start_date=created),
@@ -48,8 +46,9 @@ def populate_db_users(num_users):
 
     db.session.commit()
 
-@click.option('--num_stories', default=10, help='Number of stories')
-@click.option('--num_chapters', default=1, help='Number of chapters per stories')
+
+@click.option("--num_stories", default=10, help="Number of stories")
+@click.option("--num_chapters", default=1, help="Number of chapters per stories")
 def populate_db_stories(num_stories, num_chapters):
     """
     Populate the database with an appropriate number of stories, written by
@@ -57,8 +56,7 @@ def populate_db_stories(num_stories, num_chapters):
     We don't commit every time because it's so slow.
     """
     fake = Faker()
-    fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work") \
-                                     .first()
+    fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work").first()
     assert fandom
 
     for _ in range(num_stories):
@@ -70,8 +68,7 @@ def populate_db_stories(num_stories, num_chapters):
             total_chapters=num_chapters,
             author=author,
             fandom=[fandom],
-
-            commit=False
+            commit=False,
         )
 
         for i in range(num_chapters):
@@ -81,21 +78,22 @@ def populate_db_stories(num_stories, num_chapters):
                 summary=" ".join(fake.sentences(nb=5)),
                 content=fake.text(max_nb_chars=3000),
                 story=story,
-
-                commit=False
+                commit=False,
             )
 
     db.session.commit()
 
-@click.option('--num_users', default=5, help='Number of users')
-@click.option('--num_stories', default=10, help='Number of stories')
-@click.option('--num_chapters', default=1, help='Number of chapters per stories')
+
+@click.option("--num_users", default=5, help="Number of users")
+@click.option("--num_stories", default=10, help="Number of stories")
+@click.option("--num_chapters", default=1, help="Number of chapters per stories")
 def populate_db(num_users, num_stories, num_chapters):
     """
     Populates the DB both with users and stories.
     """
     populate_db_users(num_users)
     populate_db_stories(num_stories, num_chapters)
+
 
 def create_db():
     """
@@ -109,23 +107,23 @@ def create_db():
         # Create permissions
         admin_perm = Permission.create(
             name="admin.ACCESS_ADMIN_INTERFACE",
-            description="Can access the admin interface."
+            description="Can access the admin interface.",
         )
         moderation_perm = Permission.create(
             name="mod.ACCESS_TAG_INTERFACE",
-            description="Can access the interface to manage tag and fandoms."
+            description="Can access the interface to manage tag and fandoms.",
         )
 
         # Create roles
         Role.create(
             name=gettext("Administrator"),
             description=gettext("Administrator of the website."),
-            permissions=[admin_perm, moderation_perm]
+            permissions=[admin_perm, moderation_perm],
         )
         Role.create(
             name=gettext("Moderator"),
             description=gettext("Moderator"),
-            permissions=[moderation_perm]
+            permissions=[moderation_perm],
         )
 
     if not FandomCategory.get_by_name("Other"):
@@ -136,19 +134,22 @@ def create_db():
         FandomCategory.create(name="TV Shows")
         FandomCategory.create(name="Video games")
         category = FandomCategory.create(name="Other")
-        fandom = Fandom.create(name="Original Work", category=category, waiting_mod=False)
+        fandom = Fandom.create(
+            name="Original Work", category=category, waiting_mod=False
+        )
+
 
 # Various helpers
-@click.argument('username')
+@click.argument("username")
 def set_admin(username):
-    user = db.session.query(User).filter(User.username == username) \
-                                 .first()
+    user = db.session.query(User).filter(User.username == username).first()
     admin_role = Role.get_by_name("Administrator")
     # If the admin role doesn't exist, we can't add it
     assert admin_role
 
     user.roles.append(admin_role)
     db.session.commit()
+
 
 # Register commands
 def register_commands(app):

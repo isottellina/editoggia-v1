@@ -14,6 +14,7 @@ from editoggia.database import db
 from editoggia.models import Fandom, FandomCategory, Story, Chapter, User
 from editoggia.models import Role, Permission
 
+
 class EditoggiaTestCase(TestCase):
     def create_app(self):
         return create_app("testing")
@@ -32,29 +33,29 @@ class EditoggiaTestCase(TestCase):
             username=self.faker.user_name(),
             name=self.faker.name(),
             email=self.faker.email(),
-            password=self.password
+            password=self.password,
         )
 
         # Create a fandom and fandomcategory
         self.category = FandomCategory.create(name="Other")
-        self.fandom = Fandom.create(name="Original Work",
-                                    category=self.category,
-                                    waiting_mod=False)
+        self.fandom = Fandom.create(
+            name="Original Work", category=self.category, waiting_mod=False
+        )
 
         # Create permissions and roles
         admin_perm = Permission.create(
             name="admin.ACCESS_ADMIN_INTERFACE",
-            description="Can access the admin interface."
+            description="Can access the admin interface.",
         )
         moderation_perm = Permission.create(
             name="mod.ACCESS_TAG_INTERFACE",
-            description="Can access the interface to manage tag and fandoms."
+            description="Can access the interface to manage tag and fandoms.",
         )
 
         admin_role = Role.create(
             name="Administrator",
             description="Administrator of the website.",
-            permissions=[admin_perm, moderation_perm]
+            permissions=[admin_perm, moderation_perm],
         )
 
         # Assign role to the user
@@ -73,10 +74,11 @@ class EditoggiaTestCase(TestCase):
         username = username if username is not None else self.user.username
         password = password if password is not None else self.password
 
-        return self.client.post('/login', data={
-            "username": username,
-            "password": password
-        }, follow_redirects=True)
+        return self.client.post(
+            "/login",
+            data={"username": username, "password": password},
+            follow_redirects=True,
+        )
 
     def create_user(self, username=None):
         """
@@ -89,7 +91,7 @@ class EditoggiaTestCase(TestCase):
             username=username,
             name=self.faker.name(),
             email=self.faker.email(),
-            password=password
+            password=password,
         )
 
         return user, password
@@ -97,8 +99,7 @@ class EditoggiaTestCase(TestCase):
     def create_story(self, nb_chapters=1, author=None, fandom=None):
         return self.create_stories(1, nb_chapters, author, fandom)[0]
 
-    def create_stories(self, nb_stories, nb_chapters=1,
-                       author=None, fandom=None):
+    def create_stories(self, nb_stories, nb_chapters=1, author=None, fandom=None):
         """
         Create nb_stories stories with nb_chapters chapters each,
         written by author (self.user if None).
@@ -114,17 +115,17 @@ class EditoggiaTestCase(TestCase):
                 total_chapters=nb_chapters,
                 author=author,
                 fandom=[fandom],
-                commit=False
+                commit=False,
             )
 
             for i in range(nb_chapters):
                 chapter = Chapter.create(
                     title=self.faker.sentence(),
-                    nb=i+1,
+                    nb=i + 1,
                     summary=" ".join(self.faker.sentences(nb=5)),
                     content=self.faker.text(max_nb_chars=3000),
                     story=story,
-                    commit=False
+                    commit=False,
                 )
 
             stories.append(story)

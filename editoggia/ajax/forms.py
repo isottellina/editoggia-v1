@@ -11,28 +11,20 @@ from flask_babelex import gettext
 from wtforms import IntegerField, StringField
 from wtforms.validators import DataRequired
 
+
 class LikeForm(FlaskForm):
     story = IntegerField(
-        "story", validators=[
-            DataRequired(
-                message=gettext("The story parameter is needed.")
-            )
-        ]
+        "story",
+        validators=[DataRequired(message=gettext("The story parameter is needed."))],
     )
+
 
 class CommentForm(FlaskForm):
     chapter = IntegerField(
-        "chapter", validators=[
-            DataRequired(
-                message=gettext("The chapter parameter is needed.")
-            )
-        ]
+        "chapter",
+        validators=[DataRequired(message=gettext("The chapter parameter is needed."))],
     )
 
     content = StringField(
-        "comment", validators=[
-            DataRequired(
-                message=gettext("Comment can't be empty.")
-            )
-        ]
+        "comment", validators=[DataRequired(message=gettext("Comment can't be empty."))]
     )

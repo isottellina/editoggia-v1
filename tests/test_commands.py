@@ -17,11 +17,13 @@ from editoggia.models import Story, Chapter
 from editoggia.commands import create_db, populate_db_users, populate_db_stories
 from editoggia.commands import populate_db, set_admin
 
+
 class TestCommands(TestCase):
     """
     Tests the commands. They mostly have only one course
     of action.
     """
+
     def create_app(self):
         return create_app("testing")
 
@@ -111,9 +113,7 @@ class TestCommands(TestCase):
         create_db()
         populate_db_users(1)
 
-        admin_role = db.session.query(Role) \
-                               .filter(Role.name == "Administrator") \
-                               .first()
+        admin_role = db.session.query(Role).filter(Role.name == "Administrator").first()
         user = db.session.query(User).first()
 
         set_admin(user.username)

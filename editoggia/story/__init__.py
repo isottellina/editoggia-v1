@@ -12,7 +12,7 @@ Stories, fandoms, chapters, and the like.
 """
 from flask import Blueprint
 
-story = Blueprint('story', __name__)
+story = Blueprint("story", __name__)
 
 import editoggia.story.views
 import editoggia.story.admin

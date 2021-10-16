@@ -14,23 +14,29 @@ from wtforms.fields.html5 import DateField as WtformsDateField
 
 from editoggia.forms.widgets import Select2Widget
 
+
 class Select2MultipleField(fields.SelectMultipleField):
     """
     Select2 multiple select field.
     """
+
     widget = Select2Widget(multiple=True)
+
 
 class Select2Field(fields.SelectField):
     """
     Select2 select field.
     """
+
     widget = Select2Widget()
+
 
 class Select2MultipleAutocompleteField(Select2MultipleField):
     """
     Select2MultipleField, but doesn't check its data.
     This allows filling the data with autocomplete.
     """
+
     widget = Select2Widget(multiple=True)
 
     def __init__(self, *args, model_name=None, **kwargs):
@@ -57,6 +63,7 @@ class DateField(WtformsDateField):
     Same as the default DateField, but with a slightly different behaviour
     in process_formdata to accept an empty value.
     """
+
     def process_formdata(self, valuelist):
         import datetime
 

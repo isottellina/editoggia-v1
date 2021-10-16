@@ -11,6 +11,6 @@ The blueprint managing the moderation aspect.
 """
 from flask import Blueprint
 
-moderation = Blueprint('moderation', __name__)
+moderation = Blueprint("moderation", __name__)
 
 import editoggia.moderation.views
