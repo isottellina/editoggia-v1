@@ -10,7 +10,6 @@
 Fields to use in the forms in the blueprints.
 """
 from wtforms import fields
-from wtforms.fields.html5 import DateField as WtformsDateField
 
 from editoggia.forms.widgets import Select2Widget
 
@@ -58,7 +57,7 @@ class Select2MultipleAutocompleteField(Select2MultipleField):
         Select2MultipleField.process_formdata(self, data)
 
 
-class DateField(WtformsDateField):
+class DateField(fields.DateField):
     """
     Same as the default DateField, but with a slightly different behaviour
     in process_formdata to accept an empty value.

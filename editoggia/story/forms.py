@@ -8,8 +8,7 @@
 #
 from flask_wtf import FlaskForm
 from flask_babelex import gettext
-from wtforms.fields import StringField, TextAreaField
-from wtforms.fields.html5 import IntegerField
+from wtforms.fields import StringField, TextAreaField, IntegerField
 from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
 
 from editoggia.forms.fields import Select2Field, Select2MultipleAutocompleteField

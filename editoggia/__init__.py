@@ -99,6 +99,7 @@ def register_jinja_env(app):
     """
     Register functions and modules in Jinja env.
     """
+    app.jinja_options.setdefault("extensions", [])
     app.jinja_options["extensions"].append("jinja2.ext.do")
 
     app.jinja_env.globals.update({"arrow": arrow})
