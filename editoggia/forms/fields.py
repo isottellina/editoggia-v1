@@ -66,10 +66,12 @@ class DateField(fields.DateField):
     def process_formdata(self, valuelist):
         import datetime
 
+        date_format = self.format if isinstance(self.format, str) else self.format[0]
         date_str = " ".join(valuelist)
+
         if date_str:
             try:
-                self.data = datetime.datetime.strptime(date_str, self.format).date()
+                self.data = datetime.datetime.strptime(date_str, date_format).date()
             except ValueError:
                 self.data = None
                 raise ValueError(self.gettext("Not a valid date value."))
