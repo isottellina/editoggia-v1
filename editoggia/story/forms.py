@@ -42,6 +42,7 @@ class StoryForm(FlaskForm):
 
     summary = TextAreaField(
         gettext("Summary"),
+        default="",
         validators=[
             Length(
                 max=1000, message=gettext("Summary must be less than 1000 characters.")
@@ -153,6 +154,7 @@ class ChapterForm(FlaskForm):
 
     summary = TextAreaField(
         gettext("Summary"),
+        default="",
         validators=[
             Length(
                 max=1000, message=gettext("Summary must be less than 1000 characters.")
