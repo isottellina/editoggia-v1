@@ -14,6 +14,7 @@ db.sqlite3
 # Ignore egg-info and python stuff
 editoggia.egg-info
 *.pyc
+/build
 
 # Ignore yarn dependencies
 node_modules
