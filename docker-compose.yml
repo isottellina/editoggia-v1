@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  editoggia:
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=editoggia
+      - POSTGRES_PASSWORD=editoggia
+
+  postgres:
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=editoggia
+      - POSTGRES_USER=editoggia
+      - POSTGRES_PASSWORD=editoggia
