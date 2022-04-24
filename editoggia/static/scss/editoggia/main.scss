@@ -13,20 +13,19 @@
 
 body {
     min-height: 100vh;
-    
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 
     main {
-	margin-top: 0.4em;
-	
-	flex-grow: 1;
+        margin-top: 0.4em;
+        flex-grow: 1;
     }
 
     .editoggia-d-none {
-	// This is a display: none; class without important,
-	// unlike the one in Bootstrap. 
-	display: none;
+        // This is a display: none; class without important,
+        // unlike the one in Bootstrap.
+        display: none;
     }
 }

@@ -9,13 +9,13 @@
 
 .story-card {
     .story-card-info {
-	display: flex;
-	flex-wrap: wrap;
-	
-	justify-content: right;
+        display: flex;
+        flex-wrap: wrap;
 
-	.story-card-single {
-	    padding-inline-start: 1em;
-	}
+        justify-content: right;
+
+        .story-card-single {
+            padding-inline-start: 1em;
+        }
     }
 }

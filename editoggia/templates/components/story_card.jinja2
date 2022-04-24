@@ -1,52 +1,52 @@
 {% macro render_story_card(story) %}
-  <div class="card mb-3">
-    <div class="card-body story-card">
-      <h5 class="card-title row">
-	<div class="col-lg-10">
-	  <a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author|e }}</a></small>
-	</div>
-	<div class="col-lg-2 text-right">
-	  <small>{{ arrow.get(story.updated_on).humanize() }}</small>
-	</div>
-      </h5>
-
-      <div class="card-subtitle mb-2">
-	{# Fandoms #}
-	{% for fandom in story.fandom %}
-	  <a class="badge badge-dark" href="{{ url_for('browse.fandom', name=fandom.encode_name()) }}">{{ fandom.name }}</a>
-	{% endfor %}
-	
-	{# Tags #}
-	{% for tag in story.tags %}
-	  <a class="badge badge-primary" href="{{ url_for('browse.tag', name=tag.encode_name()) }}">{{ tag.name }}</a>
-	{% endfor %}
+<div class="card mb-3">
+  <div class="card-body story-card">
+    <h5 class="card-title row">
+      <div class="col-lg-10">
+        <a href="{{ url_for('story.show_story', story_id=story.id) }}">{{ story.title|e }}</a> <small>by <a href="{{ url_for('user.profile', username=story.author.username) }}">{{ story.author|e }}</a></small>
       </div>
+      <div class="col-lg-2 text-right">
+        <small>{{ arrow.get(story.updated_on).humanize() }}</small>
+      </div>
+    </h5>
 
-      <p class="card-text mb-2">
-	{{ story.summary }}
-      </p>
-      <div class="row align-items-end">
-	<div class="col-2">
-	  {# Buttons to edit the story #}
-	  {% if current_user == story.author %}
-	    <a href="{{ url_for('story.edit_story', story_id=story.id) }}" class="btn btn-sm btn-secondary">{{ _("Edit story") }}</a>
-	  {% endif %}
-	</div>
-	<div class="col-10 story-card-info">
-	  <div class="story-card-single">
-	    {{ _("Rating: ") }} {{ _(story.rating if story.rating else "Not rated") }}
-	  </div>
-	  <div class="story-card-single">
-	    {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
-	  </div>
-	  <div class="story-card-single">
-	    {{ _("Likes:") }} {{ story.user_likes|length }}
-	  </div>
-	  <div class="story-card-single">
-	    {{ _("Hits:") }} {{ story.stats.hits }}
-	  </div>
-	</div>
+    <div class="card-subtitle mb-2">
+      {# Fandoms #}
+      {% for fandom in story.fandom %}
+      <a class="badge badge-dark" href="{{ url_for('browse.fandom', name=fandom.encode_name()) }}">{{ fandom.name }}</a>
+      {% endfor %}
+
+      {# Tags #}
+      {% for tag in story.tags %}
+      <a class="badge badge-primary" href="{{ url_for('browse.tag', name=tag.encode_name()) }}">{{ tag.name }}</a>
+      {% endfor %}
+    </div>
+
+    <p class="card-text mb-2">
+      {{ story.summary }}
+    </p>
+    <div class="row align-items-end">
+      <div class="col-2">
+        {# Buttons to edit the story #}
+        {% if current_user == story.author %}
+        <a href="{{ url_for('story.edit_story', story_id=story.id) }}" class="btn btn-sm btn-secondary">{{ _("Edit story") }}</a>
+        {% endif %}
+      </div>
+      <div class="col-10 story-card-info">
+        <div class="story-card-single">
+          {{ _("Rating: ") }} {{ _(story.rating if story.rating else "Not rated") }}
+        </div>
+        <div class="story-card-single">
+          {{ _("Chapters: ") }} {{ story.chapters|length }}/{{ story.total_chapters if story.total_chapters else '?' }}
+        </div>
+        <div class="story-card-single">
+          {{ _("Likes:") }} {{ story.user_likes|length }}
+        </div>
+        <div class="story-card-single">
+          {{ _("Hits:") }} {{ story.stats.hits }}
+        </div>
       </div>
     </div>
   </div>
+</div>
 {% endmacro %}

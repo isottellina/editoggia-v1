@@ -12,19 +12,19 @@
     font-family: $font-family-navbar;
 
     .navbar-brand {
-	font-weight: 800;
+        font-weight: 800;
 
-	img {
-	    height: 1.8rem;
-	    padding-right: 0.4em;
-	}
+        img {
+            height: 1.8rem;
+            padding-right: 0.4em;
+        }
     }
 
     .navbar-nav {
-	.nav-link {	
-	    color: map-get($theme-colors, light);
-	    text-decoration: none;
-	}
+        .nav-link {
+            color: map-get($theme-colors, light);
+            text-decoration: none;
+        }
     }
 }
 
@@ -34,10 +34,10 @@
     border-bottom: 1px solid map-get($theme-colors, palette3);
 
     a {
-	color: map-get($theme-colors, palette4);
+        color: map-get($theme-colors, palette4);
     }
     
     a.active {
-	border-bottom: 3px solid map-get($theme-colors, palette3);
+        border-bottom: 3px solid map-get($theme-colors, palette3);
     }
 }
