@@ -6,12 +6,13 @@ RUN yarnpkg install --modules-folder editoggia_node_modules
 FROM python:3.10
 
 ENV FLASK_APP=editoggia.wsgi:app \
+    POETRY_VIRTUALENVS_CREATE=false \
     PYTHONUNBUFFERED=1
 
-RUN pip install pipenv
-COPY Pipfile Pipfile.lock /editoggia/
+RUN pip install poetry
+COPY pyproject.toml poetry.lock /editoggia/
 WORKDIR /editoggia
-RUN pipenv install --system
+RUN poetry install -E production
 
 COPY . /editoggia
 COPY --from=build-node /editoggia_node_modules /editoggia/editoggia/static/node_modules
