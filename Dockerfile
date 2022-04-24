@@ -5,6 +5,9 @@ RUN yarnpkg install --modules-folder editoggia_node_modules
 
 FROM python:3.10
 
+ENV FLASK_APP=editoggia.wsgi:app \
+    PYTHONUNBUFFERED=1
+
 RUN pip install pipenv
 COPY Pipfile Pipfile.lock /editoggia/
 WORKDIR /editoggia
