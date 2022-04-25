@@ -25,7 +25,7 @@ Before using it, when you have configured the database (using POSTGRES_USER,
 POSTGRES_PASSWORD, and POSTGRES_DB if you are in production), you need to run:
 
 ```bash
-flask create-db
+flask db upgrade
 ```
 
 You might also want to set an user as an admin. Once you have created the user,

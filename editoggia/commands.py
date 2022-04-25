@@ -95,50 +95,6 @@ def populate_db(num_users, num_stories, num_chapters):
     populate_db_stories(num_stories, num_chapters)
 
 
-def create_db():
-    """
-    Creates a DB and populates it with the bare minimum with
-    testing. This should not be used in production, a better
-    solution will be found.
-    """
-    flask_migrate.upgrade()
-
-    if not Role.get_by_name("Administrator"):
-        # Create permissions
-        admin_perm = Permission.create(
-            name="admin.ACCESS_ADMIN_INTERFACE",
-            description="Can access the admin interface.",
-        )
-        moderation_perm = Permission.create(
-            name="mod.ACCESS_TAG_INTERFACE",
-            description="Can access the interface to manage tag and fandoms.",
-        )
-
-        # Create roles
-        Role.create(
-            name=gettext("Administrator"),
-            description=gettext("Administrator of the website."),
-            permissions=[admin_perm, moderation_perm],
-        )
-        Role.create(
-            name=gettext("Moderator"),
-            description=gettext("Moderator"),
-            permissions=[moderation_perm],
-        )
-
-    if not FandomCategory.get_by_name("Other"):
-        FandomCategory.create(name="Anime")
-        FandomCategory.create(name="Books")
-        FandomCategory.create(name="Cartoons")
-        FandomCategory.create(name="Movies")
-        FandomCategory.create(name="TV Shows")
-        FandomCategory.create(name="Video games")
-        category = FandomCategory.create(name="Other")
-        fandom = Fandom.create(
-            name="Original Work", category=category, waiting_mod=False
-        )
-
-
 # Various helpers
 @click.argument("username")
 def set_admin(username):
@@ -159,5 +115,4 @@ def register_commands(app):
     app.cli.command()(populate_db_users)
     app.cli.command()(populate_db_stories)
     app.cli.command()(populate_db)
-    app.cli.command()(create_db)
     app.cli.command()(set_admin)
