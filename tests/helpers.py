@@ -8,6 +8,7 @@
 #
 from flask_testing import TestCase
 from faker import Faker
+import pytest
 
 from editoggia import create_app
 from editoggia.database import db
@@ -15,6 +16,7 @@ from editoggia.models import Fandom, FandomCategory, Story, Chapter, User
 from editoggia.models import Role, Permission
 
 
+@pytest.mark.usefixtures("transaction")
 class EditoggiaTestCase(TestCase):
     def create_app(self):
         return create_app("testing")

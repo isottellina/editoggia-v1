@@ -10,9 +10,15 @@ services:
       - POSTGRES_HOST=postgres
       - POSTGRES_USER=editoggia
       - POSTGRES_PASSWORD=editoggia
+    volumes:
+      - .:/editoggia:z
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:14
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_DB=editoggia
       - POSTGRES_USER=editoggia

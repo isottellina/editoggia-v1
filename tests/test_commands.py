@@ -6,64 +6,24 @@
 # Last-Updated: Wed Jun 24 11:30:34 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_testing import TestCase
+import flask_migrate
+import pytest
+from unittest import TestCase
 
-from editoggia import create_app
 from editoggia.database import db
 
-from editoggia.models import User, Role, Permission, FandomCategory
-from editoggia.models import Story, Chapter
+from editoggia.models import User, Role
+from editoggia.models import Story
 
-from editoggia.commands import create_db, populate_db_users, populate_db_stories
+from editoggia.commands import populate_db_users, populate_db_stories
 from editoggia.commands import populate_db, set_admin
 
-
+@pytest.mark.usefixtures("transaction")
 class TestCommands(TestCase):
     """
     Tests the commands. They mostly have only one course
     of action.
     """
-
-    def create_app(self):
-        return create_app("testing")
-
-    def setUp(self):
-        db.create_all()
-
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-
-    def test_create_db(self):
-        """
-        Tests the create_db function.
-        """
-        create_db()
-
-        roles = db.session.query(Role).all()
-        perms = db.session.query(Permission).all()
-        categories = db.session.query(FandomCategory).all()
-
-        self.assertEqual(len(roles), 2)
-        self.assertEqual(roles[0].name, "Administrator")
-        self.assertEqual(roles[1].name, "Moderator")
-        self.assertEqual(roles[0].permissions, perms)
-        self.assertTrue(len(categories) >= 1)
-
-    def test_create_db_twice(self):
-        """
-        Tests that the create_db function doesn't create the roles twice.
-        """
-        create_db()
-        create_db()
-
-        roles = db.session.query(Role).all()
-        perms = db.session.query(Permission).all()
-
-        self.assertEqual(len(roles), 2)
-        self.assertEqual(roles[0].name, "Administrator")
-        self.assertEqual(roles[1].name, "Moderator")
-        self.assertEqual(roles[0].permissions, perms)
 
     def test_populate_db_users(self):
         """
@@ -82,7 +42,6 @@ class TestCommands(TestCase):
         not, there would be no fandoms. We also
         have to create users.
         """
-        create_db()
         populate_db_users(1)
         populate_db_stories(5, 3)
 
@@ -96,7 +55,6 @@ class TestCommands(TestCase):
         Tests the populate_db command.
         We have to create_db.
         """
-        create_db()
         populate_db(num_users=5, num_stories=5, num_chapters=3)
 
         users = db.session.query(User).all()
@@ -110,7 +68,6 @@ class TestCommands(TestCase):
         """
         Tests the set_admin command.
         """
-        create_db()
         populate_db_users(1)
 
         admin_role = db.session.query(Role).filter(Role.name == "Administrator").first()
