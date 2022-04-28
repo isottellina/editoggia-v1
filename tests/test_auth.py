@@ -48,11 +48,13 @@ class TestAuth(EditoggiaTestCase):
         Tests that the user can sign up.
         """
         username = self.faker.user_name()
-        email = self.faker.email()
+        email = self.faker.company_email()
         password = self.faker.password()
 
         rv = self.register(client, username, email, password)
 
+
+        print(rv.data)
         assert rv.status_code == 200
         assert b"Signed-up user" in rv.data
         assert self.user_exists(username)
@@ -62,7 +64,7 @@ class TestAuth(EditoggiaTestCase):
         Tests that a 1-character username is refused.
         """
         username = "a"
-        email = self.faker.email()
+        email = self.faker.company_email()
         password = self.faker.password()
 
         rv = self.register(client, username, email, password)
@@ -77,7 +79,7 @@ class TestAuth(EditoggiaTestCase):
         characters is refused.
         """
         username = "user/mountain"
-        email = self.faker.email()
+        email = self.faker.company_email()
         password = self.faker.password()
 
         rv = self.register(client, username, email, password)
@@ -135,7 +137,7 @@ class TestAuth(EditoggiaTestCase):
         thus, should be good to go.
         """
         username = self.faker.user_name()
-        email = self.faker.email()
+        email = self.faker.company_email()
         password = self.faker.password()
 
         # We have to do this request ourselves since
@@ -161,7 +163,7 @@ class TestAuth(EditoggiaTestCase):
         Tests that the app refuses to register another user
         with the same username.
         """
-        email = self.faker.email()
+        email = self.faker.company_email()
         password = self.faker.password()
 
         rv = self.register(client, user.username, email, password)

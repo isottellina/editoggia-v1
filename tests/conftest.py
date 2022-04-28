@@ -81,12 +81,22 @@ def user(password):
     user = User.create(
         username=fake.user_name(),
         name=fake.name(),
-        email=fake.email(),
+        email=fake.company_email(),
         password=password,
     )
     user.roles = [admin_role]
 
     return user
+
+@pytest.fixture()
+def stories(request: pytest.FixtureRequest, user):
+    def story(author):
+        pass
+
+    nb_stories = request.node.get_closest_marker("nb_stories")
+    nb_stories = 2 if nb_stories is None else nb_stories.args[0]
+
+    return [story(user) for _ in range(nb_stories)]
 
 @pytest.fixture()
 def logged_in(client, user, password):
