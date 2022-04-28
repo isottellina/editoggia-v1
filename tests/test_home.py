@@ -10,12 +10,10 @@ from helpers import EditoggiaTestCase
 
 
 class TestHome(EditoggiaTestCase):
-    def test_home(self):
+    def test_home(self, client):
         """
         Tests the home page returns 200 in the normal
         case.
         """
-        rv = self.client.get("/")
-
-        self.assert200(rv)
-        self.assertEqual(rv.headers["Content-Type"], "text/html; charset=utf-8")
+        rv = client.get("/")
+        assert rv.status_code == 200

@@ -6,7 +6,7 @@
 # Last-Updated: Sat Jul 11 23:34:06 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_testing import TestCase
+from unittest import TestCase
 from faker import Faker
 import pytest
 
@@ -17,14 +17,10 @@ from editoggia.models import Role, Permission
 
 
 @pytest.mark.usefixtures("transaction")
-class EditoggiaTestCase(TestCase):
-    def create_app(self):
-        return create_app("testing")
+class EditoggiaTestCase:
+    faker = Faker()
 
     def setUp(self):
-        # Create all tables
-        db.create_all()
-
         # Create a faker to help with tests
         self.faker = Faker()
 
@@ -38,36 +34,12 @@ class EditoggiaTestCase(TestCase):
             password=self.password,
         )
 
-        # Create a fandom and fandomcategory
-        self.category = FandomCategory.create(name="Other")
-        self.fandom = Fandom.create(
-            name="Original Work", category=self.category, waiting_mod=False
-        )
+        admin_role = db.session.query(Role).filter(Role.name == "Administrator").one()
+        self.fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work").one()
 
-        # Create permissions and roles
-        admin_perm = Permission.create(
-            name="admin.ACCESS_ADMIN_INTERFACE",
-            description="Can access the admin interface.",
-        )
-        moderation_perm = Permission.create(
-            name="mod.ACCESS_TAG_INTERFACE",
-            description="Can access the interface to manage tag and fandoms.",
-        )
-
-        admin_role = Role.create(
-            name="Administrator",
-            description="Administrator of the website.",
-            permissions=[admin_perm, moderation_perm],
-        )
-
-        # Assign role to the user
         self.user.roles = [admin_role]
 
-    def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-
-    def login(self, username=None, password=None):
+    def login(self, client, username=None, password=None):
         """
         Helper function to login as an user.
         If called without an argument, will login
@@ -76,7 +48,7 @@ class EditoggiaTestCase(TestCase):
         username = username if username is not None else self.user.username
         password = password if password is not None else self.password
 
-        return self.client.post(
+        return client.post(
             "/login",
             data={"username": username, "password": password},
             follow_redirects=True,

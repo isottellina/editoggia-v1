@@ -2,6 +2,7 @@ from contextlib import contextmanager
 from typing import Iterator
 
 import alembic.command
+import faker
 from flask.app import Flask
 import pytest
 import sqlalchemy.exc
@@ -13,6 +14,8 @@ from editoggia.database import db
 from editoggia.config import TestingConfig
 from sqlalchemy import event
 from sqlalchemy.engine.base import Connection
+
+from editoggia.models.user import Role, User
 
 
 @contextmanager
@@ -54,6 +57,45 @@ def app() -> Iterator[Flask]:
     with app.app_context():
         yield app
 
+@pytest.fixture()
+def client(app):
+    return app.test_client()
+
+@pytest.fixture()
+def password():
+    """
+    Returns a random password.
+    """
+    fake = faker.Faker()
+    return fake.password()
+
+@pytest.fixture()
+def user(password):
+    """
+    Returns a created user.
+    """
+    fake = faker.Faker()
+
+    admin_role = db.session.query(Role).filter(Role.name=="Administrator").one()
+
+    user = User.create(
+        username=fake.user_name(),
+        name=fake.name(),
+        email=fake.email(),
+        password=password,
+    )
+    user.roles = [admin_role]
+
+    return user
+
+@pytest.fixture()
+def logged_in(client, user, password):
+    return client.post(
+        "/login",
+        data={"username": user.username, "password": password},
+        follow_redirects=True,
+    )
+
 @pytest.fixture(scope="module")
 def database():
     with postgres_cursor() as pg_cur:
@@ -71,7 +113,7 @@ def migrations(database, app):
         alembic_config.attributes["connection"] = conn
         alembic.command.upgrade(alembic_config, "head")
 
-@pytest.fixture()
+@pytest.fixture(autouse=True)
 def transaction(migrations):
     conn = db.engine.connect()
     trans = conn.begin()

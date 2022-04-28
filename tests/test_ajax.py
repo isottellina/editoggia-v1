@@ -8,7 +8,6 @@
 #
 from helpers import EditoggiaTestCase
 
-from editoggia.database import db
 from editoggia.models import Tag
 
 
@@ -17,44 +16,41 @@ class TestAjax(EditoggiaTestCase):
     Tests views defined in the ajax blueprint.
     """
 
-    def test_autocomplete_bad_model(self):
+    def test_autocomplete_bad_model(self, client):
         """
         Test that without a correct model name we get
         a 400 error code.
         """
-        rv = self.client.get("/ajax/autocomplete/BadModelName")
+        rv = client.get("/ajax/autocomplete/BadModelName")
+        assert rv.status_code == 400
 
-        self.assert400(rv)
-
-    def test_autocomplete_fandom(self):
+    def test_autocomplete_fandom(self, client):
         """
         Test that the autocomplete empty returns
         the fandoms.
         """
-        rv = self.client.get("/ajax/autocomplete/Fandom")
+        rv = client.get("/ajax/autocomplete/Fandom")
 
-        self.assert200(rv)
-        self.assertEqual(
-            rv.json, dict(results=[{"id": "Original Work", "text": "Original Work"}])
-        )
+        assert rv.status_code == 200
+        assert rv.json == dict(results=[{"id": "Original Work", "text": "Original Work"}])
 
-    def test_autocomplete_fandom_filter(self):
+    def test_autocomplete_fandom_filter(self, client):
         """
         Test that the autocomplete returns only
         tags beginning with the query.
         """
-        rv = self.client.get("/ajax/autocomplete/Fandom?q=L")
+        rv = client.get("/ajax/autocomplete/Fandom?q=L")
 
-        self.assert200(rv)
-        self.assertEqual(rv.json, dict(results=[]))
+        assert rv.status_code == 200
+        assert rv.json == dict(results=[])
 
-    def test_autocomplete_tag(self):
+    def test_autocomplete_tag(self, client):
         """
         Test that the autocomplete empty returns
         the tags.
         """
-        tag = Tag.create(name="Tagtest")
-        rv = self.client.get("/ajax/autocomplete/Tag")
+        Tag.create(name="Tagtest")
+        rv = client.get("/ajax/autocomplete/Tag")
 
-        self.assert200(rv)
-        self.assertEqual(rv.json, dict(results=[{"id": "Tagtest", "text": "Tagtest"}]))
+        assert rv.status_code == 200
+        assert rv.json == dict(results=[{"id": "Tagtest", "text": "Tagtest"}])

@@ -20,45 +20,40 @@ class TestModeration(EditoggiaTestCase):
     Tests the moderation views.
     """
 
-    def test_permission(self):
+    def test_permission(self, client):
         """
         Tests we can't access the views without permissions.
         """
-        rv = self.client.get("/moderation/")
+        rv = client.get("/moderation/")
 
-        self.assert403(rv)
+        assert rv.status_code == 403
 
-    def test_can_access(self):
+    def test_can_access(self, client, logged_in):
         """
         With the permission, we can access it.
         """
-        self.login()
-        rv = self.client.get("/moderation/")
+        rv = client.get("/moderation/")
+        assert rv.status_code == 200
 
-        self.assert200(rv)
-
-    def test_fandoms_get(self):
+    def test_fandoms_get(self, client, logged_in):
         """
         Tests we get the correct list of fandoms
         """
         # Create a fandom first
         fandom = Fandom.create(name="Disney", waiting_mod=True)
+        rv = client.get("/moderation/fandoms")
 
-        self.login()
-        rv = self.client.get("/moderation/fandoms")
+        assert rv.status_code == 200
+        assert fandom.name.encode() in rv.data
 
-        self.assertStatus(rv, 200)
-        self.assertIn(b"Disney", rv.data)
-
-    def test_fandoms_post(self):
+    def test_fandoms_post(self, client, logged_in):
         """
         Tests we can attribute a category to a fandom.
         """
         # Create a fandom first
         fandom = Fandom.create(name="Disney", waiting_mod=True)
 
-        self.login()
-        rv = self.client.post(
+        rv = client.post(
             "/moderation/fandoms",
             data={
                 "fandoms-0-id": fandom.id,
@@ -67,32 +62,26 @@ class TestModeration(EditoggiaTestCase):
             },
         )
 
-        self.assertStatus(rv, 302)
-        self.assertEqual(fandom.category.name, "Other")
-        self.assertEqual(fandom.waiting_mod, False)
+        assert rv.status_code < 400
+        assert fandom.category.name == "Other"
+        assert not fandom.waiting_mod
 
-    def test_tags_get(self):
+    def test_tags_get(self, client, logged_in):
         """
         Tests we can get the list of tags.
         """
-        # Create a fandom first
         tag = Tag.create(name="Slow Burn", waiting_mod=True)
+        rv = client.get("/moderation/tags")
 
-        self.login()
-        rv = self.client.get("/moderation/tags")
+        assert rv.status_code == 200
+        assert tag.name.encode() in rv.data
 
-        self.assertStatus(rv, 200)
-        self.assertIn(b"Slow Burn", rv.data)
-
-    def test_tags_post(self):
+    def test_tags_post(self, client, logged_in):
         """
         Tests we can set a tag.
         """
-        # Create a fandom first
         tag = Tag.create(name="Slow Burn", waiting_mod=True)
-
-        self.login()
-        rv = self.client.post(
+        rv = client.post(
             "/moderation/tags",
             data={
                 "tags-0-id": tag.id,
@@ -100,5 +89,5 @@ class TestModeration(EditoggiaTestCase):
             },
         )
 
-        self.assertStatus(rv, 302)
-        self.assertEqual(tag.waiting_mod, False)
+        assert rv.status_code < 400
+        assert not tag.waiting_mod

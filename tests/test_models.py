@@ -32,58 +32,52 @@ class TestModel(EditoggiaTestCase):
         fandoms = db.session.query(Fandom).all()
         tags = db.session.query(Tag).all()
 
-        self.assertEqual(story.fandom, fandoms)
-        self.assertEqual(len(fandoms), 2)
-        self.assertEqual(story.tags, tags)
-        self.assertEqual(len(tags), 2)
+        assert story.fandom == fandoms
+        assert len(fandoms) == 2
+
+        assert story.tags == tags
+        assert len(tags) == 2
 
     def test_crudmixin_get_by_id(self):
         """
         Tries to get an object by its ID.
         """
-        fandom = Fandom.get_by_id(1)
-
-        self.assertNotEqual(fandom, None)
+        assert Fandom.get_by_id(1) is not None
 
     def test_crudmixin_get_by_id_invalid(self):
         """
         Tries to get an object that doesn't exist.
         """
-        fandom = Fandom.get_by_id("not working")
-
-        self.assertEqual(fandom, None)
+        assert Fandom.get_by_id("not working") is None
 
     def test_crudmixin_create(self):
         """
         Tries to create a Fandom.
         """
         fandom = Fandom.create(name="Fandom1")
-
         db.session.query(Fandom).filter(Fandom.name == "Fandom1").first()
 
-        self.assertNotEqual(fandom, None)
+        assert fandom is not None
 
     def test_crudmixin_delete(self):
         """
         Tries to delete a fandom.
         """
-        self.assertNotEqual(Fandom.get_by_id(1), None)
+        assert Fandom.get_by_id(1) is not None
 
         fandom = Fandom.get_by_id(1)
         fandom.delete()
 
-        self.assertEqual(Fandom.get_by_id(1), None)
+        assert Fandom.get_by_id(1) is None
 
     def test_namemixin_encode(self):
         """
         Tries to encode a name.
         """
-        fandom = Fandom.create(name="Test/Test2&Test3")
-
-        self.assertEqual(fandom.encode_name(), "Test*s*Test2*a*Test3")
+        assert Fandom.create(name="Test/Test2&Test3").encode_name() == "Test*s*Test2*a*Test3"
 
     def test_namemixin_decode(self):
         """
         Tries to decode the same name.
         """
-        self.assertEqual(Fandom.decode_name("Test*s*Test2*a*Test3"), "Test/Test2&Test3")
+        assert Fandom.decode_name("Test*s*Test2*a*Test3") == "Test/Test2&Test3"
