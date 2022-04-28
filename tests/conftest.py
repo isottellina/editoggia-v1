@@ -2,6 +2,8 @@ from contextlib import contextmanager
 from typing import Iterator
 
 import alembic.command
+from editoggia.models.fandom import Fandom
+from editoggia.models.story import Chapter, Story
 import faker
 from flask.app import Flask
 import pytest
@@ -89,14 +91,38 @@ def user(password):
     return user
 
 @pytest.fixture()
-def stories(request: pytest.FixtureRequest, user):
-    def story(author):
-        pass
+def fandom():
+    return db.session.query(Fandom).filter(Fandom.name == "Original Work").one()
 
-    nb_stories = request.node.get_closest_marker("nb_stories")
-    nb_stories = 2 if nb_stories is None else nb_stories.args[0]
+@pytest.fixture()
+def create_story(request: pytest.FixtureRequest, fandom):
+    fake = faker.Faker()
 
-    return [story(user) for _ in range(nb_stories)]
+    def inner(author, story_fandom=None, nb_chapters=1):
+        story_fandom = story_fandom if story_fandom else fandom
+
+        story = Story.create(
+            title=fake.sentence(),
+            summary=" ".join(fake.sentences(nb=5)),
+            total_chapters=nb_chapters,
+            author=author,
+            fandom=[fandom],
+            commit=False
+        )
+
+        for chapter in range(nb_chapters):
+            Chapter.create(
+                story=story,
+                title=fake.sentence(),
+                summary=" ".join(fake.sentences(nb=3)),
+                nb=(chapter + 1),
+                content=fake.text(max_nb_chars=3000),
+                commit=False,
+            )
+
+        return story
+
+    return inner
 
 @pytest.fixture()
 def logged_in(client, user, password):

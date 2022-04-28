@@ -11,6 +11,8 @@ These tests test the user blueprint.
 """
 import datetime
 
+import pytest
+
 from editoggia.database import db
 from editoggia.models import User
 
@@ -22,143 +24,105 @@ class TestUser(EditoggiaTestCase):
     Test view profile.
     """
 
-    def test_view_profile_doesnt_exist(self):
+    def test_view_profile_doesnt_exist(self, client):
         """
         Tests that the app 404s when an user doesn't exist.
         """
-        rv = self.client.get("/user/notexist")
+        rv = client.get("/user/notexist")
+        assert rv.status_code == 404
 
-        self.assert404(rv)
-
-    def test_view_profile_normal(self):
+    def test_view_profile_normal(self, client, user):
         """
         Tests we can access a profile that exist.
         """
         # We put a little info in the profile
-        self.user.location = "Paris, France"
-        self.user.birthdate = datetime.date(1995, 5, 3)
+        user.location = "Paris, France"
+        user.birthdate = datetime.date(1995, 5, 3)
 
-        age = (datetime.date.today() - self.user.birthdate) // datetime.timedelta(
+        age = (datetime.date.today() - user.birthdate) // datetime.timedelta(
             days=365.2425
         )
 
         # We get the URL to do the actual request
-        url = f"/user/{self.user.username}"
-        rv = self.client.get(url)
+        rv = client.get(f"/user/{user.username}")
 
-        self.assert200(rv)
-        self.assertIn(b"Paris, France", rv.data)
-        self.assertIn(str(age).encode(), rv.data)
+        assert rv.status_code == 200
+        assert b"Paris, France" in rv.data
+        assert str(age).encode() in rv.data
 
-    def test_view_profile_normal_wo_birthdate(self):
+    def test_view_profile_normal_wo_birthdate(self, client, user):
         """
         Tests we can access a profile that exist, without birthdate.
         """
         # We put a little info in the profile
-        self.user.location = "Paris, France"
+        user.location = "Paris, France"
 
         # We get the URL to do the actual request
-        url = f"/user/{self.user.username}"
-        rv = self.client.get(url)
+        rv = client.get(f"/user/{user.username}")
 
-        self.assert200(rv)
-        self.assertIn(b"Paris, France", rv.data)
-        self.assertNotIn(b'id="age"', rv.data)
+        assert rv.status_code == 200
+        assert b"Paris, France" in rv.data
+        assert b'id="age"' not in rv.data
 
-    def test_view_profile_likes(self):
+    def test_view_profile_likes(self, client, user, create_story):
         """
         Tests we can access a profile's likes.
         """
-        story = self.create_story()
-        self.like(story)
+        story = create_story(user)
+        self.like(user, story)
 
-        # We get the URL to do the actual request
-        url = f"/user/{self.user.username}/liked"
-        rv = self.client.get(url)
+        rv = client.get(f"/user/{user.username}/liked")
+        assert rv.status_code == 200
+        assert story.title.encode() in rv.data
 
-        self.assert200(rv)
-        self.assertIn(story.title.encode(), rv.data)
-
-    def test_view_profile_history(self):
+    def test_view_profile_history(self, client, user, create_story):
         """
         Tests we can access a profile's history.
         """
-        story = self.create_story()
-        self.hit(story)
+        story = create_story(user)
+        self.hit(user, story)
 
         # We get the URL to do the actual request
-        url = f"/user/{self.user.username}/history"
-        rv = self.client.get(url)
-
-        self.assert200(rv)
-        self.assertIn(story.title.encode(), rv.data)
+        rv = client.get(f"/user/{user.username}/history")
+        assert rv.status_code == 200
+        assert story.title.encode() in rv.data
 
     """
     Test edit profile.
     """
 
-    def test_edit_get(self):
+    def test_edit_get(self, client, user, password):
         """
         Tests that we get the form when we send a
         GET request.
         """
-        self.login(self.user.username, self.password)
-        rv = self.client.get("/user/edit")
+        self.login(client, user.username, password)
+        rv = client.get("/user/edit")
 
-        self.assert200(rv)
-        self.assertIn(b"<form", rv.data)
-        self.assertIn(f'value="{self.user.name}"'.encode(), rv.data)
+        assert rv.status_code == 200
+        assert b"<form" in rv.data
+        assert f'value="{user.name}"'.encode() in rv.data
 
-    def generic_test_edit_post(self, data={}):
+    @pytest.mark.parametrize("extra_data", [{}, {"birthdate": "1970-01-01"}])
+    def generic_test_edit_post(self, app, client, user, extra_data):
         """
         Generic test for edit_post view.
         """
         base_data = {
             "name": self.faker.name(),
-            "email": self.faker.email(),
+            "email": self.faker.company_email(),
             "location": "Amsterdam, Netherlands",
             "gender": "Woman",
-            "language": self.app.config["ACCEPTED_LANGUAGES"][0],
+            "language": app.config["ACCEPTED_LANGUAGES"][0],
         }
-        base_data.update(data)
+        base_data.update(extra_data)
 
-        self.login(self.user.username, self.password)
-        rv = self.client.post("/user/edit", data=base_data)
+        self.login(user.username, self.password)
+        rv = client.post("/user/edit", data=base_data)
 
-        self.assertRedirects(rv, f"/user/{self.user.username}")
-        self.assertEqual(self.user.name, base_data["name"])
-        self.assertEqual(self.user.email, base_data["email"])
-        self.assertEqual(self.user.location, base_data["location"])
-        self.assertEqual(self.user.gender, base_data["gender"])
-        self.assertEqual(self.user.bio, "")
-
-    def test_edit_post(self):
-        """
-        Tests that we can modify the user.
-        """
-        self.generic_test_edit_post({"birthdate": "1970-01-01"})
-
-    def test_edit_post_no_birthdate(self):
-        """
-        Tests that the birthdate can be empty.
-        """
-        self.generic_test_edit_post()
-
-    def test_edit_post_no_birthdate(self):
-        """
-        Tests that a bad birthdate is not accepted
-        """
-        self.login(self.user.username, self.password)
-        rv = self.client.post(
-            "/user/edit",
-            data={
-                "name": self.faker.name(),
-                "email": self.faker.email(),
-                "location": "Amsterdam, Netherlands",
-                "gender": "Woman",
-                "birthdate": "badone",
-                "language": self.app.config["ACCEPTED_LANGUAGES"][0],
-            },
-        )
-
-        self.assert200(rv)
+        assert rv in f"/user/{self.user.username}"
+        assert user.name == base_data["name"]
+        assert user.email == base_data["email"]
+        assert user.location == base_data["location"]
+        assert self.user.gender == base_data["gender"]
+        assert self.user.bio == ""
