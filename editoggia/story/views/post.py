@@ -9,14 +9,13 @@
 """
 Views for posting new content (stories and chapters)
 """
-from flask import render_template, redirect, url_for
+from flask import redirect, render_template, url_for
 from flask_login import current_user, login_required
 
-from editoggia.models import Story, Chapter
 from editoggia.bleacher import bleach
-
+from editoggia.models import Chapter, Story
 from editoggia.story import story
-from editoggia.story.forms import PostStoryForm, ChapterForm
+from editoggia.story.forms import ChapterForm, PostStoryForm
 
 
 @story.route("/post", methods=["GET", "POST"])

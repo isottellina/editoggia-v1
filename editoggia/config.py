@@ -53,7 +53,11 @@ class TestingConfig(Config):
     POSTGRES_USER = os.environ.get("POSTGRES_USER", "postgres")
     POSTGRES_DB = os.environ.get("POSTGRES_TESTING_DB", "editoggia_test")
 
-    SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    SQLALCHEMY_DATABASE_URI = (
+        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
+        + f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    )
+
 
 class ProductionConfig(Config):
     POSTGRES_HOST = os.environ.get("POSTGRES_HOST", "localhost")
@@ -62,7 +66,10 @@ class ProductionConfig(Config):
     POSTGRES_USER = os.environ.get("POSTGRES_USER", "postgres")
     POSTGRES_DB = os.environ.get("POSTGRES_DB", "editoggia")
 
-    SQLALCHEMY_DATABASE_URI = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    SQLALCHEMY_DATABASE_URI = (
+        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}"
+        + f"@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    )
 
 
 config = {

@@ -8,8 +8,7 @@
 #
 from helpers import EditoggiaTestCase
 
-from editoggia.database import db
-from editoggia.models import Story, Fandom, Tag
+from editoggia.models import Fandom, Tag
 
 
 class TestBrowse(EditoggiaTestCase):
@@ -47,7 +46,9 @@ class TestBrowse(EditoggiaTestCase):
 
         rv = client.get("/browse/fandom/Original Work?order_by=author")
         assert rv.status_code == 200
-        assert rv.data.find(least_author.title.encode()) < rv.data.find(most_author.title.encode())
+        assert rv.data.find(least_author.title.encode()) < rv.data.find(
+            most_author.title.encode()
+        )
 
     def test_collection_date_updated(self, client, create_story):
         """
@@ -57,7 +58,9 @@ class TestBrowse(EditoggiaTestCase):
 
         rv = client.get("/browse/fandom/Original Work")
         assert rv.status_code == 200
-        assert rv.data.find(stories[1].title.encode()) < rv.data.find(stories[0].title.encode())
+        assert rv.data.find(stories[1].title.encode()) < rv.data.find(
+            stories[0].title.encode()
+        )
 
     def test_collection_hits(self, client, create_user, create_story):
         """
@@ -69,7 +72,9 @@ class TestBrowse(EditoggiaTestCase):
 
         rv = client.get("/browse/fandom/Original Work?order_by=hits")
         assert rv.status_code == 200
-        assert rv.data.find(stories[0].title.encode()) < rv.data.find(stories[1].title.encode())
+        assert rv.data.find(stories[0].title.encode()) < rv.data.find(
+            stories[1].title.encode()
+        )
 
     def test_collection_likes(self, client, create_user, create_story):
         """
@@ -81,7 +86,9 @@ class TestBrowse(EditoggiaTestCase):
 
         rv = client.get("/browse/fandom/Original Work?order_by=likes")
         assert rv.status_code == 200
-        assert rv.data.find(stories[0].summary.encode()) < rv.data.find(stories[1].summary.encode())
+        assert rv.data.find(stories[0].summary.encode()) < rv.data.find(
+            stories[1].summary.encode()
+        )
 
     def test_collection_bad_order(self, client):
         """

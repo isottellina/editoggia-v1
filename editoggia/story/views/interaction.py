@@ -9,13 +9,12 @@
 """
 This file defines views for interaction, such as like, or comment.
 """
-from flask import redirect, url_for, abort, current_app
+from flask import abort, redirect, url_for
 from flask_login import current_user, login_required
 
-from editoggia.database import db
-from editoggia.models import Story, Chapter, Comment
 from editoggia.bleacher import bleach
-
+from editoggia.database import db
+from editoggia.models import Chapter, Comment, Story
 from editoggia.story import story
 from editoggia.story.forms import CommentForm, LikeForm
 

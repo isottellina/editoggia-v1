@@ -6,7 +6,7 @@
 # Last-Updated: Sat Jun 27 14:31:28 2020 (+0200)
 #           By: Louise <louise>
 #
-import editoggia.story.views.view
-import editoggia.story.views.post
-import editoggia.story.views.edit
-import editoggia.story.views.interaction
+import editoggia.story.views.edit  # noqa
+import editoggia.story.views.interaction  # noqa
+import editoggia.story.views.post  # noqa
+import editoggia.story.views.view  # noqa

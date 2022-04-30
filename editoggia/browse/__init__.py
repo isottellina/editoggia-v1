@@ -10,4 +10,4 @@ from flask import Blueprint
 
 browse = Blueprint("browse", __name__)
 
-import editoggia.browse.views
+import editoggia.browse.views  # noqa

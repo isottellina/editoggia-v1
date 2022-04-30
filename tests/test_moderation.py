@@ -9,10 +9,9 @@
 """
 These tests test the moderation blueprint.
 """
-from editoggia.database import db
-from editoggia.models import Fandom, Tag
-
 from helpers import EditoggiaTestCase
+
+from editoggia.models import Fandom, Tag
 
 
 class TestModeration(EditoggiaTestCase):

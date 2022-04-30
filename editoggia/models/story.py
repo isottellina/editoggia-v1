@@ -10,8 +10,9 @@
 The models for the story blueprint.
 """
 from flask_babelex import gettext
+
 from editoggia.database import db
-from editoggia.models.mixins import PKMixin, CRUDMixin, DatesMixin
+from editoggia.models.mixins import CRUDMixin, DatesMixin, PKMixin
 
 
 class Story(db.Model, CRUDMixin, DatesMixin):
@@ -94,6 +95,9 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         for the fandom and tag fields. Hereby, we can set their
         fields with strings and actually set the objects.
         """
+        from editoggia.models.fandom import Fandom
+        from editoggia.models.tag import Tag
+
         # The second check checks that the first element in the
         # list exists, and that it's a string. If there is no
         # first element, or if the value is already a model,
@@ -103,7 +107,7 @@ class Story(db.Model, CRUDMixin, DatesMixin):
         if attr == "tags" and type(next(iter(value), 0)) == str:
             value = [Tag.get_or_create(tag) for tag in value]
 
-        db.Model.__setattr__(self, attr, value)
+        super().__setattr__(attr, value)
 
     def __repr__(self):
         return "<Story '{}', by '{}'>".format(self.title, self.author)
@@ -143,10 +147,3 @@ class Chapter(db.Model, CRUDMixin, DatesMixin):
         return "<Chapter {} of story '{}', by '{}'>".format(
             self.nb, self.story.title, self.story.author
         )
-
-
-from editoggia.models.user import User
-from editoggia.models.fandom import Fandom
-from editoggia.models.comment import Comment
-from editoggia.models.tag import Tag
-from editoggia.models.shelf import Shelf

@@ -9,11 +9,10 @@
 """
 These tests test the auth blueprint.
 """
-from faker.proxy import Faker
+from helpers import EditoggiaTestCase
+
 from editoggia.database import db
 from editoggia.models import User
-
-from helpers import EditoggiaTestCase
 
 
 class TestAuth(EditoggiaTestCase):
@@ -52,7 +51,6 @@ class TestAuth(EditoggiaTestCase):
         password = self.faker.password()
 
         rv = self.register(client, username, email, password)
-
 
         print(rv.data)
         assert rv.status_code == 200

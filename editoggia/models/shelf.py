@@ -34,7 +34,3 @@ class ShelvesStories(db.Model):
     story_id = db.Column(
         "story_id", db.Integer(), db.ForeignKey("story.id"), nullable=False
     )
-
-
-from editoggia.models.user import User
-from editoggia.models.story import Story

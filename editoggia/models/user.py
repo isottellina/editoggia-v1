@@ -8,8 +8,8 @@
 #
 from datetime import datetime
 
-from flask_login import UserMixin, AnonymousUserMixin
 from flask_babelex import gettext
+from flask_login import AnonymousUserMixin, UserMixin
 
 from editoggia.database import db
 from editoggia.extensions import bcrypt, lm
@@ -159,6 +159,7 @@ class User(CRUDMixin, UserMixin, db.Model):
         add to history.
         """
         from datetime import datetime
+
         from editoggia.models import HistoryView
 
         existing = self.get_from_history(story)
@@ -208,6 +209,3 @@ class AnonymousUser(AnonymousUserMixin):
 
 
 lm.anonymous_user = AnonymousUser
-
-from editoggia.models.story import Story
-from editoggia.models.shelf import Shelf

@@ -7,15 +7,13 @@
 #           By: Louise <louise>
 #
 from flask import current_app
+from flask_babelex import Locale, gettext
 from flask_wtf import FlaskForm
-from flask_babelex import gettext, Locale
-
-from wtforms.fields import StringField, TextAreaField, PasswordField
-from wtforms.fields import SelectField
+from wtforms.fields import PasswordField, SelectField, StringField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
-from editoggia.models import User
 from editoggia.forms.fields import DateField
+from editoggia.models import User
 
 
 class UserForm(FlaskForm):

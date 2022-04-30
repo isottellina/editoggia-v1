@@ -32,7 +32,9 @@ class TestAjax(EditoggiaTestCase):
         rv = client.get("/ajax/autocomplete/Fandom")
 
         assert rv.status_code == 200
-        assert rv.json == dict(results=[{"id": "Original Work", "text": "Original Work"}])
+        assert rv.json == dict(
+            results=[{"id": "Original Work", "text": "Original Work"}]
+        )
 
     def test_autocomplete_fandom_filter(self, client):
         """

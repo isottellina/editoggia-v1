@@ -8,8 +8,8 @@
 #
 from flask import render_template
 
-from editoggia.home import home
 from editoggia.database import db
+from editoggia.home import home
 from editoggia.models import FandomCategory, Story
 
 

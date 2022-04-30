@@ -6,13 +6,14 @@
 # Last-Updated: Sat Jul 11 23:34:06 2020 (+0200)
 #           By: Louise <louise>
 #
-from faker import Faker
 import pytest
+from faker import Faker
 
 
 @pytest.mark.usefixtures("transaction")
 class EditoggiaTestCase:
     faker = Faker()
+
     def login(self, client, username, password):
         """
         Helper function to login as an user.

@@ -6,16 +6,12 @@
 # Last-Updated: Sun Jul  5 18:10:08 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import request, jsonify, abort
-from flask_login import current_user
-
+from flask import abort, jsonify, request
 from sqlalchemy import func
 
 from editoggia.ajax import ajax
-from editoggia.ajax.forms import LikeForm
-
 from editoggia.database import db
-from editoggia.models import Fandom, Tag, FandomStories, StoryTags
+from editoggia.models import Fandom, FandomStories, StoryTags, Tag
 
 
 @ajax.route("/autocomplete/<model_name>")
@@ -56,6 +52,6 @@ def autocomplete(model_name):
 
     return jsonify(
         results=[
-            {"id": result[0], "text": result[0]} for n, result in enumerate(results)
+            {"id": result[0], "text": result[0]} for _, result in enumerate(results)
         ]
     )

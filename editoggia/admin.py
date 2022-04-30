@@ -10,9 +10,9 @@
 Creates the Admin blueprint, and helpers for
 views within the Admin interface.
 """
-from flask_login import current_user
-from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+from flask_login import current_user
 
 admin = Admin(name="Editoggia", template_mode="bootstrap3")
 

@@ -7,7 +7,6 @@
 #           By: Louise <louise>
 #
 from flask_babelex import gettext
-
 from wtforms import Form
 from wtforms.fields import SelectField
 

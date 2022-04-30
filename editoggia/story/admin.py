@@ -11,7 +11,7 @@ Definitions for flask-admin for models used in Story.
 """
 from editoggia.admin import EditoggiaModelView, admin
 from editoggia.database import db
-from editoggia.models import Fandom, Story, Chapter, Tag, Comment
+from editoggia.models import Chapter, Comment, Fandom, Story, Tag
 
 
 class StoryView(EditoggiaModelView):

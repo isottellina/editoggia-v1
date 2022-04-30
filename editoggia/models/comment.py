@@ -18,7 +18,3 @@ class Comment(db.Model, CRUDMixin, DatesMixin):
 
     chapter_id = db.Column(db.Integer(), db.ForeignKey("chapter.id"))
     chapter = db.relationship("Chapter", back_populates="comments")
-
-
-from editoggia.models.user import User
-from editoggia.models.story import Chapter

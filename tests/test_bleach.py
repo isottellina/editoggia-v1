@@ -34,35 +34,53 @@ class TestBleach(TestCase):
         """
         Tests that a conserved tag outside of a block is put inside one.
         """
-        assert bleach('<a href="#">That is a link!</a>') == '<p><a href="#">That is a link!</a></p>'
+        assert (
+            bleach('<a href="#">That is a link!</a>')
+            == '<p><a href="#">That is a link!</a></p>'
+        )
 
     def test_create_p_tag_and_break(self):
         """
         Tests that outside of a block, it creates a block,
         and creates break for newlines.
         """
-        assert bleach("Eh, that's outside\n of a p tag!") ==  "<p>Eh, that's outside<br/>\n of a p tag!</p>"
+        assert (
+            bleach("Eh, that's outside\n of a p tag!")
+            == "<p>Eh, that's outside<br/>\n of a p tag!</p>"
+        )
 
     def test_create_p_tag_with_inline(self):
         """
         Same test but with inline tags.
         """
-        assert bleach("<i>Eh</i>, that's outside\n of a p tag!") == "<p><i>Eh</i>, that's outside<br/>\n of a p tag!</p>"
+        assert (
+            bleach("<i>Eh</i>, that's outside\n of a p tag!")
+            == "<p><i>Eh</i>, that's outside<br/>\n of a p tag!</p>"
+        )
 
     def test_create_multiple_p_tags(self):
         """
         Created multiple paragraphs with multiple lines.
         """
-        assert bleach("First paragraph\n\nSecond paragraph") == "<p>First paragraph</p>\n<p>Second paragraph</p>"
+        assert (
+            bleach("First paragraph\n\nSecond paragraph")
+            == "<p>First paragraph</p>\n<p>Second paragraph</p>"
+        )
 
     def test_no_break_before(self):
         """
         Tests the strip in the beginning of a string.
         """
-        assert bleach("<p>First paragraph</p>\nSecond paragraph") == "<p>First paragraph</p><p>Second paragraph</p>"
+        assert (
+            bleach("<p>First paragraph</p>\nSecond paragraph")
+            == "<p>First paragraph</p><p>Second paragraph</p>"
+        )
 
     def test_no_break_after(self):
         """
         Tests the strip after a string (also closing of paragraph tags)
         """
-        assert bleach("First paragraph\n<p>Second paragraph</p>") == "<p>First paragraph</p><p>Second paragraph</p>"
+        assert (
+            bleach("First paragraph\n<p>Second paragraph</p>")
+            == "<p>First paragraph</p><p>Second paragraph</p>"
+        )

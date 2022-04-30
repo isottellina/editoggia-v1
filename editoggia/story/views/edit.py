@@ -9,14 +9,13 @@
 """
 Views for editing content (stories and chapters)
 """
-from flask import render_template, redirect, abort, url_for
+from flask import abort, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
-from editoggia.models import Story, Chapter
 from editoggia.bleacher import bleach
-
+from editoggia.models import Chapter, Story
 from editoggia.story import story
-from editoggia.story.forms import EditStoryForm, ChapterForm
+from editoggia.story.forms import ChapterForm, EditStoryForm
 
 
 @story.route("/edit/<int:story_id>", methods=["GET", "POST"])

@@ -9,14 +9,13 @@
 """
 Views for viewing stories and chapters.
 """
-from flask import render_template, redirect, url_for
+from flask import redirect, render_template, url_for
 from flask_login import current_user
 
 from editoggia.database import db
+from editoggia.models import Chapter, Story
 from editoggia.story import story
-
-from editoggia.models import Story, Chapter
-from editoggia.story.forms import LikeForm, CommentForm
+from editoggia.story.forms import CommentForm, LikeForm
 
 
 @story.route("/")

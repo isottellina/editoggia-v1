@@ -6,8 +6,8 @@
 # Last-Updated: Wed Jul  8 11:46:45 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_wtf import FlaskForm
 from flask_babelex import gettext
+from flask_wtf import FlaskForm
 from wtforms import IntegerField, StringField
 from wtforms.validators import DataRequired
 

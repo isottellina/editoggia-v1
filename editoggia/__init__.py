@@ -6,28 +6,27 @@
 # Last-Updated: Sat Jul 11 22:10:22 2020 (+0200)
 #           By: Louise <louise>
 #
-import requests
 import arrow
-
+import requests
 from flask import Flask, render_template
-
-# Import commands
-from editoggia.commands import register_commands
 
 # Import extensions
 from editoggia.admin import admin
+from editoggia.ajax import ajax
 from editoggia.assets import assets
-from editoggia.extensions import babel, lm, csrf
+from editoggia.auth import auth
+from editoggia.browse import browse
+
+# Import commands
+from editoggia.commands import register_commands
 from editoggia.database import db, migrate
+from editoggia.extensions import babel, csrf, lm
 
 # Import blueprints
 from editoggia.home import home
-from editoggia.auth import auth
-from editoggia.user import user
-from editoggia.story import story
-from editoggia.browse import browse
-from editoggia.ajax import ajax
 from editoggia.moderation import moderation
+from editoggia.story import story
+from editoggia.user import user
 
 # Import config
 from .config import config

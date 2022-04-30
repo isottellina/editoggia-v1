@@ -8,7 +8,7 @@
 #
 from editoggia.admin import EditoggiaModelView, admin
 from editoggia.database import db
-from editoggia.models import User, Role, Permission
+from editoggia.models import Permission, Role, User
 
 
 class UserView(EditoggiaModelView):

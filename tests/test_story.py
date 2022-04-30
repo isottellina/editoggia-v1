@@ -9,13 +9,11 @@
 """
 These tests test the story blueprint.
 """
-from faker import Faker
 import pytest
+from helpers import EditoggiaTestCase
 
 from editoggia.database import db
-from editoggia.models import Story, Chapter
-
-from helpers import EditoggiaTestCase
+from editoggia.models import Story
 
 
 class TestStory(EditoggiaTestCase):
@@ -69,7 +67,7 @@ class TestStory(EditoggiaTestCase):
         """
         Should return 404.
         """
-        rv = client.get(f"/story/2")
+        rv = client.get("/story/2")
         assert rv.status_code == 404
 
     def test_show_story_redirect(self, client, create_story):
@@ -318,7 +316,7 @@ class TestStory(EditoggiaTestCase):
         """
         user, _ = create_user()
         story = create_story()
-        
+
         with app.test_client(user=user) as client:
             rv = client.get(f"/story/edit/{story.id}/chapter/{story.chapters[0].id}")
 
@@ -327,14 +325,17 @@ class TestStory(EditoggiaTestCase):
     @pytest.mark.parametrize(
         "chapter_nb,should_work",
         (
-            (1, True), # Keep the same chapter number
-            (3, True), # New chapter number
-            (2, False) # New (conflicting) chapter number
-        )
+            (1, True),  # Keep the same chapter number
+            (3, True),  # New chapter number
+            (2, False),  # New (conflicting) chapter number
+        ),
     )
-    def test_edit_chapter_post(self, app, create_user, create_story, chapter_nb, should_work):
+    def test_edit_chapter_post(
+        self, app, create_user, create_story, chapter_nb, should_work
+    ):
         """
-        Tests a normal POST request for the edit_chapter. Should work if chapter_nb doesn't exist.
+        Tests a normal POST request for the edit_chapter.
+        Should work if chapter_nb doesn't exist.
         """
         user, _ = create_user()
         story = create_story(author=user, nb_chapters=2)

@@ -7,14 +7,11 @@
 #           By: Louise <louise>
 #
 import click
-import flask_migrate
-from sqlalchemy.sql.expression import func
-from flask_babelex import gettext
 from faker import Faker
+from sqlalchemy.sql.expression import func
 
 from editoggia.database import db
-from editoggia.models import User, Role, Permission
-from editoggia.models import FandomCategory, Fandom, Story, Chapter
+from editoggia.models import Chapter, Fandom, Role, Story, User
 
 
 @click.option("--num_users", default=5, help="Number of users.")
@@ -72,7 +69,7 @@ def populate_db_stories(num_stories, num_chapters):
         )
 
         for i in range(num_chapters):
-            chapter = Chapter.create(
+            Chapter.create(
                 title=fake.sentence(),
                 nb=i + 1,
                 summary=" ".join(fake.sentences(nb=5)),

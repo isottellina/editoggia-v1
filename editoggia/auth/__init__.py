@@ -11,8 +11,6 @@ from datetime import datetime
 from flask import Blueprint, request
 from flask_login import current_user
 
-from editoggia.database import db
-
 auth = Blueprint("auth", __name__)
 
 
@@ -28,4 +26,4 @@ def register_user_request():
         )
 
 
-import editoggia.auth.views
+import editoggia.auth.views  # noqa

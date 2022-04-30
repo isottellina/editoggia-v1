@@ -6,9 +6,9 @@
 # Last-Updated: Wed Jul 22 01:50:46 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_babelex import gettext
+
 from editoggia.database import db
-from editoggia.models.mixins import CRUDMixin, ModeratedMixin
+from editoggia.models.mixins import ModeratedMixin
 
 
 class Tag(db.Model, ModeratedMixin):
@@ -31,7 +31,3 @@ class StoryTags(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     story_id = db.Column(db.Integer(), db.ForeignKey("story.id"))
     tag_id = db.Column(db.Integer(), db.ForeignKey("tag.id"))
-
-
-from editoggia.models.story import Story
-from editoggia.models.fandom import Fandom

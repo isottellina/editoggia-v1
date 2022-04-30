@@ -6,10 +6,10 @@
 # Last-Updated: Thu Jul  9 14:42:49 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_wtf import FlaskForm
 from flask_babelex import gettext
-from wtforms.fields import StringField, TextAreaField, IntegerField
-from wtforms.validators import DataRequired, NumberRange, Length, ValidationError
+from flask_wtf import FlaskForm
+from wtforms.fields import IntegerField, StringField, TextAreaField
+from wtforms.validators import DataRequired, Length, NumberRange, ValidationError
 
 from editoggia.forms.fields import Select2Field, Select2MultipleAutocompleteField
 
@@ -52,7 +52,8 @@ class StoryForm(FlaskForm):
 
     total_chapters = StringField(gettext("Total chapters"), default="1")
 
-    # This is the name of the chapter that will be posted, if the story has multiple ones.
+    # This is the name of the chapter that will be posted,
+    # if the story has multiple ones.
     chapter_title = StringField(
         gettext("Chapter title"),
         validators=[

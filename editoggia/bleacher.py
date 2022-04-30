@@ -21,6 +21,7 @@ Some concepts:
     - An inline tag is either a, abbr, b, em, i, or strong.
 """
 import re
+
 from bleach.sanitizer import Cleaner
 from bs4 import BeautifulSoup, NavigableString, Tag
 

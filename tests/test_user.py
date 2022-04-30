@@ -12,10 +12,6 @@ These tests test the user blueprint.
 import datetime
 
 import pytest
-
-from editoggia.database import db
-from editoggia.models import User
-
 from helpers import EditoggiaTestCase
 
 

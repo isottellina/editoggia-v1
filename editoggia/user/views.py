@@ -8,17 +8,15 @@
 #
 from datetime import date, timedelta
 
-from flask import render_template, flash
-from flask import redirect, url_for
-from flask_login import current_user, login_required
+from flask import flash, redirect, render_template, url_for
 from flask_babelex import gettext
+from flask_login import current_user, login_required
 
 from editoggia.bleacher import bleach
 from editoggia.database import db
+from editoggia.models import User
 from editoggia.user import user
 from editoggia.user.forms import EditUserForm
-
-from editoggia.models import User
 
 
 def get_profile_info(username):

@@ -10,4 +10,4 @@ from flask import Blueprint
 
 ajax = Blueprint("ajax", __name__)
 
-import editoggia.ajax.autocomplete
+import editoggia.ajax.autocomplete  # noqa

@@ -74,7 +74,10 @@ class TestModel(EditoggiaTestCase):
         """
         Tries to encode a name.
         """
-        assert Fandom.create(name="Test/Test2&Test3").encode_name() == "Test*s*Test2*a*Test3"
+        assert (
+            Fandom.create(name="Test/Test2&Test3").encode_name()
+            == "Test*s*Test2*a*Test3"
+        )
 
     def test_namemixin_decode(self):
         """

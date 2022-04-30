@@ -6,10 +6,9 @@
 # Last-Updated: Sat Jul 11 22:58:17 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_wtf import FlaskForm
 from flask_babelex import gettext
-
-from wtforms.fields import HiddenField, StringField, FieldList, FormField
+from flask_wtf import FlaskForm
+from wtforms.fields import FieldList, FormField, HiddenField, StringField
 from wtforms.validators import DataRequired
 
 from editoggia.forms.fields import Select2Field

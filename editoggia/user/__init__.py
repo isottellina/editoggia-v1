@@ -10,5 +10,5 @@ from flask import Blueprint
 
 user = Blueprint("user", __name__)
 
-import editoggia.user.views
-import editoggia.user.admin
+import editoggia.user.admin  # noqa
+import editoggia.user.views  # noqa

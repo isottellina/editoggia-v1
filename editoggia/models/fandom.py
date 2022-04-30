@@ -52,7 +52,3 @@ class FandomStories(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     fandom_id = db.Column(db.Integer(), db.ForeignKey("fandom.id"))
     story_id = db.Column(db.Integer(), db.ForeignKey("story.id"))
-
-
-from editoggia.models.story import Story
-from editoggia.models.tag import Tag

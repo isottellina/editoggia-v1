@@ -8,16 +8,15 @@
 #
 from datetime import datetime
 
-from flask import flash, render_template, request, redirect, url_for
-from flask_login import login_user, login_required, logout_user
+from flask import flash, redirect, render_template, request, url_for
 from flask_babelex import gettext
+from flask_login import login_required, login_user, logout_user
 
 from editoggia.auth import auth
-from editoggia.extensions import lm
-
-from editoggia.user.forms import SignupUserForm
 from editoggia.auth.forms import LoginForm
+from editoggia.extensions import lm
 from editoggia.models import User
+from editoggia.user.forms import SignupUserForm
 
 
 @lm.user_loader

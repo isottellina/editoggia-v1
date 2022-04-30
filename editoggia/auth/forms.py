@@ -6,9 +6,9 @@
 # Last-Updated: Sat May 30 15:20:35 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask_wtf import FlaskForm
 from flask_babelex import gettext
-from wtforms import StringField, PasswordField
+from flask_wtf import FlaskForm
+from wtforms import PasswordField, StringField
 from wtforms.validators import DataRequired
 
 from editoggia.models import User

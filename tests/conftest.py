@@ -33,6 +33,7 @@ def postgres_cursor(db_name: str = "postgres"):
 
     yield connection.cursor()
 
+
 def database_exists(cursor, db_name: str) -> bool:
     """
     Whether a certain database exists.
@@ -44,10 +45,11 @@ def database_exists(cursor, db_name: str) -> bool:
         WHERE datname=%s
         LIMIT 1
         """,
-        (db_name,)
+        (db_name,),
     )
 
     return cursor.fetchone() is not None
+
 
 @pytest.fixture(scope="module")
 def app() -> Iterator[Flask]:
@@ -57,14 +59,16 @@ def app() -> Iterator[Flask]:
     with app.app_context():
         yield app
 
+
 @pytest.fixture()
 def client(app):
     return app.test_client()
 
+
 @pytest.fixture()
 def create_user():
     fake = faker.Faker()
-    admin_role = db.session.query(Role).filter(Role.name=="Administrator").one()
+    admin_role = db.session.query(Role).filter(Role.name == "Administrator").one()
 
     def inner(username=None, password=None, email=None, is_admin=False):
         username = username or fake.user_name()
@@ -85,10 +89,13 @@ def create_user():
 
     return inner
 
+
 @pytest.fixture()
 def create_story(create_user):
     fake = faker.Faker()
-    default_fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work").one()
+    default_fandom = (
+        db.session.query(Fandom).filter(Fandom.name == "Original Work").one()
+    )
 
     def inner(author=None, fandom=None, nb_chapters=1):
         fandom = fandom or default_fandom
@@ -102,7 +109,7 @@ def create_story(create_user):
             total_chapters=nb_chapters,
             author=author,
             fandom=[fandom],
-            commit=False
+            commit=False,
         )
 
         for chapter in range(nb_chapters):
@@ -119,6 +126,7 @@ def create_story(create_user):
 
     return inner
 
+
 @pytest.fixture()
 def logged_in(client, user, password):
     return client.post(
@@ -126,6 +134,7 @@ def logged_in(client, user, password):
         data={"username": user.username, "password": password},
         follow_redirects=True,
     )
+
 
 @pytest.fixture(scope="module")
 def database():
@@ -136,6 +145,7 @@ def database():
         yield
         pg_cur.execute(f"DROP DATABASE {TestingConfig.POSTGRES_DB} (FORCE)")
 
+
 @pytest.fixture(scope="module")
 def migrations(database, app):
     alembic_config = app.extensions["migrate"].migrate.get_config()
@@ -143,6 +153,7 @@ def migrations(database, app):
     with db.engine.connect() as conn:
         alembic_config.attributes["connection"] = conn
         alembic.command.upgrade(alembic_config, "head")
+
 
 @pytest.fixture(autouse=True)
 def transaction(migrations):

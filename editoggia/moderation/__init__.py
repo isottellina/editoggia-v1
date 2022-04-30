@@ -13,4 +13,4 @@ from flask import Blueprint
 
 moderation = Blueprint("moderation", __name__)
 
-import editoggia.moderation.views
+import editoggia.moderation.views  # noqa

@@ -6,17 +6,19 @@
 # Last-Updated: Wed Jun 24 11:30:34 2020 (+0200)
 #           By: Louise <louise>
 #
-import flask_migrate
-import pytest
 from unittest import TestCase
 
+import pytest
+
+from editoggia.commands import (
+    populate_db,
+    populate_db_stories,
+    populate_db_users,
+    set_admin,
+)
 from editoggia.database import db
+from editoggia.models import Role, Story, User
 
-from editoggia.models import User, Role
-from editoggia.models import Story
-
-from editoggia.commands import populate_db_users, populate_db_stories
-from editoggia.commands import populate_db, set_admin
 
 @pytest.mark.usefixtures("transaction")
 class TestCommands(TestCase):

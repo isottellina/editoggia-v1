@@ -6,14 +6,13 @@
 # Last-Updated: Sat Jul 11 23:01:52 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import render_template, abort, url_for, redirect
-from flask_login import current_user, login_required
+from flask import abort, redirect, render_template, url_for
+from flask_login import current_user
 
 from editoggia.database import db
 from editoggia.models import Fandom, FandomCategory, Tag
-
-from editoggia.moderation.forms import FandomsForm, TagsForm
 from editoggia.moderation import moderation
+from editoggia.moderation.forms import FandomsForm, TagsForm
 
 
 @moderation.before_request
@@ -38,7 +37,7 @@ def fandoms():
     The interface to edit fandoms who are waiting for moderations.
     """
     # Get all fandoms who need moderation
-    waiting_fandoms = db.session.query(Fandom).filter(Fandom.waiting_mod == True).all()
+    waiting_fandoms = db.session.query(Fandom).filter(Fandom.waiting_mod).all()
 
     # Create the form and validate it
     form = FandomsForm()
@@ -67,7 +66,7 @@ def tags():
     The interface to edit tags who are waiting for moderations.
     """
     # Get all fandoms who need moderation
-    waiting_tags = db.session.query(Tag).filter(Tag.waiting_mod == True).all()
+    waiting_tags = db.session.query(Tag).filter(Tag.waiting_mod).all()
 
     # Create the form and validate it
     form = TagsForm()

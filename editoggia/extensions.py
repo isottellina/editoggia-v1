@@ -11,14 +11,15 @@ Create all extension objects. They are then initialized
 with the app in the app factory.
 """
 from flask_babelex import Babel
-from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 
 babel = Babel()
 lm = LoginManager()
 bcrypt = Bcrypt()
 csrf = CSRFProtect()
+
 
 #
 # This is where the locale selector function should be.
@@ -35,7 +36,7 @@ def get_locale():
     """
     Returns the locale the app should use.
     """
-    from flask import request, current_app
+    from flask import current_app, request
     from flask_login import current_user
 
     # If there is no current_user, even anonymous, that means

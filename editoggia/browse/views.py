@@ -6,17 +6,22 @@
 # Last-Updated: Thu Jul  9 14:25:18 2020 (+0200)
 #           By: Louise <louise>
 #
-from flask import render_template, request, abort
+from flask import abort, render_template, request
 from flask.views import View
-
 from sqlalchemy import func
 
 from editoggia.browse import browse
-from editoggia.database import db
-from editoggia.models import FandomCategory, Fandom, Story, Tag, User
-from editoggia.models import UserLikes, StoryStats
-
 from editoggia.browse.forms import SearchForm
+from editoggia.database import db
+from editoggia.models import (
+    Fandom,
+    FandomCategory,
+    Story,
+    StoryStats,
+    Tag,
+    User,
+    UserLikes,
+)
 
 
 @browse.route("/fandoms/<category>")
