@@ -17,13 +17,14 @@ class TestModel(EditoggiaTestCase):
     Tests functions overloaded in models.
     """
 
-    def test_story_setattr(self, create_story, user):
+    def test_story_setattr(self, create_story, create_user):
         """
         Test the setattr overloading of the Story
         model. We're supposed to be able to set
         fandoms and tags that don't exist and have
         them created.
         """
+        user, _ = create_user()
         story = create_story(user)
         story.fandom = ["Original Work", "Fandom2"]
         story.tags = ["Tag1", "Tag2"]

@@ -28,66 +28,81 @@ class TestModeration(EditoggiaTestCase):
 
         assert rv.status_code == 403
 
-    def test_can_access(self, client, logged_in):
+    def test_can_access(self, app, create_user):
         """
         With the permission, we can access it.
         """
-        rv = client.get("/moderation/")
+        user, _ = create_user(is_admin=True)
+
+        with app.test_client(user=user) as client:
+            rv = client.get("/moderation/")
         assert rv.status_code == 200
 
-    def test_fandoms_get(self, client, logged_in):
+    def test_fandoms_get(self, app, create_user):
         """
         Tests we get the correct list of fandoms
         """
+        user, _ = create_user(is_admin=True)
         # Create a fandom first
         fandom = Fandom.create(name="Disney", waiting_mod=True)
-        rv = client.get("/moderation/fandoms")
+
+        with app.test_client(user=user) as client:
+            rv = client.get("/moderation/fandoms")
 
         assert rv.status_code == 200
         assert fandom.name.encode() in rv.data
 
-    def test_fandoms_post(self, client, logged_in):
+    def test_fandoms_post(self, app, create_user):
         """
         Tests we can attribute a category to a fandom.
         """
+        user, _ = create_user(is_admin=True)
+
         # Create a fandom first
         fandom = Fandom.create(name="Disney", waiting_mod=True)
 
-        rv = client.post(
-            "/moderation/fandoms",
-            data={
-                "fandoms-0-id": fandom.id,
-                "fandoms-0-name": fandom.name,
-                "fandoms-0-category": "Other",
-            },
-        )
+        with app.test_client(user=user) as client:
+            rv = client.post(
+                "/moderation/fandoms",
+                data={
+                    "fandoms-0-id": fandom.id,
+                    "fandoms-0-name": fandom.name,
+                    "fandoms-0-category": "Other",
+                },
+            )
 
         assert rv.status_code < 400
         assert fandom.category.name == "Other"
         assert not fandom.waiting_mod
 
-    def test_tags_get(self, client, logged_in):
+    def test_tags_get(self, app, create_user):
         """
         Tests we can get the list of tags.
         """
+        user, _ = create_user(is_admin=True)
         tag = Tag.create(name="Slow Burn", waiting_mod=True)
-        rv = client.get("/moderation/tags")
+
+        with app.test_client(user=user) as client:
+            rv = client.get("/moderation/tags")
 
         assert rv.status_code == 200
         assert tag.name.encode() in rv.data
 
-    def test_tags_post(self, client, logged_in):
+    def test_tags_post(self, app, create_user):
         """
         Tests we can set a tag.
         """
+        user, _ = create_user(is_admin=True)
         tag = Tag.create(name="Slow Burn", waiting_mod=True)
-        rv = client.post(
-            "/moderation/tags",
-            data={
-                "tags-0-id": tag.id,
-                "tags-0-name": tag.name,
-            },
-        )
+
+        with app.test_client(user=user) as client:
+            rv = client.post(
+                "/moderation/tags",
+                data={
+                    "tags-0-id": tag.id,
+                    "tags-0-name": tag.name,
+                },
+            )
 
         assert rv.status_code < 400
         assert not tag.waiting_mod

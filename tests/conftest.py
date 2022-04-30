@@ -2,21 +2,18 @@ from contextlib import contextmanager
 from typing import Iterator
 
 import alembic.command
+import faker
+import psycopg2
+import pytest
+from flask.app import Flask
+from flask_login import FlaskLoginClient
+from sqlalchemy import event
+
+from editoggia import create_app
+from editoggia.config import TestingConfig
+from editoggia.database import db
 from editoggia.models.fandom import Fandom
 from editoggia.models.story import Chapter, Story
-import faker
-from flask.app import Flask
-import pytest
-import sqlalchemy.exc
-import psycopg2
-from alembic.runtime.environment import EnvironmentContext
-from alembic.script.base import ScriptDirectory
-from editoggia import create_app
-from editoggia.database import db
-from editoggia.config import TestingConfig
-from sqlalchemy import event
-from sqlalchemy.engine.base import Connection
-
 from editoggia.models.user import Role, User
 
 
@@ -55,6 +52,7 @@ def database_exists(cursor, db_name: str) -> bool:
 @pytest.fixture(scope="module")
 def app() -> Iterator[Flask]:
     app = create_app("testing")
+    app.test_client_class = FlaskLoginClient
 
     with app.app_context():
         yield app
@@ -64,42 +62,39 @@ def client(app):
     return app.test_client()
 
 @pytest.fixture()
-def password():
-    """
-    Returns a random password.
-    """
+def create_user():
     fake = faker.Faker()
-    return fake.password()
-
-@pytest.fixture()
-def user(password):
-    """
-    Returns a created user.
-    """
-    fake = faker.Faker()
-
     admin_role = db.session.query(Role).filter(Role.name=="Administrator").one()
 
-    user = User.create(
-        username=fake.user_name(),
-        name=fake.name(),
-        email=fake.company_email(),
-        password=password,
-    )
-    user.roles = [admin_role]
+    def inner(username=None, password=None, email=None, is_admin=False):
+        username = username or fake.user_name()
+        password = password or fake.password()
+        email = email or fake.company_email()
 
-    return user
+        user = User.create(
+            username=username,
+            name=fake.name(),
+            email=email,
+            password=password,
+        )
+
+        if is_admin:
+            user.roles = [admin_role]
+
+        return user, password
+
+    return inner
 
 @pytest.fixture()
-def fandom():
-    return db.session.query(Fandom).filter(Fandom.name == "Original Work").one()
-
-@pytest.fixture()
-def create_story(request: pytest.FixtureRequest, fandom):
+def create_story(create_user):
     fake = faker.Faker()
+    default_fandom = db.session.query(Fandom).filter(Fandom.name == "Original Work").one()
 
-    def inner(author, story_fandom=None, nb_chapters=1):
-        story_fandom = story_fandom if story_fandom else fandom
+    def inner(author=None, fandom=None, nb_chapters=1):
+        fandom = fandom or default_fandom
+
+        if author is None:
+            author, _ = create_user()
 
         story = Story.create(
             title=fake.sentence(),

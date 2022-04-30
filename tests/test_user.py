@@ -31,10 +31,12 @@ class TestUser(EditoggiaTestCase):
         rv = client.get("/user/notexist")
         assert rv.status_code == 404
 
-    def test_view_profile_normal(self, client, user):
+    def test_view_profile_normal(self, client, create_user):
         """
         Tests we can access a profile that exist.
         """
+        user, _ = create_user()
+
         # We put a little info in the profile
         user.location = "Paris, France"
         user.birthdate = datetime.date(1995, 5, 3)
@@ -50,10 +52,12 @@ class TestUser(EditoggiaTestCase):
         assert b"Paris, France" in rv.data
         assert str(age).encode() in rv.data
 
-    def test_view_profile_normal_wo_birthdate(self, client, user):
+    def test_view_profile_normal_wo_birthdate(self, client, create_user):
         """
         Tests we can access a profile that exist, without birthdate.
         """
+        user, _ = create_user()
+
         # We put a little info in the profile
         user.location = "Paris, France"
 
@@ -64,10 +68,12 @@ class TestUser(EditoggiaTestCase):
         assert b"Paris, France" in rv.data
         assert b'id="age"' not in rv.data
 
-    def test_view_profile_likes(self, client, user, create_story):
+    def test_view_profile_likes(self, client, create_user, create_story):
         """
         Tests we can access a profile's likes.
         """
+        user, _ = create_user()
+
         story = create_story(user)
         self.like(user, story)
 
@@ -75,10 +81,11 @@ class TestUser(EditoggiaTestCase):
         assert rv.status_code == 200
         assert story.title.encode() in rv.data
 
-    def test_view_profile_history(self, client, user, create_story):
+    def test_view_profile_history(self, client, create_user, create_story):
         """
         Tests we can access a profile's history.
         """
+        user, _ = create_user()
         story = create_story(user)
         self.hit(user, story)
 
@@ -91,11 +98,12 @@ class TestUser(EditoggiaTestCase):
     Test edit profile.
     """
 
-    def test_edit_get(self, client, user, password):
+    def test_edit_get(self, client, create_user):
         """
         Tests that we get the form when we send a
         GET request.
         """
+        user, password = create_user()
         self.login(client, user.username, password)
         rv = client.get("/user/edit")
 
@@ -104,10 +112,9 @@ class TestUser(EditoggiaTestCase):
         assert f'value="{user.name}"'.encode() in rv.data
 
     @pytest.mark.parametrize("extra_data", [{}, {"birthdate": "1970-01-01"}])
-    def generic_test_edit_post(self, app, client, user, extra_data):
-        """
-        Generic test for edit_post view.
-        """
+    def test_edit_post(self, app, create_user, extra_data):
+        user, _ = create_user()
+
         base_data = {
             "name": self.faker.name(),
             "email": self.faker.company_email(),
@@ -117,12 +124,11 @@ class TestUser(EditoggiaTestCase):
         }
         base_data.update(extra_data)
 
-        self.login(user.username, self.password)
-        rv = client.post("/user/edit", data=base_data)
+        with app.test_client(user=user) as client:
+            _ = client.post("/user/edit", data=base_data)
 
-        assert rv in f"/user/{self.user.username}"
         assert user.name == base_data["name"]
         assert user.email == base_data["email"]
         assert user.location == base_data["location"]
-        assert self.user.gender == base_data["gender"]
-        assert self.user.bio == ""
+        assert user.gender == base_data["gender"]
+        assert user.bio == ""
