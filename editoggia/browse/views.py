@@ -88,7 +88,7 @@ class CollectionView(View):
             )
             b_query = b_query.outerjoin(
                 subquery, Story.id == subquery.c.story_id
-            ).order_by(subquery.c.likes_count.desc())
+            ).order_by(func.coalesce(subquery.c.likes_count, 0).desc())
 
         return render_template(
             "browse/collection.jinja2",
